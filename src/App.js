@@ -1,24 +1,33 @@
-import logo from './logo.svg';
-import './App.css';
+import { Grommet, grommet, Page } from 'grommet';
+import { deepMerge } from 'grommet/utils';
+import React from 'react';
+import { Provider as StoreProvider } from 'react-redux';
+
+import { useNavigateListner } from './hooks/useNavigateListener';
+import Router from './router';
+import store from './store';
+
+const theme = deepMerge(grommet, {
+  global: {
+    font: {
+      family: 'Roboto',
+      size: '18px',
+      height: '20px',
+    },
+  },
+});
 
 function App() {
+  useNavigateListner();
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <StoreProvider store={store}>
+      <Grommet theme={theme} full>
+        <Page>
+          <Router />
+        </Page>
+      </Grommet>
+    </StoreProvider>
   );
 }
 
