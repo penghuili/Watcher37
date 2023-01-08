@@ -23,6 +23,19 @@ const HTTP = {
     }
   },
 
+  async post(path, body) {
+    try {
+      await HTTP.refreshTokenIfNecessary();
+
+      const accessToken = LocalStorage.get(LocalStorageKeys.accessToken);
+      const { data } = await axios.post(getFullUrl(path), body, {
+        headers: { authorization: `Bearer ${accessToken}` },
+      });
+      return data;
+    } catch (error) {
+      throw HTTP.handleError(error);
+    }
+  },
   async get(path) {
     try {
       await HTTP.refreshTokenIfNecessary();
