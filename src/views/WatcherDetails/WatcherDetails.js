@@ -64,7 +64,7 @@ function WatcherDetails({
 
               {!watcher?.event?.schedule && <ScheduleSelector id={id} />}
 
-              {!telegramId && (
+              {!telegramId && !isLoadingAccount && (
                 <>
                   <Heading level="4" margin="1rem 0 0">
                     Integrate Telegram
