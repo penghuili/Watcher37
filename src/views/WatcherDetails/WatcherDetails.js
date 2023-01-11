@@ -90,14 +90,13 @@ function WatcherDetails({
               <Heading level="4" margin="0 1rem 0 0">
                 History
               </Heading>
-              <Refresh onClick={() => onCheckWatcher(id)} />
+              {isChecking ? <Spinner /> : <Refresh onClick={() => onCheckWatcher(id)} />}
             </Box>
 
             {!!watcher.checkedAt && (
               <Text margin="0 0 1rem">Latest check time: {format(watcher.checkedAt, 'Pp')}</Text>
             )}
 
-            {isChecking && <Spinner />}
             {(watcher.history || []).map((item, index) => (
               <Box key={item.sortKey}>
                 {index !== 0 && <LinkUp />}
