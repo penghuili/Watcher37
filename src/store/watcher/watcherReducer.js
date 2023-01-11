@@ -14,7 +14,8 @@ function handleSetContent(state, { content }) {
 }
 
 function handleSetWatchers(state, { watchers }) {
-  return { ...state, watchers };
+  const sorted = watchers.sort((a, b) => b.checkedAt - a.checkedAt);
+  return { ...state, watchers: sorted };
 }
 
 function handleSetDetails(state, { details }) {
