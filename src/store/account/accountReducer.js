@@ -6,10 +6,11 @@ const initialState = {
   userId: null,
   username: null,
   createdAt: null,
+  telegramId: null,
 };
 
-function handleSetUserData(state, { userId, username, createdAt }) {
-  return { ...state, userId, username, createdAt };
+function handleSetUserData(state, { userId, username, createdAt, telegramId }) {
+  return { ...state, userId, username, createdAt, telegramId };
 }
 
 function handleIsLoading(state, { loading }) {

@@ -10,7 +10,7 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = {
-  onEnter: watcherActionCreators.fetchWatchersRequested,
+  onFetch: watcherActionCreators.fetchWatchersRequested,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Watchers);

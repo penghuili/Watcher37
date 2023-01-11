@@ -2,13 +2,19 @@ export const watcherActionTypes = {
   FETCH_CONTENT_PRESSED: 'watcher/FETCH_CONTENT_PRESSED',
   SET_CONTENT: 'watcher/SET_CONTENT',
   IS_LOADING: 'watcher/IS_LOADING',
+  IS_CHECKING: 'watcher/IS_CHECKING',
   SET_WATCHERS: 'watcher/SET_WATCHERS',
   SET_DETAILS: 'watcher/SET_DETAILS',
 
   FETCH_WATCHERS_REQUESTED: 'watcher/FETCH_WATCHERS_REQUESTED',
   CREATE_PRESSED: 'watcher/CREATE_PRESSED',
+  NAV_TO_EDIT_PRESSED: 'watcher/NAV_TO_EDIT_PRESSED',
+  EDIT_PRESSED: 'watcher/EDIT_PRESSED',
   DELETE_PRESSED: 'watcher/DELETE_PRESSED',
   FETCH_WATCHER_REQUESTED: 'watcher/FETCH_WATCHER_REQUESTED',
+  CHECK_WATCHER_REQUESTED: 'watcher/CHECK_WATCHER_REQUESTED',
+  SCHEDULE_TRIGGER_PRESSED: 'watcher/SCHEDULE_TRIGGER_PRESSED',
+  DELETE_TRIGGER_PRESSED: 'watcher/DELETE_TRIGGER_PRESSED',
 };
 
 export const watcherActionCreators = {
@@ -21,6 +27,9 @@ export const watcherActionCreators = {
   isLoading(loading) {
     return { type: watcherActionTypes.IS_LOADING, payload: { loading } };
   },
+  isChecking(checking) {
+    return { type: watcherActionTypes.IS_CHECKING, payload: { checking } };
+  },
   setWatchers(watchers) {
     return { type: watcherActionTypes.SET_WATCHERS, payload: { watchers } };
   },
@@ -30,13 +39,28 @@ export const watcherActionCreators = {
   fetchWatchersRequested() {
     return { type: watcherActionTypes.FETCH_WATCHERS_REQUESTED };
   },
-  createPressed({ link, selector }) {
-    return { type: watcherActionTypes.CREATE_PRESSED, payload: { link, selector } };
+  createPressed({ title, link, selector }) {
+    return { type: watcherActionTypes.CREATE_PRESSED, payload: { title, link, selector } };
+  },
+  navToEditPressed(id) {
+    return { type: watcherActionTypes.NAV_TO_EDIT_PRESSED, payload: { id } };
+  },
+  editPressed(id, { title, selector, link }) {
+    return { type: watcherActionTypes.EDIT_PRESSED, payload: { id, title, selector, link } };
   },
   deletePressed(id) {
     return { type: watcherActionTypes.DELETE_PRESSED, payload: { id } };
   },
   fetchWatcherRequested(id) {
     return { type: watcherActionTypes.FETCH_WATCHER_REQUESTED, payload: { id } };
+  },
+  checkWatchersRequested(id) {
+    return { type: watcherActionTypes.CHECK_WATCHER_REQUESTED, payload: { id } };
+  },
+  scheduleTriggerPressed(id, rate) {
+    return { type: watcherActionTypes.SCHEDULE_TRIGGER_PRESSED, payload: { id, rate } };
+  },
+  deleteTriggerPressed(id) {
+    return { type: watcherActionTypes.DELETE_TRIGGER_PRESSED, payload: { id } };
   },
 };

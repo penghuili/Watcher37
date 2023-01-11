@@ -1,6 +1,9 @@
 import { format } from 'date-fns';
-import { TextInput, Button, Header, PageContent, PageHeader, Spinner, Text } from 'grommet';
-import React, { useEffect, useState } from 'react';
+import { Button, PageHeader, Spinner, Text } from 'grommet';
+import React, { useEffect } from 'react';
+
+import AppBar from '../../components/AppBar';
+import ContentWrapper from '../../components/ContentWrapper';
 
 function Home({
   account,
@@ -9,10 +12,7 @@ function Home({
   onEnter,
   onLogOut,
   onDelete,
-  onFetchContent,
 }) {
-  const [link, setLink] = useState('');
-  const [selector, setSelector] = useState('');
 
   useEffect(() => {
     onEnter();
@@ -21,32 +21,18 @@ function Home({
 
   function renderContent() {
     if (isLoadingAccount) {
-      return <Spinner size="large" />;
+      return <Spinner />;
     }
 
     if (account?.userId) {
       return (
         <>
           <PageHeader title={`Hi ${account.username}`} />
-          <Text>Your account is created at {format(account.createdAt, 'Pp')}</Text>
-          <Button label="Log out" onClick={onLogOut} />
-          <Button label="Delete account" onClick={onDelete} margin="8px 0 0" />
+          <Text>Created at {format(account.createdAt, 'Pp')}</Text>
+          {!!account.telegramId && <Text>Telegram id: {account.telegramId}</Text>}
 
-          <TextInput
-            placeholder="Link"
-            value={link}
-            onChange={event => setLink(event.target.value)}
-          />
-          <TextInput
-            placeholder="Selector"
-            value={selector}
-            onChange={event => setSelector(event.target.value)}
-          />
-          <Button
-            label="Get content"
-            onClick={() => onFetchContent(link, selector)}
-            disabled={!link || !selector}
-          />
+          <Button label="Log out" onClick={onLogOut} margin="2rem 0 0" />
+          <Button label="Delete account" onClick={onDelete} margin="1rem 0 0" />
 
           {!!pageContent && <Text>{pageContent}</Text>}
         </>
@@ -58,10 +44,8 @@ function Home({
 
   return (
     <>
-      <Header pad={{ left: 'medium', right: 'small', vertical: 'small' }}>
-        <Text size="large">Home</Text>
-      </Header>
-      <PageContent>{renderContent()}</PageContent>
+      <AppBar title="Account" hasBack />
+      <ContentWrapper>{renderContent()}</ContentWrapper>
     </>
   );
 }

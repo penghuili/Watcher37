@@ -1,16 +1,23 @@
-import { Button, Header, PageContent, Text, TextInput } from 'grommet';
+import { Button, Text, TextInput } from 'grommet';
 import React, { useState } from 'react';
 
+import AppBar from '../../components/AppBar';
+import ContentWrapper from '../../components/ContentWrapper';
+
 function WatcherAdd({ pageContent, isLoading, onFetchContent, onCreate }) {
+  const [title, setTitle] = useState('');
   const [link, setLink] = useState('');
   const [selector, setSelector] = useState('');
 
   return (
     <>
-      <Header pad={{ left: 'medium', right: 'small', vertical: 'small' }}>
-        <Text size="large">Add watcher</Text>
-      </Header>
-      <PageContent>
+      <AppBar title="Add watcher" hasBack />
+      <ContentWrapper>
+        <TextInput
+          placeholder="Title"
+          value={title}
+          onChange={event => setTitle(event.target.value)}
+        />
         <TextInput
           placeholder="Link"
           value={link}
@@ -31,10 +38,10 @@ function WatcherAdd({ pageContent, isLoading, onFetchContent, onCreate }) {
 
         <Button
           label="Create watcher"
-          onClick={() => onCreate({ link, selector })}
-          disabled={!link || !selector || isLoading}
+          onClick={() => onCreate({ title, link, selector })}
+          disabled={!title || !link || !selector || isLoading}
         />
-      </PageContent>
+      </ContentWrapper>
     </>
   );
 }

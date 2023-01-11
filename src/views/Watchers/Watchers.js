@@ -1,25 +1,38 @@
-import { Anchor, Box, Header, PageContent, Spinner, Text } from 'grommet';
+import { format } from 'date-fns';
+import { Anchor, Box, Heading, Spinner, Text } from 'grommet';
+import { Refresh } from 'grommet-icons';
 import React, { useEffect } from 'react';
 import { Link } from 'wouter';
 
-function Watchers({ watchers, isLoading, onEnter }) {
+import AppBar from '../../components/AppBar';
+import ContentWrapper from '../../components/ContentWrapper';
+
+function Watchers({ watchers, isLoading, onFetch }) {
   useEffect(() => {
-    onEnter();
+    onFetch();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return (
     <>
-      <Header pad={{ left: 'medium', right: 'small', vertical: 'small' }}>
-        <Text size="large">Watchers</Text>
-      </Header>
-      <PageContent>
+      <AppBar title="Watchers" />
+      <ContentWrapper>
         <Link to="/watchers/add">Create watcher</Link>
 
-        {isLoading && <Spinner />}
+        <Box margin="1rem 0">
+          {isLoading && <Spinner />}
+          {!isLoading && <Refresh onClick={onFetch} />}
+        </Box>
+
         {watchers.map(watcher => (
-          <Box key={watcher.sortKey}>
-            <Text>
+          <Box key={watcher.sortKey} margin="0 0 2rem" align="start">
+            {!!watcher.title && (
+              <Heading level="4" margin="0">
+                {watcher.title}
+              </Heading>
+            )}
+
+            <Text wordBreak="break-word">
               Link: <Anchor href={watcher.link} label={watcher.link} target="_blank" />
             </Text>
 
@@ -27,11 +40,14 @@ function Watchers({ watchers, isLoading, onEnter }) {
 
             <Text>Content: {watcher.content}</Text>
 
+            {!!watcher.checkedAt && <Text>Check date: {format(watcher.checkedAt, 'Pp')}</Text>}
+
             <Link to={`/watchers/${watcher.sortKey}`}>Details</Link>
           </Box>
         ))}
-        {!watchers?.length && <Text>No watchers.</Text>}
-      </PageContent>
+
+        {!watchers?.length && !isLoading && <Text>No watchers.</Text>}
+      </ContentWrapper>
     </>
   );
 }

@@ -49,6 +49,19 @@ const HTTP = {
       throw HTTP.handleError(error);
     }
   },
+  async put(path, body) {
+    try {
+      await HTTP.refreshTokenIfNecessary();
+
+      const accessToken = LocalStorage.get(LocalStorageKeys.accessToken);
+      const { data } = await axios.put(getFullUrl(path), body, {
+        headers: { authorization: `Bearer ${accessToken}` },
+      });
+      return data;
+    } catch (error) {
+      throw HTTP.handleError(error);
+    }
+  },
   async delete(path) {
     try {
       await HTTP.refreshTokenIfNecessary();

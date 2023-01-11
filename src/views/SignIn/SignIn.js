@@ -1,6 +1,9 @@
-import { Button, Header, PageContent, PageHeader, Text, TextInput } from 'grommet';
+import { Button, PageHeader, Text, TextInput } from 'grommet';
 import React, { useState } from 'react';
 import { Link } from 'wouter';
+
+import AppBar from '../../components/AppBar';
+import ContentWrapper from '../../components/ContentWrapper';
 
 function SignIn({ errorMessage, isLoading, onSignIn }) {
   const [username, setUsername] = useState('');
@@ -8,10 +11,8 @@ function SignIn({ errorMessage, isLoading, onSignIn }) {
 
   return (
     <>
-      <Header pad={{ left: 'medium', right: 'small', vertical: 'small' }}>
-        <Text size="large">Sign in</Text>
-      </Header>
-      <PageContent>
+      <AppBar title="Sign in" />
+      <ContentWrapper>
         <PageHeader title="Welcome to sign in!" />
         <TextInput
           placeholder="Username"
@@ -37,7 +38,7 @@ function SignIn({ errorMessage, isLoading, onSignIn }) {
         />
 
         <Link to="/sign-up">No account? Sign up</Link>
-      </PageContent>
+      </ContentWrapper>
     </>
   );
 }

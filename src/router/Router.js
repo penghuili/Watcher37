@@ -1,4 +1,4 @@
-import { Spinner } from 'grommet';
+import { Box, Spinner } from 'grommet';
 import React from 'react';
 import { Redirect, Route, Switch } from 'wouter';
 
@@ -7,12 +7,17 @@ import SignIn from '../views/SignIn';
 import SignUp from '../views/SignUp';
 import WatcherAdd from '../views/WatcherAdd';
 import WatcherDetails from '../views/WatcherDetails';
+import WatcherEdit from '../views/WatcherEdit';
 import Watchers from '../views/Watchers';
 import Welcome from '../views/Welcome';
 
 function Router({ isCheckingRefreshToken, isLoggedIn }) {
   if (isCheckingRefreshToken) {
-    return <Spinner size="large" />;
+    return (
+      <Box align="center" justify="center" margin="3rem 0 0">
+        <Spinner size="large" />
+      </Box>
+    );
   }
 
   if (isLoggedIn) {
@@ -21,6 +26,7 @@ function Router({ isCheckingRefreshToken, isLoggedIn }) {
         <Route path="/account" component={Account} />
         <Route path="/watchers/add" component={WatcherAdd} />
         <Route path="/watchers/:id" component={WatcherDetails} />
+        <Route path="/watchers/:id/edit" component={WatcherEdit} />
         <Route path="/" component={Watchers} />
         <Route>{() => <Redirect to="/" />}</Route>
       </Switch>

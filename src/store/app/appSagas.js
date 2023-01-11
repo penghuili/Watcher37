@@ -1,9 +1,14 @@
-import { all, takeLatest } from 'redux-saga/effects';
+import { all, call, takeLatest } from 'redux-saga/effects';
 
+import { routeHelpers } from '../../lib/routeHelpers';
 import { appActionTypes } from './appActions';
 
-function* handleReset() {}
+function* handleGoBack() {
+  yield call(routeHelpers.goBack);
+}
 
 export function* appSagas() {
-  yield all([takeLatest(appActionTypes.RESET, handleReset)]);
+  yield all([
+    takeLatest(appActionTypes.GO_BACK, handleGoBack),
+  ]);
 }
