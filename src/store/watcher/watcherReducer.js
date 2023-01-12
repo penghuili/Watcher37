@@ -4,6 +4,7 @@ import { watcherActionTypes } from './watcherActions';
 const initialState = {
   isLoading: false,
   isChecking: false,
+  isDeleting: false,
   content: null,
   watchers: [],
   details: null,
@@ -30,6 +31,10 @@ function handleIsChecking(state, { checking }) {
   return { ...state, isChecking: checking };
 }
 
+function handleIsDeleting(state, { deleting }) {
+  return { ...state, isDeleting: deleting };
+}
+
 function handleReset() {
   return initialState;
 }
@@ -50,6 +55,9 @@ export function watcherReducer(state = initialState, action) {
 
     case watcherActionTypes.IS_CHECKING:
       return handleIsChecking(state, action.payload);
+
+    case watcherActionTypes.IS_DELETING:
+      return handleIsDeleting(state, action.payload);
 
     case appActionTypes.RESET:
       return handleReset();

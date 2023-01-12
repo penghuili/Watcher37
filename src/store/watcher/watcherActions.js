@@ -3,6 +3,7 @@ export const watcherActionTypes = {
   SET_CONTENT: 'watcher/SET_CONTENT',
   IS_LOADING: 'watcher/IS_LOADING',
   IS_CHECKING: 'watcher/IS_CHECKING',
+  IS_DELETING: 'watcher/IS_DELETING',
   SET_WATCHERS: 'watcher/SET_WATCHERS',
   SET_DETAILS: 'watcher/SET_DETAILS',
 
@@ -15,6 +16,7 @@ export const watcherActionTypes = {
   CHECK_WATCHER_REQUESTED: 'watcher/CHECK_WATCHER_REQUESTED',
   SCHEDULE_TRIGGER_PRESSED: 'watcher/SCHEDULE_TRIGGER_PRESSED',
   DELETE_TRIGGER_PRESSED: 'watcher/DELETE_TRIGGER_PRESSED',
+  DELETE_ITEM_PRESSED: 'watcher/DELETE_ITEM_PRESSED',
 };
 
 export const watcherActionCreators = {
@@ -29,6 +31,9 @@ export const watcherActionCreators = {
   },
   isChecking(checking) {
     return { type: watcherActionTypes.IS_CHECKING, payload: { checking } };
+  },
+  isDeleting(deleting) {
+    return { type: watcherActionTypes.IS_DELETING, payload: { deleting } };
   },
   setWatchers(watchers) {
     return { type: watcherActionTypes.SET_WATCHERS, payload: { watchers } };
@@ -62,5 +67,8 @@ export const watcherActionCreators = {
   },
   deleteTriggerPressed(id) {
     return { type: watcherActionTypes.DELETE_TRIGGER_PRESSED, payload: { id } };
+  },
+  deleteItemPressed(id, sortKey) {
+    return { type: watcherActionTypes.DELETE_ITEM_PRESSED, payload: { id, sortKey } };
   },
 };

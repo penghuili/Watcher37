@@ -89,3 +89,13 @@ export async function deleteTrigger(id) {
     return { data: null, error };
   }
 }
+
+export async function deleteItem(id, sortKey) {
+  try {
+    await HTTP.delete(`/v1/page-watcher/watchers/${id}/items/${sortKey}`);
+
+    return { data: { success: true }, error: null };
+  } catch (error) {
+    return { data: null, error };
+  }
+}

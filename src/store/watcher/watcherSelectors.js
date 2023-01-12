@@ -5,4 +5,5 @@ export const watcherSelectors = {
   getDetails: state => state.watcher.details,
   isLoading: state => state.watcher.isLoading,
   isChecking: state => state.watcher.isChecking,
+  isDeleting: state => state.watcher.isDeleting,
 };

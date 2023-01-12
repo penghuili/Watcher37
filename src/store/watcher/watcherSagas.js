@@ -5,6 +5,7 @@ import { watcherActionCreators, watcherActionTypes } from './watcherActions';
 import {
   checkWatcher,
   createWatcher,
+  deleteItem,
   deleteTrigger,
   deleteWatcher,
   fetchPageContent,
@@ -146,6 +147,24 @@ function* handleDeleteTriggerPressed({ payload: { id } }) {
   yield put(watcherActionCreators.isLoading(false));
 }
 
+function* handleDeleteItemPressed({ payload: { id, sortKey } }) {
+  yield put(watcherActionCreators.isDeleting(true));
+
+  const { data } = yield call(deleteItem, id, sortKey);
+
+  if (data) {
+    const watcher = yield select(watcherSelectors.getDetails);
+    yield put(
+      watcherActionCreators.setDetails({
+        ...watcher,
+        history: watcher.history.filter(i => i.sortKey !== sortKey),
+      })
+    );
+  }
+
+  yield put(watcherActionCreators.isDeleting(false));
+}
+
 export function* watcherSagas() {
   yield all([
     takeLatest(watcherActionTypes.FETCH_CONTENT_PRESSED, handleFetchContentPressed),
@@ -158,5 +177,6 @@ export function* watcherSagas() {
     takeLatest(watcherActionTypes.CHECK_WATCHER_REQUESTED, handleCheckWatcherRequested),
     takeLatest(watcherActionTypes.SCHEDULE_TRIGGER_PRESSED, handleScheduleTriggerPressed),
     takeLatest(watcherActionTypes.DELETE_TRIGGER_PRESSED, handleDeleteTriggerPressed),
+    takeLatest(watcherActionTypes.DELETE_ITEM_PRESSED, handleDeleteItemPressed),
   ]);
 }

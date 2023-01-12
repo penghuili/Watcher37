@@ -1,6 +1,6 @@
 import { format } from 'date-fns';
 import { Anchor, Box, Button, Heading, Spinner, Text } from 'grommet';
-import { LinkUp, Refresh } from 'grommet-icons';
+import { LinkUp, Refresh, Trash } from 'grommet-icons';
 import React, { useEffect } from 'react';
 import { Link } from 'wouter';
 
@@ -13,12 +13,14 @@ function WatcherDetails({
   watcher,
   isLoading,
   isChecking,
+  isDeleting,
   telegramId,
   isLoadingAccount,
   onFetchWatcher,
   onCheckWatcher,
   onDeleteSchedule,
   onDelete,
+  onDeleteItem,
   onEdit,
 }) {
   useEffect(() => {
@@ -64,7 +66,8 @@ function WatcherDetails({
 
               {!telegramId && !isLoadingAccount && (
                 <Text>
-                  <Link to="/telegram">Integrate Telegram</Link> to get notifications when the page content change.
+                  <Link to="/telegram">Integrate Telegram</Link> to get notifications when the page
+                  content change.
                 </Text>
               )}
             </Box>
@@ -83,7 +86,19 @@ function WatcherDetails({
             {(watcher.history || []).map((item, index) => (
               <Box key={item.sortKey}>
                 {index !== 0 && <LinkUp />}
-                <Text>{item.content}</Text>
+                <Text>
+                  {item.content}{' '}
+                  {!isLoading && (
+                    <Trash
+                      onClick={() => {
+                        if (!isDeleting) {
+                          onDeleteItem(id, item.sortKey);
+                        }
+                      }}
+                      size="small"
+                    />
+                  )}
+                </Text>
 
                 <Text>Check time: {format(item.createdAt, 'Pp')}</Text>
               </Box>

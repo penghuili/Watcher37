@@ -9,6 +9,7 @@ const mapStateToProps = state => ({
   watcher: watcherSelectors.getDetails(state),
   isLoading: watcherSelectors.isLoading(state),
   isChecking: watcherSelectors.isChecking(state),
+  isDeleting: watcherSelectors.isDeleting(state),
   telegramId: accountSelectors.getAccount(state).telegramId,
   isLoadingAccount: accountSelectors.isLoading(state),
 });
@@ -18,6 +19,7 @@ const mapDispatchToProps = {
   onCheckWatcher: watcherActionCreators.checkWatchersRequested,
   onDeleteSchedule: watcherActionCreators.deleteTriggerPressed,
   onDelete: watcherActionCreators.deletePressed,
+  onDeleteItem: watcherActionCreators.deleteItemPressed,
   onEdit: watcherActionCreators.navToEditPressed,
 };
 
