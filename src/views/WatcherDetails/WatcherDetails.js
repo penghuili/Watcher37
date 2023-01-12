@@ -1,7 +1,8 @@
 import { format } from 'date-fns';
-import { Anchor, Box, Button, Heading, Spinner, Text, TextInput } from 'grommet';
+import { Anchor, Box, Button, Heading, Spinner, Text } from 'grommet';
 import { LinkUp, Refresh } from 'grommet-icons';
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
+import { Link } from 'wouter';
 
 import AppBar from '../../components/AppBar';
 import ContentWrapper from '../../components/ContentWrapper';
@@ -19,10 +20,7 @@ function WatcherDetails({
   onDeleteSchedule,
   onDelete,
   onEdit,
-  onAddTelegramId,
 }) {
-  const [newTelegramId, setNewTelegramId] = useState('');
-
   useEffect(() => {
     onFetchWatcher(id);
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -34,7 +32,7 @@ function WatcherDetails({
       <ContentWrapper>
         {isLoading && <Spinner />}
         {!!watcher && (
-          <Box align="start" margin="0 0 2rem">
+          <>
             {!!watcher.title && (
               <Heading level="4" margin="1rem 0 0">
                 {watcher.title}
@@ -65,24 +63,9 @@ function WatcherDetails({
               {!watcher?.event?.schedule && <ScheduleSelector id={id} />}
 
               {!telegramId && !isLoadingAccount && (
-                <>
-                  <Heading level="4" margin="1rem 0 0">
-                    Integrate Telegram
-                  </Heading>
-                  <Box margin="1rem 0">
-                    <TextInput
-                      placeholder="Telegram id"
-                      value={newTelegramId}
-                      onChange={event => setNewTelegramId(event.target.value)}
-                    />
-
-                    <Button
-                      label="Add telegram id"
-                      onClick={() => onAddTelegramId(newTelegramId)}
-                      disabled={!newTelegramId || isLoadingAccount}
-                    />
-                  </Box>
-                </>
+                <Text>
+                  <Link to="/telegram">Integrate Telegram</Link> to get notifications when the page content change.
+                </Text>
               )}
             </Box>
 
@@ -105,7 +88,7 @@ function WatcherDetails({
                 <Text>Check time: {format(item.createdAt, 'Pp')}</Text>
               </Box>
             ))}
-          </Box>
+          </>
         )}
       </ContentWrapper>
     </>

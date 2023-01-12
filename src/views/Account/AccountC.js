@@ -13,7 +13,6 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = {
-  onEnter: accountActionCreators.viewEntered,
   onLogOut: authActionCreators.logOutPressed,
   onDelete: accountActionCreators.deletePressed,
 };

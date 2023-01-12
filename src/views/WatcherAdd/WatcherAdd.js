@@ -3,6 +3,7 @@ import React, { useState } from 'react';
 
 import AppBar from '../../components/AppBar';
 import ContentWrapper from '../../components/ContentWrapper';
+import Spacer from '../../components/Spacer';
 
 function WatcherAdd({ pageContent, isLoading, onFetchContent, onCreate }) {
   const [title, setTitle] = useState('');
@@ -18,11 +19,13 @@ function WatcherAdd({ pageContent, isLoading, onFetchContent, onCreate }) {
           value={title}
           onChange={event => setTitle(event.target.value)}
         />
+        <Spacer size="1rem" />
         <TextInput
           placeholder="Link"
           value={link}
           onChange={event => setLink(event.target.value)}
         />
+        <Spacer size="1rem" />
         <TextInput
           placeholder="Selector"
           value={selector}
@@ -32,15 +35,22 @@ function WatcherAdd({ pageContent, isLoading, onFetchContent, onCreate }) {
           label="Get content"
           onClick={() => onFetchContent(link, selector)}
           disabled={!link || !selector || isLoading}
+          margin="1rem 0"
         />
 
-        {!!pageContent && <Text>{pageContent}</Text>}
+        {!!pageContent && (
+          <>
+            <Text margin="0 0 2rem">{pageContent}</Text>
 
-        <Button
-          label="Create watcher"
-          onClick={() => onCreate({ title, link, selector })}
-          disabled={!title || !link || !selector || isLoading}
-        />
+            {!!title && <Text>Happy with the selector?</Text>}
+            <Button
+              label="Create watcher"
+              onClick={() => onCreate({ title, link, selector })}
+              disabled={!title || !link || !selector || isLoading}
+              margin="0.5rem 0 0"
+            />
+          </>
+        )}
       </ContentWrapper>
     </>
   );

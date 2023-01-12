@@ -1,7 +1,6 @@
 export const accountActionTypes = {
   IS_LOADING: 'account/IS_LOADING',
   SET_USER_DATA: 'account/SET_USER_DATA',
-  VIEW_ENTERED: 'account/VIEW_ENTERED',
   FETCH_REQUESTED: 'account/FETCH_REQUESTED',
   DELETE_PRESSED: 'account/DELETE_PRESSED',
   ADD_TELEGRAM_ID_PRESSED: 'account/ADD_TELEGRAM_ID_PRESSED',
@@ -17,9 +16,6 @@ export const accountActionCreators = {
       type: accountActionTypes.SET_USER_DATA,
       payload: { userId, username, createdAt, telegramId },
     };
-  },
-  viewEntered() {
-    return { type: accountActionTypes.VIEW_ENTERED };
   },
   fetchRequested() {
     return { type: accountActionTypes.FETCH_REQUESTED };

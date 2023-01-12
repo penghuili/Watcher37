@@ -1,6 +1,5 @@
 import { connect } from 'react-redux';
 
-import { accountActionCreators } from '../../store/account/accountActions';
 import { accountSelectors } from '../../store/account/accountSelectors';
 import { watcherActionCreators } from '../../store/watcher/watcherActions';
 import { watcherSelectors } from '../../store/watcher/watcherSelectors';
@@ -19,7 +18,6 @@ const mapDispatchToProps = {
   onCheckWatcher: watcherActionCreators.checkWatchersRequested,
   onDeleteSchedule: watcherActionCreators.deleteTriggerPressed,
   onDelete: watcherActionCreators.deletePressed,
-  onAddTelegramId: accountActionCreators.addTelegramIdPressed,
   onEdit: watcherActionCreators.navToEditPressed,
 };
 

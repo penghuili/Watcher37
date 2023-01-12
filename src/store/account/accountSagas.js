@@ -47,10 +47,7 @@ function* handleNavToAccountPressed() {
 
 export function* accountSagas() {
   yield all([
-    takeLatest(
-      [accountActionTypes.VIEW_ENTERED, accountActionTypes.FETCH_REQUESTED],
-      handleViewEntered
-    ),
+    takeLatest(accountActionTypes.FETCH_REQUESTED, handleViewEntered),
     takeLatest(accountActionTypes.DELETE_PRESSED, handleDeletePressed),
     takeLatest(accountActionTypes.ADD_TELEGRAM_ID_PRESSED, handleAddTelegramIdPressed),
     takeLatest(accountActionTypes.NAV_TO_ACCOUNT_PRESSED, handleNavToAccountPressed),
