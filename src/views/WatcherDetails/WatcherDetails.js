@@ -46,13 +46,13 @@ function WatcherDetails({
             <Text>Selector: {watcher.selector}</Text>
             <Text>Latest content: {watcher.content}</Text>
             <Text>Update date: {format(watcher.updatedAt || watcher.createdAt, 'Pp')}</Text>
-            <Box direction="row" margin="0 0 24px">
+            <Box direction="row" margin="0 0 2rem">
               <Button label="Edit watcher" onClick={() => onEdit(id)} margin="0 1rem 0 0" />
               <Button label="Delete watcher" onClick={() => onDelete(id)} />
             </Box>
 
-            <Box margin="0 0 24px">
-              <Heading level="4" margin="1rem 0 0">
+            <Box margin="0 0 2rem">
+              <Heading level="4" margin="0">
                 Checking schedule
               </Heading>
               {!!watcher?.event?.schedule && (
@@ -72,7 +72,7 @@ function WatcherDetails({
               )}
             </Box>
 
-            <Box align="center" direction="row" margin="1rem 0 0.5rem">
+            <Box align="center" direction="row" margin="0 0 0.5rem">
               <Heading level="4" margin="0 1rem 0 0">
                 History
               </Heading>
