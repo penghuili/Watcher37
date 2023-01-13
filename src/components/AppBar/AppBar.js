@@ -10,7 +10,7 @@ function AppBar({ title, hasBack, isLoggedIn, onBack, onNavToAccount }) {
           {hasBack && <Previous onClick={onBack} />}
           <Text size="large">{title}</Text>
         </Box>
-        {isLoggedIn && <User onClick={onNavToAccount} />}
+        {isLoggedIn && !hasBack && <User onClick={onNavToAccount} />}
       </Header>
     </>
   );

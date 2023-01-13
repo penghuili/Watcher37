@@ -1,7 +1,10 @@
+import 'react-toastify/dist/ReactToastify.css';
+
 import { Grommet, grommet, Page } from 'grommet';
 import { deepMerge } from 'grommet/utils';
 import React from 'react';
 import { Provider as StoreProvider } from 'react-redux';
+import { ToastContainer } from 'react-toastify';
 
 import { useNavigateListner } from './hooks/useNavigateListener';
 import Router from './router';
@@ -25,6 +28,8 @@ function App() {
       <Grommet theme={theme} full>
         <Page>
           <Router />
+
+          <ToastContainer />
         </Page>
       </Grommet>
     </StoreProvider>

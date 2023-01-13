@@ -1,6 +1,7 @@
 import { all, call, put, select, takeLatest } from 'redux-saga/effects';
 
 import { routeHelpers } from '../../lib/routeHelpers';
+import { showToast } from '../../lib/showToast';
 import { watcherActionCreators, watcherActionTypes } from './watcherActions';
 import {
   checkWatcher,
@@ -22,8 +23,14 @@ function* handleFetchContentPressed({ payload: { link, selector } }) {
 
   const { data } = yield call(fetchPageContent, link, selector);
 
-  if (data) {
+  if (data?.content) {
     yield put(watcherActionCreators.setContent(data.content));
+  } else {
+    yield call(
+      showToast,
+      'No content. Either the selector is not correct, or the website does not support crawling.',
+      'error'
+    );
   }
 
   yield put(watcherActionCreators.isLoading(false));
@@ -50,6 +57,9 @@ function* handleCreatePressed({ payload: { title, link, selector } }) {
     const watchers = yield select(watcherSelectors.getWatchers);
     yield put(watcherActionCreators.setWatchers([data, ...watchers]));
     yield call(routeHelpers.goBack);
+    yield call(showToast, 'Watcher is created!');
+  } else {
+    yield call(showToast, 'Something went wrong, please try again.', 'error');
   }
 
   yield put(watcherActionCreators.isLoading(false));
@@ -64,6 +74,9 @@ function* handleDeletePressed({ payload: { id } }) {
     yield call(routeHelpers.goBack);
     const watchers = yield select(watcherSelectors.getWatchers);
     yield put(watcherActionCreators.setWatchers(watchers.filter(w => w.sortKey !== id)));
+    yield call(showToast, 'Watcher is delete!');
+  } else {
+    yield call(showToast, 'Something went wrong, please try again.', 'error');
   }
 
   yield put(watcherActionCreators.isLoading(false));
@@ -86,6 +99,9 @@ function* handleEditPressed({ payload: { id, title, selector, link } }) {
         watchers.map(w => (w.sortKey === id ? { ...w, ...data } : w))
       )
     );
+    yield call(showToast, 'Watcher is updated!');
+  } else {
+    yield call(showToast, 'Something went wrong, please try again.', 'error');
   }
 
   yield put(watcherActionCreators.isLoading(false));
@@ -118,6 +134,9 @@ function* handleCheckWatcherRequested({ payload: { id } }) {
         history: data?.item ? [data.item, ...watcher.history] : watcher.history,
       })
     );
+    if (data?.item) {
+      yield call(showToast, 'New content!');
+    }
   }
 
   yield put(watcherActionCreators.isChecking(false));
@@ -130,6 +149,9 @@ function* handleScheduleTriggerPressed({ payload: { id, rate } }) {
 
   if (data) {
     yield put(watcherActionCreators.setDetails(data));
+    yield call(showToast, 'Trigger is scheduled!');
+  } else {
+    yield call(showToast, 'Something went wrong, please try again.', 'error');
   }
 
   yield put(watcherActionCreators.isLoading(false));
@@ -142,6 +164,9 @@ function* handleDeleteTriggerPressed({ payload: { id } }) {
 
   if (data) {
     yield put(watcherActionCreators.setDetails(data));
+    yield call(showToast, 'Trigger is deleted!');
+  } else {
+    yield call(showToast, 'Something went wrong, please try again.', 'error');
   }
 
   yield put(watcherActionCreators.isLoading(false));
@@ -160,6 +185,9 @@ function* handleDeleteItemPressed({ payload: { id, sortKey } }) {
         history: watcher.history.filter(i => i.sortKey !== sortKey),
       })
     );
+    yield call(showToast, 'Deleted!');
+  } else {
+    yield call(showToast, 'Something went wrong, please try again.', 'error');
   }
 
   yield put(watcherActionCreators.isDeleting(false));
