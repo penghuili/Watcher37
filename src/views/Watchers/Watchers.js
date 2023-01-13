@@ -1,13 +1,15 @@
-import { format } from 'date-fns';
-import { Anchor, Box, Heading, Spinner, Text } from 'grommet';
+import { Box, Spinner, Text } from 'grommet';
 import { Refresh } from 'grommet-icons';
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Link } from 'wouter';
 
 import AppBar from '../../components/AppBar';
 import ContentWrapper from '../../components/ContentWrapper';
+import WatcherItem from '../../components/WatcherItem';
 
-function Watchers({ watchers, isLoading, onFetch }) {
+function Watchers({ watchers, isLoading, isChecking, onFetch, onCheckWatcher }) {
+  const [checkId, setCheckId] = useState();
+
   useEffect(() => {
     onFetch();
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -26,23 +28,22 @@ function Watchers({ watchers, isLoading, onFetch }) {
 
         {watchers.map(watcher => (
           <Box key={watcher.sortKey} margin="0 0 2rem" align="start">
-            {!!watcher.title && (
-              <Heading level="4" margin="0">
-                {watcher.title}
-              </Heading>
-            )}
+            <WatcherItem watcher={watcher} />
 
-            <Text wordBreak="break-word">
-              Link: <Anchor href={watcher.link} label={watcher.link} target="_blank" />
-            </Text>
-
-            <Text>Selector: {watcher.selector}</Text>
-
-            <Text>Content: {watcher.content}</Text>
-
-            {!!watcher.checkedAt && <Text>Check date: {format(watcher.checkedAt, 'Pp')}</Text>}
-
-            <Link to={`/watchers/${watcher.sortKey}`}>Details</Link>
+            <Box direction="row" align="center">
+              <Link to={`/watchers/${watcher.sortKey}`}>Details</Link>
+              <Box width="1rem" />
+              {isChecking && checkId === watcher.sortKey ? (
+                <Spinner size="xsmall" />
+              ) : (
+                <Refresh
+                  onClick={() => {
+                    setCheckId(watcher.sortKey);
+                    onCheckWatcher(watcher.sortKey);
+                  }}
+                />
+              )}
+            </Box>
           </Box>
         ))}
 

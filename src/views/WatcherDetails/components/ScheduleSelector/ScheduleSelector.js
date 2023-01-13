@@ -36,36 +36,36 @@ function ScheduleSelector({ id, onSchedule }) {
   const [optionType, setOptionType] = useState(scheduleOptions[0]);
 
   return (
-    <>
-      <Box direction="row">
-        <Select
-          options={getOptionNumber(optionType.value)}
-          value={num}
-          onChange={({ option }) => setNum(option)}
-        />
-        <Select
-          options={[
-            { label: num > 1 ? 'days' : 'day', value: optionTypes.day },
-            { label: num > 1 ? 'hours' : 'hour', value: optionTypes.hour },
-            { label: num > 1 ? 'minutes' : 'minute', value: optionTypes.minute },
-          ]}
-          labelKey="label"
-          valueKey="value"
-          value={optionType}
-          onChange={({ option }) => {
-            setOptionType(option);
-            setNum(null);
-          }}
-        />
+    <Box direction="row">
+      <Select
+        options={getOptionNumber(optionType.value)}
+        value={num}
+        onChange={({ option }) => setNum(option)}
+      />
+      <Select
+        options={[
+          { label: num > 1 ? 'days' : 'day', value: optionTypes.day },
+          { label: num > 1 ? 'hours' : 'hour', value: optionTypes.hour },
+          { label: num > 1 ? 'minutes' : 'minute', value: optionTypes.minute },
+        ]}
+        labelKey="label"
+        valueKey="value"
+        value={optionType}
+        onChange={({ option }) => {
+          setOptionType(option);
+          setNum(null);
+        }}
+      />
 
-        <Button
-          label="Schedule"
-          onClick={() => onSchedule(id, `${num} ${num > 1 ? `${optionType.value}s` : optionType.value}`)}
-          disabled={!num || !optionType}
-          margin="0 0 0 1rem"
-        />
-      </Box>
-    </>
+      <Button
+        label="Schedule"
+        onClick={() =>
+          onSchedule(id, `${num} ${num > 1 ? `${optionType.value}s` : optionType.value}`)
+        }
+        disabled={!num || !optionType}
+        margin="0 0 0 1rem"
+      />
+    </Box>
   );
 }
 

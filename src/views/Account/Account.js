@@ -1,10 +1,10 @@
-import { format } from 'date-fns';
 import { Button, Heading, Spinner, Text } from 'grommet';
 import React from 'react';
 import { Link } from 'wouter';
 
 import AppBar from '../../components/AppBar';
 import ContentWrapper from '../../components/ContentWrapper';
+import { formatDateTime } from '../../lib/date';
 
 function Home({ account, isLoadingAccount, pageContent, onLogOut, onDelete }) {
   return (
@@ -15,7 +15,7 @@ function Home({ account, isLoadingAccount, pageContent, onLogOut, onDelete }) {
         {!!account?.userId && (
           <>
             <Heading level="2">{`Hi ${account.username}`}</Heading>
-            <Text>Created at {format(account.createdAt, 'Pp')}</Text>
+            <Text>Created at {formatDateTime(account.createdAt)}</Text>
             {!!account.telegramId && (
               <Text>
                 Telegram integration: <Link to="/telegram">{account.telegramId}</Link>

@@ -127,13 +127,21 @@ function* handleCheckWatcherRequested({ payload: { id } }) {
 
   if (data?.watcher) {
     const watcher = yield select(watcherSelectors.getDetails);
+    if (watcher) {
+      yield put(
+        watcherActionCreators.setDetails({
+          ...watcher,
+          ...data.watcher,
+          history: data?.item ? [data.item, ...watcher.history] : watcher.history,
+        })
+      );
+    }
+
+    const watchers = yield select(watcherSelectors.getWatchers);
     yield put(
-      watcherActionCreators.setDetails({
-        ...watcher,
-        ...data.watcher,
-        history: data?.item ? [data.item, ...watcher.history] : watcher.history,
-      })
+      watcherActionCreators.setWatchers(watchers.map(w => (w.sortKey === id ? data.watcher : w)))
     );
+
     if (data?.item) {
       yield call(showToast, 'New content!');
     }
