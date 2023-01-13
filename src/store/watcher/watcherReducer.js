@@ -15,7 +15,7 @@ function handleSetContent(state, { content }) {
 }
 
 function handleSetWatchers(state, { watchers }) {
-  const sorted = watchers.sort((a, b) => b.checkedAt - a.checkedAt);
+  const sorted = watchers.sort((a, b) => (b.gotValueAt || b.createdAt) - (a.gotValueAt || a.createdAt));
   return { ...state, watchers: sorted };
 }
 
