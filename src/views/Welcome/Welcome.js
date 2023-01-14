@@ -1,17 +1,17 @@
-import { PageHeader } from 'grommet';
+import { Avatar, Box, Heading } from 'grommet';
 import React from 'react';
 import { Link } from 'wouter';
 
-import AppBar from '../../components/AppBar';
+import logo from '../../assets/logo.png';
 import ContentWrapper from '../../components/ContentWrapper';
 
 function Welcome() {
   return (
     <>
-      <AppBar title="Welcome" />
-
       <ContentWrapper>
-        <PageHeader title="Welcome to page watcher!" />
+        <Box direction="row" align="center" margin="2rem 0">
+          <Avatar src={logo} /> <Heading level="2" margin="0 0 0 1rem">Page Watcher</Heading>
+        </Box>
         <Link to="/sign-up">Sign up</Link>
         <Link to="/sign-in">Sign in</Link>
       </ContentWrapper>

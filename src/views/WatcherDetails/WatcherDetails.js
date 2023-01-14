@@ -45,7 +45,7 @@ function WatcherDetails({
                   Integrate Telegram
                 </Heading>
                 <Text>
-                  <Link to="/telegram">Integrate Telegram</Link> to get notifications when the page
+                  <Link to="/account/telegram">Integrate Telegram</Link> to get notifications when the page
                   content change.
                 </Text>
               </>

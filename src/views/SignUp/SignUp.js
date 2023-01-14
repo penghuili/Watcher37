@@ -4,6 +4,7 @@ import { Link } from 'wouter';
 
 import AppBar from '../../components/AppBar';
 import ContentWrapper from '../../components/ContentWrapper';
+import PasswordInput from '../../components/PasswordInput';
 import Spacer from '../../components/Spacer';
 
 function SignUp({ errorMessage, isLoading, onSignUp }) {
@@ -21,12 +22,7 @@ function SignUp({ errorMessage, isLoading, onSignUp }) {
           onChange={event => setUsername(event.target.value)}
         />
         <Spacer />
-        <TextInput
-          type="password"
-          placeholder="Password"
-          value={password}
-          onChange={event => setPassword(event.target.value)}
-        />
+        <PasswordInput placeholder="Password" value={password} onChange={setPassword} />
 
         {!!errorMessage && <Text color="error">{errorMessage}</Text>}
 

@@ -6,7 +6,7 @@ import AppBar from '../../components/AppBar';
 import ContentWrapper from '../../components/ContentWrapper';
 import { formatDateTime } from '../../lib/date';
 
-function Home({ account, isLoadingAccount, pageContent, onLogOut, onDelete }) {
+function Home({ account, isLoadingAccount, onLogOut, onDelete }) {
   return (
     <>
       <AppBar title="Account" hasBack />
@@ -18,14 +18,13 @@ function Home({ account, isLoadingAccount, pageContent, onLogOut, onDelete }) {
             <Text>Created at {formatDateTime(account.createdAt)}</Text>
             {!!account.telegramId && (
               <Text>
-                Telegram integration: <Link to="/telegram">{account.telegramId}</Link>
+                Telegram integration: <Link to="/account/telegram">{account.telegramId}</Link>
               </Text>
             )}
+            <Link to="/account/password">Change password</Link>
 
             <Button label="Log out" onClick={onLogOut} margin="2rem 0 0" />
             <Button label="Delete account" onClick={onDelete} margin="1rem 0 0" />
-
-            {!!pageContent && <Text>{pageContent}</Text>}
           </>
         )}
       </ContentWrapper>

@@ -19,13 +19,13 @@ function WatcherAdd({ pageContent, isLoading, onFetchContent, onCreate }) {
           value={title}
           onChange={event => setTitle(event.target.value)}
         />
-        <Spacer size="1rem" />
+        <Spacer />
         <TextInput
           placeholder="Link"
           value={link}
           onChange={event => setLink(event.target.value)}
         />
-        <Spacer size="1rem" />
+        <Spacer />
         <TextInput
           placeholder="Selector"
           value={selector}

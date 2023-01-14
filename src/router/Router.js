@@ -3,6 +3,7 @@ import React from 'react';
 import { Redirect, Route, Switch } from 'wouter';
 
 import Account from '../views/Account';
+import ChangePassword from '../views/ChangePassword';
 import IntegrateTelegram from '../views/IntegrateTelegram';
 import SignIn from '../views/SignIn';
 import SignUp from '../views/SignUp';
@@ -25,10 +26,11 @@ function Router({ isCheckingRefreshToken, isLoggedIn }) {
     return (
       <Switch>
         <Route path="/account" component={Account} />
+        <Route path="/account/telegram" component={IntegrateTelegram} />
+        <Route path="/account/password" component={ChangePassword} />
         <Route path="/watchers/add" component={WatcherAdd} />
         <Route path="/watchers/:id" component={WatcherDetails} />
         <Route path="/watchers/:id/edit" component={WatcherEdit} />
-        <Route path="/telegram" component={IntegrateTelegram} />
         <Route path="/" component={Watchers} />
         <Route>{() => <Redirect to="/" />}</Route>
       </Switch>

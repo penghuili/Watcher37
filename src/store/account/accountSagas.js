@@ -1,10 +1,11 @@
-import { all, call, put, takeLatest } from 'redux-saga/effects';
+import { all, call, put, select, takeLatest } from 'redux-saga/effects';
 
 import { routeHelpers } from '../../lib/routeHelpers';
 import { showToast } from '../../lib/showToast';
 import { authActionCreators } from '../auth/authActions';
 import { accountActionCreators, accountActionTypes } from './accountActions';
-import { addTelegramId, deleteAccount, fetchAccount } from './accountNetwork';
+import { addTelegramId, changePassword, deleteAccount, fetchAccount } from './accountNetwork';
+import { accountSelectors } from './accountSelectors';
 
 function* handleFetchRequested() {
   yield put(accountActionCreators.isLoading(true));
@@ -55,11 +56,29 @@ function* handleNavToAccountPressed() {
   yield call(routeHelpers.navigate, '/account');
 }
 
+function* handleChangePasswordPressed({ payload: { currentPassword, newPassword } }) {
+  yield put(accountActionCreators.isLoading(true));
+
+  const { username } = yield select(accountSelectors.getAccount);
+  const { data } = yield call(changePassword, username, currentPassword, newPassword);
+
+  if (data) {
+    yield put(accountActionCreators.setUserData(data));
+    yield call(showToast, 'Your password is changed! Please login again.');
+    yield put(authActionCreators.logOutPressed());
+  } else {
+    yield call(showToast, 'Something went wrong, your current password may be wrong.', 'error');
+  }
+
+  yield put(accountActionCreators.isLoading(false));
+}
+
 export function* accountSagas() {
   yield all([
     takeLatest(accountActionTypes.FETCH_REQUESTED, handleFetchRequested),
     takeLatest(accountActionTypes.DELETE_PRESSED, handleDeletePressed),
     takeLatest(accountActionTypes.ADD_TELEGRAM_ID_PRESSED, handleAddTelegramIdPressed),
     takeLatest(accountActionTypes.NAV_TO_ACCOUNT_PRESSED, handleNavToAccountPressed),
+    takeLatest(accountActionTypes.CHANGE_PASSWORD_PRESSED, handleChangePasswordPressed),
   ]);
 }

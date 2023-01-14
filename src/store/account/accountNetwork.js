@@ -1,3 +1,4 @@
+import { decryptMessage, decryptMessageSymmetric, encryptMessageSymmetric } from '../../lib/encryption';
 import HTTP from '../../lib/HTTP';
 
 export async function fetchAccount() {
@@ -29,6 +30,26 @@ export async function addTelegramId(chatId) {
     );
 
     return { data: { userId: id, username, createdAt, updatedAt, telegramId }, error: null };
+  } catch (error) {
+    console.log(error);
+    return { data: null, error };
+  }
+}
+
+export async function changePassword(username, currentPassword, newPassword) {
+  try {
+    const { encryptedPrivateKey, encryptedChallenge } = await HTTP.publicGet(
+      `/v1/me-public/${username}`
+    );
+    const privateKey = await decryptMessageSymmetric(currentPassword, encryptedPrivateKey);
+    const challenge = await decryptMessage(privateKey, encryptedChallenge);
+    const updatedEncryptedPrivateKey = await encryptMessageSymmetric(newPassword, privateKey);
+    const updatedUser = await HTTP.post(`/v1/me/password`, {
+      encryptedPrivateKey: updatedEncryptedPrivateKey,
+      signinChallenge: challenge,
+    });
+
+    return { data: updatedUser, error: null };
   } catch (error) {
     console.log(error);
     return { data: null, error };

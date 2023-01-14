@@ -5,6 +5,7 @@ export const accountActionTypes = {
   DELETE_PRESSED: 'account/DELETE_PRESSED',
   ADD_TELEGRAM_ID_PRESSED: 'account/ADD_TELEGRAM_ID_PRESSED',
   NAV_TO_ACCOUNT_PRESSED: 'account/NAV_TO_ACCOUNT_PRESSED',
+  CHANGE_PASSWORD_PRESSED: 'account/CHANGE_PASSWORD_PRESSED',
 };
 
 export const accountActionCreators = {
@@ -32,6 +33,12 @@ export const accountActionCreators = {
   navToAccountPressed() {
     return {
       type: accountActionTypes.NAV_TO_ACCOUNT_PRESSED,
+    };
+  },
+  changePasswordPressed(currentPassword, newPassword) {
+    return {
+      type: accountActionTypes.CHANGE_PASSWORD_PRESSED,
+      payload: { currentPassword, newPassword },
     };
   },
 };
