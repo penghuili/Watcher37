@@ -18,7 +18,7 @@ function handleSetContent(state, { content }) {
 function handleSetWatchers(state, { watchers }) {
   const lastOpenTime = LocalStorage.get(LocalStorageKeys.lastOpenTime);
   const sorted = watchers
-    .sort((a, b) => b.gotValueAt - a.gotValueAt)
+    .sort((a, b) => (b.gotValueAt - a.gotValueAt > 0 ? 1 : -1))
     .map(w => ({
       ...w,
       isNew: w.gotValueAt > lastOpenTime,

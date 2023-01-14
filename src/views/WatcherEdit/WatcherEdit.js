@@ -3,6 +3,7 @@ import React, { useState } from 'react';
 
 import AppBar from '../../components/AppBar';
 import ContentWrapper from '../../components/ContentWrapper';
+import Spacer from '../../components/Spacer';
 
 function WatcherEdit({ id, watcher, pageContent, isLoading, onEdit, onFetchContent }) {
   const [title, setTitle] = useState(watcher?.title || '');
@@ -18,12 +19,13 @@ function WatcherEdit({ id, watcher, pageContent, isLoading, onEdit, onFetchConte
           value={title}
           onChange={event => setTitle(event.target.value)}
         />
-
+        <Spacer />
         <TextInput
           placeholder="Link"
           value={link}
           onChange={event => setLink(event.target.value)}
         />
+        <Spacer />
         <TextInput
           placeholder="Selector"
           value={selector}
@@ -34,7 +36,7 @@ function WatcherEdit({ id, watcher, pageContent, isLoading, onEdit, onFetchConte
           label="Get content"
           onClick={() => onFetchContent(link, selector)}
           disabled={!link || !selector || isLoading}
-          margin="0 0 1rem"
+          margin="1rem 0"
         />
 
         {!!pageContent && <Text margin="1rem 0">{pageContent}</Text>}
