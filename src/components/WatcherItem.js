@@ -7,7 +7,7 @@ function WatcherItem({ watcher }) {
   return (
     <>
       <Heading level="4" margin="0">
-        {watcher.title} {!watcher.isNew && <Text color="status-critical" size="small">NEW</Text>}
+        {watcher.title} {watcher.isNew && <Text color="status-critical" size="small">NEW</Text>}
       </Heading>
       <Text wordBreak="break-word">
         Link: <Anchor href={watcher.link} label={watcher.link} target="_blank" />
