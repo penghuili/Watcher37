@@ -6,21 +6,16 @@ export const LocalStorageKeys = {
   accessTokenExpiresAt: 'accessTokenExpiresAt',
   publicKey: 'publicKey',
   privateKey: 'privateKey',
+
+  openTime: 'openTime',
+  lastOpenTime: 'lastOpenTime',
 };
 
 export const LocalStorage = {
   get(key) {
-    // For next.js
-    if (typeof window === 'undefined') {
-      return '';
-    }
     return JSON.parse(localStorage.getItem(key));
   },
   set(key, value) {
-    if (typeof window === 'undefined') {
-      return;
-    }
-
     if (typeof value === 'undefined') {
       localStorage.setItem(key, JSON.stringify(null));
     } else {
@@ -28,10 +23,6 @@ export const LocalStorage = {
     }
   },
   remove(key) {
-    if (typeof window === 'undefined') {
-      return;
-    }
-
     localStorage.removeItem(key);
   },
 

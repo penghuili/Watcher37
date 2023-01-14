@@ -6,11 +6,9 @@ import { formatDateTime } from '../lib/date';
 function WatcherItem({ watcher }) {
   return (
     <>
-      {!!watcher.title && (
-        <Heading level="4" margin="0">
-          {watcher.title}
-        </Heading>
-      )}
+      <Heading level="4" margin="0">
+        {watcher.title} {!watcher.isNew && <Text color="status-critical" size="small">NEW</Text>}
+      </Heading>
       <Text wordBreak="break-word">
         Link: <Anchor href={watcher.link} label={watcher.link} target="_blank" />
       </Text>

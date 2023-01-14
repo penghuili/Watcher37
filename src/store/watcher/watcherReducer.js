@@ -1,3 +1,4 @@
+import { LocalStorage, LocalStorageKeys } from '../../lib/LocalStorage';
 import { appActionTypes } from '../app/appActions';
 import { watcherActionTypes } from './watcherActions';
 
@@ -15,7 +16,14 @@ function handleSetContent(state, { content }) {
 }
 
 function handleSetWatchers(state, { watchers }) {
-  const sorted = watchers.sort((a, b) => (b.gotValueAt || b.createdAt) - (a.gotValueAt || a.createdAt));
+  const lastOpenTime = LocalStorage.get(LocalStorageKeys.lastOpenTime);
+  const sorted = watchers
+    .sort((a, b) => b.gotValueAt - a.gotValueAt)
+    .map(w => ({
+      ...w,
+      isNew: w.gotValueAt > lastOpenTime,
+    }));
+
   return { ...state, watchers: sorted };
 }
 
