@@ -50,8 +50,11 @@ export const watcherActionCreators = {
   navToEditPressed(id) {
     return { type: watcherActionTypes.NAV_TO_EDIT_PRESSED, payload: { id } };
   },
-  editPressed(id, { title, selector, link }) {
-    return { type: watcherActionTypes.EDIT_PRESSED, payload: { id, title, selector, link } };
+  editPressed(id, { title, selector, link, telegramId, telegramTitle, telegramLink }) {
+    return {
+      type: watcherActionTypes.EDIT_PRESSED,
+      payload: { id, title, selector, link, telegramId, telegramTitle, telegramLink },
+    };
   },
   deletePressed(id) {
     return { type: watcherActionTypes.DELETE_PRESSED, payload: { id } };

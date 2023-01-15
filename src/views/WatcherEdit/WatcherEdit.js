@@ -9,11 +9,11 @@ import { useListener } from '../../hooks/useListener';
 
 function WatcherEdit({ id, watcher, pageContent, isLoading, onFetch, onEdit, onFetchContent }) {
   const [title, setTitle] = useState(watcher?.title || '');
-  useListener(watcher?.title, setTitle, value => value || '');
+  useListener(watcher?.title, value => setTitle(value || ''));
   const [link, setLink] = useState(watcher?.link || '');
-  useListener(watcher?.link, setLink, value => value || '');
+  useListener(watcher?.link, value => setLink(value || ''));
   const [selector, setSelector] = useState(watcher?.selector || '');
-  useListener(watcher?.selector, setSelector, value => value || '');
+  useListener(watcher?.selector, value => setSelector(value || ''));
 
   useEffectOnce(() => {
     onFetch();

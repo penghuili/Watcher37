@@ -1,19 +1,17 @@
-import { Box, Button, Heading, Spinner, Text } from 'grommet';
+import { Box, Button, Spinner } from 'grommet';
 import React, { useEffect } from 'react';
-import { Link } from 'wouter';
 
 import AppBar from '../../components/AppBar';
 import ContentWrapper from '../../components/ContentWrapper';
 import WatcherItem from '../../components/WatcherItem';
-import Schedule from './components/Schedule';
 import WatcherHistory from './components/WatcherHistory';
+import WatcherSchedule from './components/WatcherSchedule';
+import WatcherTelegram from './components/WatcherTelegram';
 
 function WatcherDetails({
   params: { id },
   watcher,
   isLoading,
-  telegramId,
-  isLoadingAccount,
   onFetchWatcher,
   onDelete,
   onEdit,
@@ -37,19 +35,9 @@ function WatcherDetails({
               <Button label="Delete watcher" onClick={() => onDelete(id)} />
             </Box>
 
-            <Schedule watcher={watcher} />
+            <WatcherSchedule watcher={watcher} />
 
-            {!telegramId && !isLoadingAccount && (
-              <>
-                <Heading level="4" margin="2rem 0 0">
-                  Integrate Telegram
-                </Heading>
-                <Text>
-                  <Link to="/account/telegram">Integrate Telegram</Link> to get notifications when the page
-                  content changes.
-                </Text>
-              </>
-            )}
+            <WatcherTelegram watcher={watcher} />
 
             <WatcherHistory watcher={watcher} />
           </>

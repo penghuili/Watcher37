@@ -86,19 +86,46 @@ function* handleNavToEditPressed({ payload: { id } }) {
   yield call(routeHelpers.navigate, `/watchers/${id}/edit`);
 }
 
-function* handleEditPressed({ payload: { id, title, selector, link } }) {
+function* afterNewWatcher(newWatcher, newItem) {
+  if (!newWatcher) {
+    return;
+  }
+
+  const watcher = yield select(watcherSelectors.getDetails);
+  if (watcher) {
+    yield put(
+      watcherActionCreators.setDetails({
+        ...watcher,
+        ...newWatcher,
+        history: newItem ? [newItem, ...watcher.history] : watcher.history,
+      })
+    );
+  }
+
+  const watchers = yield select(watcherSelectors.getWatchers);
+  yield put(
+    watcherActionCreators.setWatchers(
+      (watchers || []).map(w => (w.sortKey === newWatcher.sortKey ? newWatcher : w))
+    )
+  );
+}
+
+function* handleEditPressed({
+  payload: { id, title, selector, link, telegramId, telegramTitle, telegramLink },
+}) {
   yield put(watcherActionCreators.isLoading(true));
 
-  const { data } = yield call(updateWatcher, id, { title, selector, link });
+  const { data } = yield call(updateWatcher, id, {
+    title,
+    selector,
+    link,
+    telegramId,
+    telegramTitle,
+    telegramLink,
+  });
 
   if (data) {
-    yield call(routeHelpers.goBack);
-    const watchers = yield select(watcherSelectors.getWatchers);
-    yield put(
-      watcherActionCreators.setWatchers(
-        watchers.map(w => (w.sortKey === id ? { ...w, ...data } : w))
-      )
-    );
+    yield call(afterNewWatcher, data);
     yield call(showToast, 'Watcher is updated!');
   } else {
     yield call(showToast, 'Something went wrong, please try again.', 'error');
@@ -126,21 +153,7 @@ function* handleCheckWatcherRequested({ payload: { id } }) {
   const { data } = yield call(checkWatcher, id);
 
   if (data?.watcher) {
-    const watcher = yield select(watcherSelectors.getDetails);
-    if (watcher) {
-      yield put(
-        watcherActionCreators.setDetails({
-          ...watcher,
-          ...data.watcher,
-          history: data?.item ? [data.item, ...watcher.history] : watcher.history,
-        })
-      );
-    }
-
-    const watchers = yield select(watcherSelectors.getWatchers);
-    yield put(
-      watcherActionCreators.setWatchers(watchers.map(w => (w.sortKey === id ? data.watcher : w)))
-    );
+    yield call(afterNewWatcher, data.watcher, data?.item);
 
     if (data?.item) {
       yield call(showToast, 'New content!');

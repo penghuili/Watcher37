@@ -30,9 +30,19 @@ export async function createWatcher({ title, link, selector }) {
   }
 }
 
-export async function updateWatcher(id, { title, selector, link }) {
+export async function updateWatcher(
+  id,
+  { title, selector, link, telegramId, telegramTitle, telegramLink }
+) {
   try {
-    const watcher = await HTTP.put(`/v1/page-watcher/watchers/${id}`, { title, selector, link });
+    const watcher = await HTTP.put(`/v1/page-watcher/watchers/${id}`, {
+      title,
+      selector,
+      link,
+      telegramId,
+      telegramTitle,
+      telegramLink,
+    });
 
     return { data: watcher, error: null };
   } catch (error) {

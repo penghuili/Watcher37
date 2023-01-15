@@ -3,7 +3,7 @@ import React from 'react';
 
 import ScheduleSelector from '../ScheduleSelector';
 
-function Schedule({ watcher, onDeleteSchedule }) {
+function WatcherSchedule({ watcher, onDeleteSchedule }) {
   return (
     <>
       <Heading level="4" margin="0">
@@ -21,4 +21,4 @@ function Schedule({ watcher, onDeleteSchedule }) {
   );
 }
 
-export default Schedule;
+export default WatcherSchedule;

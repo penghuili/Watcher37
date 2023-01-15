@@ -49,7 +49,9 @@ function* handleAddTelegramIdPressed({ payload: { telegramId } }) {
     yield put(accountActionCreators.setUserData(data));
     yield call(
       showToast,
-      'Telegram id is added, you will get notification when there is new content.'
+      telegramId
+        ? 'Telegram id is added, you will get notification when there is new content.'
+        : 'You removed Telegram integraion.'
     );
   } else {
     yield call(showToast, 'Something went wrong, please try again.', 'error');
