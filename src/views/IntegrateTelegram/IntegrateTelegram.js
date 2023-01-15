@@ -7,7 +7,7 @@ import { useListener } from '../../hooks/useListener';
 
 function IntegrateTelegram({ isLoading, telegramId, onAddTelegramId }) {
   const [newTelegramId, setNewTelegramId] = useState(telegramId || '');
-  useListener(telegramId, setNewTelegramId);
+  useListener(telegramId, setNewTelegramId, value => value || '');
 
   return (
     <>
@@ -16,12 +16,15 @@ function IntegrateTelegram({ isLoading, telegramId, onAddTelegramId }) {
         {isLoading && <Spinner />}
         {!isLoading && (
           <>
-            <Text>
-              1. Search <Text weight="bold">p_watcher_bot</Text> in your Telegram, or open{' '}
+            <Text margin="0 0 0.5rem">
+              1. Search <Text weight="bold">p_watcher_bot</Text> in your Telegram, or open this
+              link:{' '}
               <Anchor href="https://t.me/p_watcher_bot" label="p_watcher_bot" target="_blank" />;
             </Text>
-            <Text>
-              2. Tap <Text weight="bold">Start</Text> and you will get a number (your Telegram ID);
+            <Text margin="0 0 0.5rem">
+              2. {telegramId ? 'Type' : 'Tap'}{' '}
+              {telegramId ? <Text weight="bold">/id</Text> : <Text weight="bold">Start</Text>} and
+              you will get a number (your Telegram ID);
             </Text>
             <Text>
               3. Add the Telegram ID below, and click{' '}

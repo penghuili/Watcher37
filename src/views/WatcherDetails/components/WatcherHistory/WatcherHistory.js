@@ -1,17 +1,12 @@
 import { Box, Heading, Spinner, Text } from 'grommet';
 import { LinkUp, Refresh, Trash } from 'grommet-icons';
-import React from 'react';
+import React, { useState } from 'react';
 
 import { formatDateTime } from '../../../../lib/date';
 
-function WatcherHistory({
-  watcher,
-  isChecking,
-  isLoading,
-  isDeleting,
-  onCheckWatcher,
-  onDeleteItem,
-}) {
+function WatcherHistory({ watcher, isChecking, isDeleting, onCheckWatcher, onDeleteItem }) {
+  const [currentId, setCurrentId] = useState('');
+
   return (
     <>
       <Box align="center" direction="row" margin="2rem 0 0.5rem">
@@ -24,19 +19,21 @@ function WatcherHistory({
       {(watcher.history || []).map((item, index) => (
         <Box key={item.sortKey}>
           {index !== 0 && <LinkUp />}
-          <Text>
-            {item.content}{' '}
-            {!isLoading && (
+          <Box direction="row" align="center">
+            <Text margin="0 1rem 0 0">{item.content}</Text>
+            {isDeleting && currentId === item.sortKey ? (
+              <Spinner size="small" />
+            ) : (
               <Trash
                 onClick={() => {
-                  if (!isDeleting) {
-                    onDeleteItem(watcher.sortKey, item.sortKey);
-                  }
+                  setCurrentId(item.sortKey);
+                  onDeleteItem(watcher.sortKey, item.sortKey);
                 }}
                 size="small"
               />
             )}
-          </Text>
+          </Box>
+
           <Text>Created at: {formatDateTime(item.createdAt)}</Text>
         </Box>
       ))}

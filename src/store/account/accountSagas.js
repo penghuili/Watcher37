@@ -8,7 +8,6 @@ import { addTelegramId, changePassword, deleteAccount, fetchAccount } from './ac
 import { accountSelectors } from './accountSelectors';
 
 function* handleIsLoggedIn({ payload: { loggedIn } }) {
-  console.log(loggedIn)
   if (loggedIn) {
     yield put(accountActionCreators.fetchRequested());
   }

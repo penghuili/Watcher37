@@ -5,7 +5,6 @@ import { watcherSelectors } from '../../../../store/watcher/watcherSelectors';
 import WatcherHistory from './WatcherHistory';
 
 const mapStateToProps = state => ({
-  isLoading: watcherSelectors.isLoading(state),
   isChecking: watcherSelectors.isChecking(state),
   isDeleting: watcherSelectors.isDeleting(state),
 });

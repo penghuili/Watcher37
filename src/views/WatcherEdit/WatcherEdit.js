@@ -9,14 +9,13 @@ import { useListener } from '../../hooks/useListener';
 
 function WatcherEdit({ id, watcher, pageContent, isLoading, onFetch, onEdit, onFetchContent }) {
   const [title, setTitle] = useState(watcher?.title || '');
-  useListener(watcher?.title, setTitle, '');
+  useListener(watcher?.title, setTitle, value => value || '');
   const [link, setLink] = useState(watcher?.link || '');
-  useListener(watcher?.link, setLink, '');
+  useListener(watcher?.link, setLink, value => value || '');
   const [selector, setSelector] = useState(watcher?.selector || '');
-  useListener(watcher?.selector, setSelector, '');
+  useListener(watcher?.selector, setSelector, value => value || '');
 
   useEffectOnce(() => {
-    console.log('fetch', new Date())
     onFetch();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   });
