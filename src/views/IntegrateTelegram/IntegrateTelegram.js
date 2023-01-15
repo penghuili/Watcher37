@@ -16,6 +16,10 @@ function IntegrateTelegram({ isLoading, telegramId, onAddTelegramId }) {
         {isLoading && <Spinner />}
         {!isLoading && (
           <>
+            <Text margin="0 0 1rem">
+              You will get a Telegram message when the pages you are watching change content.
+            </Text>
+
             <Text margin="0 0 0.5rem">
               1. Search <Text weight="bold">p_watcher_bot</Text> in your Telegram, or open this
               link:{' '}
