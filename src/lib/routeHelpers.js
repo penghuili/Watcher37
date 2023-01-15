@@ -9,6 +9,10 @@ export const routeHelpers = {
     dispatch({ type: navigationBusAction, payload: { path, replace: true } });
   },
   goBack() {
-    history.back();
+    if (history.length) {
+      history.back();
+    } else {
+      routeHelpers.navigate('/');
+    }
   },
 };

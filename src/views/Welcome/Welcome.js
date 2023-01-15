@@ -4,6 +4,7 @@ import { Link } from 'wouter';
 
 import logo from '../../assets/logo.png';
 import ContentWrapper from '../../components/ContentWrapper';
+import Spacer from '../../components/Spacer';
 
 function Welcome() {
   return (
@@ -13,6 +14,7 @@ function Welcome() {
           <Avatar src={logo} /> <Heading level="2" margin="0 0 0 1rem">Page Watcher</Heading>
         </Box>
         <Link to="/sign-up">Sign up</Link>
+        <Spacer />
         <Link to="/sign-in">Sign in</Link>
       </ContentWrapper>
     </>

@@ -12,6 +12,7 @@ const mapStateToProps = (state, { params: { id } }) => ({
 });
 
 const mapDispatchToProps = {
+  onFetch: watcherActionCreators.fetchWatchersRequested,
   onEdit: watcherActionCreators.editPressed,
   onFetchContent: watcherActionCreators.fetchContentPressed,
 };

@@ -46,7 +46,7 @@ function WatcherDetails({
                 </Heading>
                 <Text>
                   <Link to="/account/telegram">Integrate Telegram</Link> to get notifications when the page
-                  content change.
+                  content changes.
                 </Text>
               </>
             )}

@@ -3,7 +3,6 @@ import { all, call, fork, put, takeLatest } from 'redux-saga/effects';
 import { errorCodes } from '../../lib/errorCodes';
 import { LocalStorage } from '../../lib/LocalStorage';
 import { routeHelpers } from '../../lib/routeHelpers';
-import { accountActionCreators } from '../account/accountActions';
 import { appActionCreators } from '../app/appActions';
 import { authActionCreators, authActionTypes } from './authActions';
 import { checkRefreshToken, signIn, signUp } from './authNetwork';
@@ -14,10 +13,6 @@ function* init() {
 
   yield put(authActionCreators.isLoggedIn(!!data));
   yield put(authActionCreators.isCheckingRefreshToken(false));
-
-  if (data) {
-    yield put(accountActionCreators.fetchRequested());
-  }
 }
 
 function* hanldeSignUpPressed({ payload: { username, password } }) {

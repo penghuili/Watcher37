@@ -2,10 +2,17 @@ import { all, call, put, select, takeLatest } from 'redux-saga/effects';
 
 import { routeHelpers } from '../../lib/routeHelpers';
 import { showToast } from '../../lib/showToast';
-import { authActionCreators } from '../auth/authActions';
+import { authActionCreators, authActionTypes } from '../auth/authActions';
 import { accountActionCreators, accountActionTypes } from './accountActions';
 import { addTelegramId, changePassword, deleteAccount, fetchAccount } from './accountNetwork';
 import { accountSelectors } from './accountSelectors';
+
+function* handleIsLoggedIn({ payload: { loggedIn } }) {
+  console.log(loggedIn)
+  if (loggedIn) {
+    yield put(accountActionCreators.fetchRequested());
+  }
+}
 
 function* handleFetchRequested() {
   yield put(accountActionCreators.isLoading(true));
@@ -75,6 +82,7 @@ function* handleChangePasswordPressed({ payload: { currentPassword, newPassword 
 
 export function* accountSagas() {
   yield all([
+    takeLatest(authActionTypes.IS_LOGGED_IN, handleIsLoggedIn),
     takeLatest(accountActionTypes.FETCH_REQUESTED, handleFetchRequested),
     takeLatest(accountActionTypes.DELETE_PRESSED, handleDeletePressed),
     takeLatest(accountActionTypes.ADD_TELEGRAM_ID_PRESSED, handleAddTelegramIdPressed),

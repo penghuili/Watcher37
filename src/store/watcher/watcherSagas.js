@@ -1,4 +1,4 @@
-import { all, call, put, select, takeLatest } from 'redux-saga/effects';
+import { all, call, put, select, takeLatest, takeLeading } from 'redux-saga/effects';
 
 import { routeHelpers } from '../../lib/routeHelpers';
 import { showToast } from '../../lib/showToast';
@@ -204,7 +204,7 @@ function* handleDeleteItemPressed({ payload: { id, sortKey } }) {
 export function* watcherSagas() {
   yield all([
     takeLatest(watcherActionTypes.FETCH_CONTENT_PRESSED, handleFetchContentPressed),
-    takeLatest(watcherActionTypes.FETCH_WATCHERS_REQUESTED, handleFetchWatchersRequested),
+    takeLeading(watcherActionTypes.FETCH_WATCHERS_REQUESTED, handleFetchWatchersRequested),
     takeLatest(watcherActionTypes.CREATE_PRESSED, handleCreatePressed),
     takeLatest(watcherActionTypes.NAV_TO_EDIT_PRESSED, handleNavToEditPressed),
     takeLatest(watcherActionTypes.EDIT_PRESSED, handleEditPressed),

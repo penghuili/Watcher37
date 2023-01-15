@@ -3,9 +3,11 @@ import React, { useState } from 'react';
 
 import AppBar from '../../components/AppBar';
 import ContentWrapper from '../../components/ContentWrapper';
+import { useListener } from '../../hooks/useListener';
 
 function IntegrateTelegram({ isLoading, telegramId, onAddTelegramId }) {
   const [newTelegramId, setNewTelegramId] = useState(telegramId || '');
+  useListener(telegramId, setNewTelegramId);
 
   return (
     <>

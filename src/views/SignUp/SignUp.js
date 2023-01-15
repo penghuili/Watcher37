@@ -13,9 +13,9 @@ function SignUp({ errorMessage, isLoading, onSignUp }) {
 
   return (
     <>
-      <AppBar title="Sign up" />
+     <AppBar title="Page Watcher" />
       <ContentWrapper>
-        <PageHeader title="Welcome to SignUp!" />
+        <PageHeader title="Sign up" />
         <TextInput
           placeholder="Username"
           value={username}

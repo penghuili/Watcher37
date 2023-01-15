@@ -13,9 +13,9 @@ function SignIn({ errorMessage, isLoading, onSignIn }) {
 
   return (
     <>
-      <AppBar title="Sign in" />
+      <AppBar title="Page Watcher" />
       <ContentWrapper>
-        <PageHeader title="Welcome to sign in!" />
+        <PageHeader title="Sign in" />
         <TextInput
           placeholder="Username"
           value={username}

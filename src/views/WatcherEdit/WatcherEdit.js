@@ -4,11 +4,22 @@ import React, { useState } from 'react';
 import AppBar from '../../components/AppBar';
 import ContentWrapper from '../../components/ContentWrapper';
 import Spacer from '../../components/Spacer';
+import { useEffectOnce } from '../../hooks/useEffectOnce';
+import { useListener } from '../../hooks/useListener';
 
-function WatcherEdit({ id, watcher, pageContent, isLoading, onEdit, onFetchContent }) {
+function WatcherEdit({ id, watcher, pageContent, isLoading, onFetch, onEdit, onFetchContent }) {
   const [title, setTitle] = useState(watcher?.title || '');
+  useListener(watcher?.title, setTitle, '');
   const [link, setLink] = useState(watcher?.link || '');
+  useListener(watcher?.link, setLink, '');
   const [selector, setSelector] = useState(watcher?.selector || '');
+  useListener(watcher?.selector, setSelector, '');
+
+  useEffectOnce(() => {
+    console.log('fetch', new Date())
+    onFetch();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  });
 
   return (
     <>
