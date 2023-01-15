@@ -32,8 +32,8 @@ function OwnTelegram({ telegramId }) {
   );
 }
 
-function SpecificTelegram({ telegramId, telegramChannelTitle, watcherId }) {
-  const integrated = !!telegramId && !!telegramChannelTitle;
+function SpecificTelegram({ telegramId, telegramTitle, watcherId }) {
+  const integrated = !!telegramId && !!telegramTitle;
 
   return (
     <>
@@ -55,7 +55,7 @@ function SpecificTelegram({ telegramId, telegramChannelTitle, watcherId }) {
       {integrated ? (
         <>
           <Text>Your Telegram channel ID: <Link to={`/watchers/${watcherId}/telegram`}>{telegramId}</Link></Text>
-          <Text>Your Telegram channel name: {telegramChannelTitle}</Text>
+          <Text>Your Telegram channel name: {telegramTitle}</Text>
         </>
       ) : (
         <Text>
@@ -80,7 +80,7 @@ function WatcherTelegram({ watcher, accountTelegramId, isLoadingAccount }) {
       <OwnTelegram telegramId={accountTelegramId} />
       <SpecificTelegram
         telegramId={watcher.telegramId}
-        telegramChannelTitle={watcher.telegramChannelTitle}
+        telegramTitle={watcher.telegramTitle}
         watcherId={watcher.sortKey}
       />
     </>

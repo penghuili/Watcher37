@@ -12,7 +12,7 @@ function IntegrateTelegramChannel({ id, watcher, isLoading, onFetch, onEdit }) {
 
   useEffectOnce(onFetch);
 
-  const hasTelegram = !!watcher?.telegramId && !!watcher?.telegramChannelTitle;
+  const hasTelegram = !!watcher?.telegramId && !!watcher?.telegramTitle;
 
   return (
     <>
@@ -31,7 +31,7 @@ function IntegrateTelegramChannel({ id, watcher, isLoading, onFetch, onEdit }) {
           will send a message to the{' '}
           {hasTelegram ? (
             <>
-              <Text weight="bold">{watcher.telegramChannelTitle}</Text> Telegram channel
+              <Text weight="bold">{watcher.telegramTitle}</Text> Telegram channel
             </>
           ) : (
             <Text weight="bold">Telegram channel</Text>
