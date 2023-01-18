@@ -10,7 +10,7 @@ const mapStateToProps = (state) => ({
 });
 
 const mapDispatchToProps = {
-  onDeleteSchedule: watcherActionCreators.deleteTriggerPressed,
+  onEdit: watcherActionCreators.editPressed,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(WatcherTelegram);

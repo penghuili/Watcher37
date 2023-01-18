@@ -29,10 +29,10 @@ function Router({ isCheckingRefreshToken, isLoggedIn }) {
         <Route path="/account" component={Account} />
         <Route path="/account/telegram" component={IntegrateTelegram} />
         <Route path="/account/password" component={ChangePassword} />
-        <Route path="/watchers/add" component={WatcherAdd} />
-        <Route path="/watchers/:id" component={WatcherDetails} />
-        <Route path="/watchers/:id/edit" component={WatcherEdit} />
-        <Route path="/watchers/:id/telegram" component={IntegrateTelegramChannel} />
+        <Route path="/w/add" component={WatcherAdd} />
+        <Route path="/w/:id" component={WatcherDetails} />
+        <Route path="/w/:id/edit" component={WatcherEdit} />
+        <Route path="/w/:id/telegram" component={IntegrateTelegramChannel} />
         <Route path="/" component={Watchers} />
         <Route>{() => <Redirect to="/" />}</Route>
       </Switch>

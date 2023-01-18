@@ -1,9 +1,9 @@
-import { Anchor, Box, Heading, Text } from 'grommet';
+import { Anchor, Box, Button, Heading, Text } from 'grommet';
 import { Checkmark } from 'grommet-icons';
 import React from 'react';
 import { Link } from 'wouter';
 
-function OwnTelegram({ telegramId }) {
+function OwnTelegram({ watcherId, telegramId, skipped, onEdit }) {
   return (
     <>
       <Box direction="row" align="center">
@@ -11,17 +11,45 @@ function OwnTelegram({ telegramId }) {
           Integrate your own Telegram
         </Heading>
         {!!telegramId && <Checkmark color="status-ok" />}
+        {skipped ? (
+          <Button
+            label="DISABLED"
+            onClick={() => onEdit(watcherId, { skipPersonalTelegram: false })}
+            size="xsmall"
+            margin="0 0.5rem"
+          />
+        ) : (
+          <Button
+            label="ENABLED"
+            onClick={() => onEdit(watcherId, { skipPersonalTelegram: true })}
+            size="xsmall"
+            margin="0 0.5rem"
+          />
+        )}
       </Box>
-      <Text size="small">
-        The <Anchor href="https://t.me/p_watcher_bot" label="PageWatcherBot" target="_blank" /> will
-        send a message to{' '}
-        <Text weight="bold" size="small">
-          You
-        </Text>{' '}
-        when this watcher gets new content.
-      </Text>
+      {skipped ? (
+        <Text size="small">
+          The <Anchor href="https://t.me/p_watcher_bot" label="PageWatcherBot" target="_blank" />{' '}
+          will NOT send a message to{' '}
+          <Text weight="bold" size="small">
+            You
+          </Text>{' '}
+          because this is disabled.
+        </Text>
+      ) : (
+        <Text size="small">
+          The <Anchor href="https://t.me/p_watcher_bot" label="PageWatcherBot" target="_blank" />{' '}
+          will send a message to{' '}
+          <Text weight="bold" size="small">
+            You
+          </Text>{' '}
+          when this watcher gets new content.
+        </Text>
+      )}
       {telegramId ? (
-        <Text>Your Telegram ID: <Link to="/account/telegram">{telegramId}</Link></Text>
+        <Text>
+          Your Telegram ID: <Link to="/account/telegram">{telegramId}</Link>
+        </Text>
       ) : (
         <Text>
           Follow <Link to="/account/telegram">this guide</Link> to integrate your own Telegram
@@ -54,20 +82,22 @@ function SpecificTelegram({ telegramId, telegramTitle, watcherId }) {
       <Text size="small">Anyone in the channel will get notified.</Text>
       {integrated ? (
         <>
-          <Text>Your Telegram channel ID: <Link to={`/watchers/${watcherId}/telegram`}>{telegramId}</Link></Text>
+          <Text>
+            Your Telegram channel ID: <Link to={`/w/${watcherId}/telegram`}>{telegramId}</Link>
+          </Text>
           <Text>Your Telegram channel name: {telegramTitle}</Text>
         </>
       ) : (
         <Text>
-          Follow <Link to={`/watchers/${watcherId}/telegram`}>this guide</Link> to integrate a
-          Telegram channel.
+          Follow <Link to={`/w/${watcherId}/telegram`}>this guide</Link> to integrate a Telegram
+          channel.
         </Text>
       )}
     </>
   );
 }
 
-function WatcherTelegram({ watcher, accountTelegramId, isLoadingAccount }) {
+function WatcherTelegram({ watcher, accountTelegramId, isLoadingAccount, onEdit }) {
   if (!watcher || isLoadingAccount) {
     return null;
   }
@@ -77,11 +107,16 @@ function WatcherTelegram({ watcher, accountTelegramId, isLoadingAccount }) {
       <Heading level="4" margin="2rem 0 0">
         Integrate Telegram
       </Heading>
-      <OwnTelegram telegramId={accountTelegramId} />
+      <OwnTelegram
+        watcherId={watcher.sortKey}
+        telegramId={accountTelegramId}
+        skipped={watcher.skipPersonalTelegram}
+        onEdit={onEdit}
+      />
       <SpecificTelegram
+        watcherId={watcher.sortKey}
         telegramId={watcher.telegramId}
         telegramTitle={watcher.telegramTitle}
-        watcherId={watcher.sortKey}
       />
     </>
   );

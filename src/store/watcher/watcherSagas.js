@@ -83,7 +83,7 @@ function* handleDeletePressed({ payload: { id } }) {
 }
 
 function* handleNavToEditPressed({ payload: { id } }) {
-  yield call(routeHelpers.navigate, `/watchers/${id}/edit`);
+  yield call(routeHelpers.navigate, `/w/${id}/edit`);
 }
 
 function* afterNewWatcher(newWatcher, newItem) {
@@ -111,7 +111,16 @@ function* afterNewWatcher(newWatcher, newItem) {
 }
 
 function* handleEditPressed({
-  payload: { id, title, selector, link, telegramId, telegramTitle, telegramLink },
+  payload: {
+    id,
+    title,
+    selector,
+    link,
+    skipPersonalTelegram,
+    telegramId,
+    telegramTitle,
+    telegramLink,
+  },
 }) {
   yield put(watcherActionCreators.isLoading(true));
 
@@ -119,6 +128,7 @@ function* handleEditPressed({
     title,
     selector,
     link,
+    skipPersonalTelegram,
     telegramId,
     telegramTitle,
     telegramLink,

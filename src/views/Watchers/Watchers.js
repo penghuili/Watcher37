@@ -19,7 +19,7 @@ function Watchers({ watchers, isLoading, isChecking, onFetch, onCheckWatcher }) 
     <>
       <AppBar title="Watchers" />
       <ContentWrapper>
-        <Link to="/watchers/add">Create watcher</Link>
+        <Link to="/w/add">Create watcher</Link>
 
         <Box margin="1rem 0">
           {isLoading && <Spinner />}
@@ -31,7 +31,7 @@ function Watchers({ watchers, isLoading, isChecking, onFetch, onCheckWatcher }) 
             <WatcherItem watcher={watcher} />
 
             <Box direction="row" align="center">
-              <Link to={`/watchers/${watcher.sortKey}`}>Details</Link>
+              <Link to={`/w/${watcher.sortKey}`}>Details</Link>
               <Box width="1rem" />
               {isChecking && checkId === watcher.sortKey ? (
                 <Spinner size="xsmall" />

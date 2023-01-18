@@ -32,13 +32,14 @@ export async function createWatcher({ title, link, selector }) {
 
 export async function updateWatcher(
   id,
-  { title, selector, link, telegramId, telegramTitle, telegramLink }
+  { title, selector, link, skipPersonalTelegram, telegramId, telegramTitle, telegramLink }
 ) {
   try {
     const watcher = await HTTP.put(`/v1/page-watcher/watchers/${id}`, {
       title,
       selector,
       link,
+      skipPersonalTelegram,
       telegramId,
       telegramTitle,
       telegramLink,
