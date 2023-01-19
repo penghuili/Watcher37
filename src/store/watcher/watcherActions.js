@@ -35,8 +35,8 @@ export const watcherActionCreators = {
   isDeleting(deleting) {
     return { type: watcherActionTypes.IS_DELETING, payload: { deleting } };
   },
-  setWatchers(watchers) {
-    return { type: watcherActionTypes.SET_WATCHERS, payload: { watchers } };
+  setWatchers(watchers, lastOpenTime) {
+    return { type: watcherActionTypes.SET_WATCHERS, payload: { watchers, lastOpenTime } };
   },
   setDetails(details) {
     return { type: watcherActionTypes.SET_DETAILS, payload: { details } };

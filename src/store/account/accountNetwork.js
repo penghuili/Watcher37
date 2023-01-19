@@ -1,4 +1,8 @@
-import { decryptMessage, decryptMessageSymmetric, encryptMessageSymmetric } from '../../lib/encryption';
+import {
+  decryptMessage,
+  decryptMessageSymmetric,
+  encryptMessageSymmetric,
+} from '../../lib/encryption';
 import HTTP from '../../lib/HTTP';
 
 export async function fetchAccount() {
@@ -52,6 +56,26 @@ export async function changePassword(username, currentPassword, newPassword) {
     return { data: updatedUser, error: null };
   } catch (error) {
     console.log(error);
+    return { data: null, error };
+  }
+}
+
+export async function fetchSettings() {
+  try {
+    const { lastOpenTime } = await HTTP.get(`/v1/page-watcher/settings`);
+
+    return { data: { lastOpenTime }, error: null };
+  } catch (error) {
+    return { data: null, error };
+  }
+}
+
+export async function updateSettings(lastOpenTime) {
+  try {
+    const { lastOpenTime: updated } = await HTTP.put(`/v1/page-watcher/settings`, { lastOpenTime });
+
+    return { data: { lastOpenTime: updated }, error: null };
+  } catch (error) {
     return { data: null, error };
   }
 }

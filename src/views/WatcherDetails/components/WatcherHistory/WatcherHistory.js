@@ -19,7 +19,7 @@ function WatcherHistory({ watcher, isChecking, isDeleting, onCheckWatcher, onDel
       {(watcher.history || []).map((item, index) => (
         <Box key={item.sortKey}>
           {index !== 0 && <LinkUp />}
-          <Text>Created at: {formatDateTime(item.createdAt)}</Text>
+          <Text>{formatDateTime(item.createdAt)}</Text>
 
           <Box direction="row" align="center">
             {item.contentLink ? (

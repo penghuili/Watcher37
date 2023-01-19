@@ -1,15 +1,30 @@
 import { all, call, put, select, takeLatest } from 'redux-saga/effects';
 
+import { LocalStorage, LocalStorageKeys } from '../../lib/LocalStorage';
 import { routeHelpers } from '../../lib/routeHelpers';
 import { showToast } from '../../lib/showToast';
 import { authActionCreators, authActionTypes } from '../auth/authActions';
 import { accountActionCreators, accountActionTypes } from './accountActions';
-import { addTelegramId, changePassword, deleteAccount, fetchAccount } from './accountNetwork';
+import {
+  addTelegramId,
+  changePassword,
+  deleteAccount,
+  fetchAccount,
+  fetchSettings,
+  updateSettings,
+} from './accountNetwork';
 import { accountSelectors } from './accountSelectors';
 
 function* handleIsLoggedIn({ payload: { loggedIn } }) {
   if (loggedIn) {
     yield put(accountActionCreators.fetchRequested());
+
+    yield put(accountActionCreators.fetchSettingsRequested());
+
+    const openTime = yield call(LocalStorage.get, LocalStorageKeys.openTime);
+    if (openTime) {
+      yield put(accountActionCreators.updateSettingsRequested(openTime))
+    }
   }
 }
 
@@ -20,6 +35,30 @@ function* handleFetchRequested() {
 
   if (data) {
     yield put(accountActionCreators.setUserData(data));
+  }
+
+  yield put(accountActionCreators.isLoading(false));
+}
+
+function* handleFetchSettingsRequested() {
+  yield put(accountActionCreators.isLoading(true));
+
+  const { data } = yield call(fetchSettings);
+
+  if (data) {
+    yield put(accountActionCreators.setSettings(data.lastOpenTime));
+  }
+
+  yield put(accountActionCreators.isLoading(false));
+}
+
+function* handleUpdateSettingsRequested({ payload: { lastOpenTime } }) {
+  yield put(accountActionCreators.isLoading(true));
+
+  const { data } = yield call(updateSettings, lastOpenTime);
+
+  if (data) {
+    yield put(accountActionCreators.setSettings(data.lastOpenTime));
   }
 
   yield put(accountActionCreators.isLoading(false));
@@ -85,6 +124,8 @@ export function* accountSagas() {
   yield all([
     takeLatest(authActionTypes.IS_LOGGED_IN, handleIsLoggedIn),
     takeLatest(accountActionTypes.FETCH_REQUESTED, handleFetchRequested),
+    takeLatest(accountActionTypes.FETCH_SETTINGS_REQUESTED, handleFetchSettingsRequested),
+    takeLatest(accountActionTypes.UPDATE_SETTINGS_REQUESTED, handleUpdateSettingsRequested),
     takeLatest(accountActionTypes.DELETE_PRESSED, handleDeletePressed),
     takeLatest(accountActionTypes.ADD_TELEGRAM_ID_PRESSED, handleAddTelegramIdPressed),
     takeLatest(accountActionTypes.NAV_TO_ACCOUNT_PRESSED, handleNavToAccountPressed),

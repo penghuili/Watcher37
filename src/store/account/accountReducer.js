@@ -7,10 +7,15 @@ const initialState = {
   username: null,
   createdAt: null,
   telegramId: null,
+  lastOpenTime: null,
 };
 
 function handleSetUserData(state, { userId, username, createdAt, telegramId }) {
   return { ...state, userId, username, createdAt, telegramId };
+}
+
+function handleSetSettings(state, { lastOpenTime }) {
+  return { ...state, lastOpenTime };
 }
 
 function handleIsLoading(state, { loading }) {
@@ -25,6 +30,9 @@ export function accountReducer(state = initialState, action) {
   switch (action.type) {
     case accountActionTypes.SET_USER_DATA:
       return handleSetUserData(state, action.payload);
+
+    case accountActionTypes.SET_SETTINGS:
+      return handleSetSettings(state, action.payload);
 
     case accountActionTypes.IS_LOADING:
       return handleIsLoading(state, action.payload);

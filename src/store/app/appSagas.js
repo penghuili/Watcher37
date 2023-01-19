@@ -5,11 +5,6 @@ import { routeHelpers } from '../../lib/routeHelpers';
 import { appActionTypes } from './appActions';
 
 function* init() {
-  const openTime = yield call(LocalStorage.get, LocalStorageKeys.openTime);
-  if (openTime) {
-    yield call(LocalStorage.set, LocalStorageKeys.lastOpenTime, openTime);
-  }
-
   yield call(LocalStorage.set, LocalStorageKeys.openTime, Date.now());
 }
 

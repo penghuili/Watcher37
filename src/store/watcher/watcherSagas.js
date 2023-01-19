@@ -2,6 +2,7 @@ import { all, call, put, select, takeLatest, takeLeading } from 'redux-saga/effe
 
 import { routeHelpers } from '../../lib/routeHelpers';
 import { showToast } from '../../lib/showToast';
+import { accountSelectors } from '../account/accountSelectors';
 import { watcherActionCreators, watcherActionTypes } from './watcherActions';
 import {
   checkWatcher,
@@ -36,13 +37,18 @@ function* handleFetchContentPressed({ payload: { link, selector } }) {
   yield put(watcherActionCreators.isLoading(false));
 }
 
+function* setWatchers(watchers) {
+  const lastOpenTime = yield select(accountSelectors.getLastOpenTime);
+  yield put(watcherActionCreators.setWatchers(watchers, lastOpenTime));
+}
+
 function* handleFetchWatchersRequested() {
   yield put(watcherActionCreators.isLoading(true));
 
   const { data } = yield call(fetchWatchers);
 
   if (data) {
-    yield put(watcherActionCreators.setWatchers(data));
+    yield call(setWatchers, data);
   }
 
   yield put(watcherActionCreators.isLoading(false));
@@ -55,7 +61,7 @@ function* handleCreatePressed({ payload: { title, link, selector } }) {
 
   if (data) {
     const watchers = yield select(watcherSelectors.getWatchers);
-    yield put(watcherActionCreators.setWatchers([data, ...watchers]));
+    yield call(setWatchers, [data, ...watchers]);
     yield call(routeHelpers.goBack);
     yield call(showToast, 'Watcher is created!');
   } else {
@@ -73,7 +79,10 @@ function* handleDeletePressed({ payload: { id } }) {
   if (data) {
     yield call(routeHelpers.goBack);
     const watchers = yield select(watcherSelectors.getWatchers);
-    yield put(watcherActionCreators.setWatchers(watchers.filter(w => w.sortKey !== id)));
+    yield call(
+      setWatchers,
+      watchers.filter(w => w.sortKey !== id)
+    );
     yield call(showToast, 'Watcher is delete!');
   } else {
     yield call(showToast, 'Something went wrong, please try again.', 'error');
@@ -103,10 +112,9 @@ function* afterNewWatcher(newWatcher, newItem) {
   }
 
   const watchers = yield select(watcherSelectors.getWatchers);
-  yield put(
-    watcherActionCreators.setWatchers(
-      (watchers || []).map(w => (w.sortKey === newWatcher.sortKey ? newWatcher : w))
-    )
+  yield call(
+    setWatchers,
+    (watchers || []).map(w => (w.sortKey === newWatcher.sortKey ? newWatcher : w))
   );
 }
 

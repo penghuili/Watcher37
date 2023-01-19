@@ -2,6 +2,9 @@ export const accountActionTypes = {
   IS_LOADING: 'account/IS_LOADING',
   SET_USER_DATA: 'account/SET_USER_DATA',
   FETCH_REQUESTED: 'account/FETCH_REQUESTED',
+  FETCH_SETTINGS_REQUESTED: 'account/FETCH_SETTINGS_REQUESTED',
+  UPDATE_SETTINGS_REQUESTED: 'account/UPDATE_SETTINGS_REQUESTED',
+  SET_SETTINGS: 'account/SET_SETTINGS',
   DELETE_PRESSED: 'account/DELETE_PRESSED',
   ADD_TELEGRAM_ID_PRESSED: 'account/ADD_TELEGRAM_ID_PRESSED',
   NAV_TO_ACCOUNT_PRESSED: 'account/NAV_TO_ACCOUNT_PRESSED',
@@ -20,6 +23,15 @@ export const accountActionCreators = {
   },
   fetchRequested() {
     return { type: accountActionTypes.FETCH_REQUESTED };
+  },
+  fetchSettingsRequested() {
+    return { type: accountActionTypes.FETCH_SETTINGS_REQUESTED };
+  },
+  updateSettingsRequested(lastOpenTime) {
+    return { type: accountActionTypes.UPDATE_SETTINGS_REQUESTED, payload: { lastOpenTime } };
+  },
+  setSettings(lastOpenTime) {
+    return { type: accountActionTypes.SET_SETTINGS, payload: { lastOpenTime } };
   },
   deletePressed() {
     return { type: accountActionTypes.DELETE_PRESSED };
