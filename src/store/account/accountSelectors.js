@@ -6,5 +6,6 @@ export const accountSelectors = {
     telegramId: state.account.telegramId,
   }),
   getLastOpenTime: state => state.account.lastOpenTime,
+  getExpiresAt: state => state.account.expiresAt,
   isLoading: state => state.account.isLoading,
 };

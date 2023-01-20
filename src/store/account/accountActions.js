@@ -30,8 +30,8 @@ export const accountActionCreators = {
   updateSettingsRequested(lastOpenTime) {
     return { type: accountActionTypes.UPDATE_SETTINGS_REQUESTED, payload: { lastOpenTime } };
   },
-  setSettings(lastOpenTime) {
-    return { type: accountActionTypes.SET_SETTINGS, payload: { lastOpenTime } };
+  setSettings({ lastOpenTime, expiresAt }) {
+    return { type: accountActionTypes.SET_SETTINGS, payload: { lastOpenTime, expiresAt } };
   },
   deletePressed() {
     return { type: accountActionTypes.DELETE_PRESSED };

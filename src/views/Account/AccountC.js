@@ -7,6 +7,7 @@ import Account from './Account';
 
 const mapStateToProps = state => ({
   account: accountSelectors.getAccount(state),
+  expiresAt: accountSelectors.getExpiresAt(state),
   isLoadingAccount: accountSelectors.isLoading(state),
 });
 

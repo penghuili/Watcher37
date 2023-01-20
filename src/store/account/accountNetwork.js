@@ -62,9 +62,9 @@ export async function changePassword(username, currentPassword, newPassword) {
 
 export async function fetchSettings() {
   try {
-    const { lastOpenTime } = await HTTP.get(`/v1/page-watcher/settings`);
+    const { lastOpenTime, expiresAt } = await HTTP.get(`/v1/page-watcher/settings`);
 
-    return { data: { lastOpenTime }, error: null };
+    return { data: { lastOpenTime, expiresAt }, error: null };
   } catch (error) {
     return { data: null, error };
   }
@@ -72,9 +72,9 @@ export async function fetchSettings() {
 
 export async function updateSettings(lastOpenTime) {
   try {
-    const { lastOpenTime: updated } = await HTTP.put(`/v1/page-watcher/settings`, { lastOpenTime });
+    const { lastOpenTime: updated, expiresAt } = await HTTP.put(`/v1/page-watcher/settings`, { lastOpenTime });
 
-    return { data: { lastOpenTime: updated }, error: null };
+    return { data: { lastOpenTime: updated, expiresAt }, error: null };
   } catch (error) {
     return { data: null, error };
   }

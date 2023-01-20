@@ -23,7 +23,7 @@ function* handleIsLoggedIn({ payload: { loggedIn } }) {
 
     const openTime = yield call(LocalStorage.get, LocalStorageKeys.openTime);
     if (openTime) {
-      yield put(accountActionCreators.updateSettingsRequested(openTime))
+      yield put(accountActionCreators.updateSettingsRequested(openTime));
     }
   }
 }
@@ -46,7 +46,12 @@ function* handleFetchSettingsRequested() {
   const { data } = yield call(fetchSettings);
 
   if (data) {
-    yield put(accountActionCreators.setSettings(data.lastOpenTime));
+    yield put(
+      accountActionCreators.setSettings({
+        lastOpenTime: data.lastOpenTime,
+        expiresAt: data.expiresAt,
+      })
+    );
   }
 
   yield put(accountActionCreators.isLoading(false));
@@ -58,7 +63,12 @@ function* handleUpdateSettingsRequested({ payload: { lastOpenTime } }) {
   const { data } = yield call(updateSettings, lastOpenTime);
 
   if (data) {
-    yield put(accountActionCreators.setSettings(data.lastOpenTime));
+    yield put(
+      accountActionCreators.setSettings({
+        lastOpenTime: data.lastOpenTime,
+        expiresAt: data.expiresAt,
+      })
+    );
   }
 
   yield put(accountActionCreators.isLoading(false));

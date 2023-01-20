@@ -8,14 +8,15 @@ const initialState = {
   createdAt: null,
   telegramId: null,
   lastOpenTime: null,
+  expiresAt: null,
 };
 
 function handleSetUserData(state, { userId, username, createdAt, telegramId }) {
   return { ...state, userId, username, createdAt, telegramId };
 }
 
-function handleSetSettings(state, { lastOpenTime }) {
-  return { ...state, lastOpenTime };
+function handleSetSettings(state, { lastOpenTime, expiresAt }) {
+  return { ...state, lastOpenTime, expiresAt };
 }
 
 function handleIsLoading(state, { loading }) {

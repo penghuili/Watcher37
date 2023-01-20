@@ -19,7 +19,7 @@ function handleSetWatchers(state, { watchers, lastOpenTime }) {
     .sort((a, b) => (b.gotValueAt - a.gotValueAt > 0 ? 1 : -1))
     .map(w => ({
       ...w,
-      isNew: w.gotValueAt > lastOpenTime,
+      isNew: !!lastOpenTime && w.gotValueAt > lastOpenTime,
     }));
 
   return { ...state, watchers: sorted };
