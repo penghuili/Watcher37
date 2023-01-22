@@ -1,5 +1,5 @@
-import { Anchor, Box, Heading, Spinner, Text } from 'grommet';
-import { Link, Next, Refresh } from 'grommet-icons';
+import { Anchor, Box, Spinner, Text } from 'grommet';
+import { Link, Refresh } from 'grommet-icons';
 import React, { useEffect, useState } from 'react';
 
 import AppBar from '../../components/AppBar';
