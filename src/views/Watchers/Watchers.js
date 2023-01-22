@@ -28,14 +28,15 @@ function Watchers({ watchers, isLoading, isChecking, onFetch, onCheckWatcher }) 
 
         {watchers.map(watcher => (
           <Box key={watcher.sortKey} margin="0 0 2rem" align="start">
-            <Heading level="4" margin="0">
-              {watcher.title}{' '}
+            <Box direction="row" align="center">
+              <RouteLink to={`/w/${watcher.sortKey}`} label={watcher.title} />
               {watcher.isNew && (
                 <Text color="status-critical" size="small">
                   NEW
                 </Text>
               )}
-            </Heading>
+            </Box>
+
             {!!watcher.gotValueAt && (
               <Text size="xsmall">{formatDateTime(watcher.gotValueAt)}</Text>
             )}
@@ -57,7 +58,6 @@ function Watchers({ watchers, isLoading, isChecking, onFetch, onCheckWatcher }) 
                 />
               )}
               <Anchor href={watcher.link} label={<Link />} target="_blank" margin="0 1rem" />
-              <RouteLink to={`/w/${watcher.sortKey}`} label={<Next />} />
             </Box>
           </Box>
         ))}
