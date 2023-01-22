@@ -1,7 +1,8 @@
 import { Anchor, Box, Button, Heading, Text } from 'grommet';
 import { Checkmark } from 'grommet-icons';
 import React from 'react';
-import { Link } from 'wouter';
+
+import RouteLink from '../../../../components/RouteLink';
 
 function OwnTelegram({ watcherId, telegramId, skipped, onEdit }) {
   return (
@@ -48,12 +49,12 @@ function OwnTelegram({ watcherId, telegramId, skipped, onEdit }) {
       )}
       {telegramId ? (
         <Text>
-          Your Telegram ID: <Link to="/account/telegram">{telegramId}</Link>
+          Your Telegram ID: <RouteLink to="/account/telegram" label={telegramId} />
         </Text>
       ) : (
         <Text>
-          Follow <Link to="/account/telegram">this guide</Link> to integrate your own Telegram
-          account.
+          Follow <RouteLink to="/account/telegram" label="this guide" /> to integrate your own
+          Telegram account.
         </Text>
       )}
     </>
@@ -83,14 +84,15 @@ function SpecificTelegram({ telegramId, telegramTitle, watcherId }) {
       {integrated ? (
         <>
           <Text>
-            Your Telegram channel ID: <Link to={`/w/${watcherId}/telegram`}>{telegramId}</Link>
+            Your Telegram channel ID:{' '}
+            <RouteLink to={`/w/${watcherId}/telegram`} label={telegramId} />
           </Text>
           <Text>Your Telegram channel name: {telegramTitle}</Text>
         </>
       ) : (
         <Text>
-          Follow <Link to={`/w/${watcherId}/telegram`}>this guide</Link> to integrate a Telegram
-          channel.
+          Follow <RouteLink to={`/w/${watcherId}/telegram`} label="this guide" /> to integrate a
+          Telegram channel.
         </Text>
       )}
     </>

@@ -1,11 +1,11 @@
-import { Box, Spinner, Text } from 'grommet';
-import { Refresh } from 'grommet-icons';
+import { Anchor, Box, Heading, Spinner, Text } from 'grommet';
+import { Link, Next, Refresh } from 'grommet-icons';
 import React, { useEffect, useState } from 'react';
-import { Link } from 'wouter';
 
 import AppBar from '../../components/AppBar';
 import ContentWrapper from '../../components/ContentWrapper';
-import WatcherItem from '../../components/WatcherItem';
+import RouteLink from '../../components/RouteLink';
+import { formatDateTime } from '../../lib/date';
 
 function Watchers({ watchers, isLoading, isChecking, onFetch, onCheckWatcher }) {
   const [checkId, setCheckId] = useState();
@@ -19,7 +19,7 @@ function Watchers({ watchers, isLoading, isChecking, onFetch, onCheckWatcher }) 
     <>
       <AppBar title="Watchers" />
       <ContentWrapper>
-        <Link to="/w/add">Create watcher</Link>
+        <RouteLink to="/w/add" label="Create watcher" />
 
         <Box margin="1rem 0">
           {isLoading && <Spinner />}
@@ -28,11 +28,24 @@ function Watchers({ watchers, isLoading, isChecking, onFetch, onCheckWatcher }) 
 
         {watchers.map(watcher => (
           <Box key={watcher.sortKey} margin="0 0 2rem" align="start">
-            <WatcherItem watcher={watcher} />
+            <Heading level="4" margin="0">
+              {watcher.title}{' '}
+              {watcher.isNew && (
+                <Text color="status-critical" size="small">
+                  NEW
+                </Text>
+              )}
+            </Heading>
+            {!!watcher.gotValueAt && (
+              <Text size="xsmall">{formatDateTime(watcher.gotValueAt)}</Text>
+            )}
+            {watcher.contentLink ? (
+              <Anchor label={watcher.content} href={watcher.contentLink} target="_blank" />
+            ) : (
+              <Text>{watcher.content}</Text>
+            )}
 
-            <Box direction="row" align="center">
-              <Link to={`/w/${watcher.sortKey}`}>Details</Link>
-              <Box width="1rem" />
+            <Box direction="row" align="center" margin="0.25rem 0 0">
               {isChecking && checkId === watcher.sortKey ? (
                 <Spinner size="xsmall" />
               ) : (
@@ -43,6 +56,9 @@ function Watchers({ watchers, isLoading, isChecking, onFetch, onCheckWatcher }) 
                   }}
                 />
               )}
+              <Anchor href={watcher.link} label={<Link />} target="_blank" margin="0 1rem" />
+              <RouteLink to={`/w/${watcher.sortKey}`} label={<Next />} />
+              <Box width="1rem" />
             </Box>
           </Box>
         ))}

@@ -1,9 +1,9 @@
 import { Button, Heading, Spinner, Text } from 'grommet';
 import React from 'react';
-import { Link } from 'wouter';
 
 import AppBar from '../../components/AppBar';
 import ContentWrapper from '../../components/ContentWrapper';
+import RouteLink from '../../components/RouteLink';
 import { formatDate, formatDateTime } from '../../lib/date';
 
 function Home({ account, expiresAt, isLoadingAccount, onLogOut, onDelete }) {
@@ -22,10 +22,11 @@ function Home({ account, expiresAt, isLoadingAccount, onLogOut, onDelete }) {
             )}
             {!!account.telegramId && (
               <Text margin="0 0 1rem">
-                Telegram integration: <Link to="/account/telegram">{account.telegramId}</Link>
+                Telegram integration:{' '}
+                <RouteLink to="/account/telegram" label={account.telegramId} />
               </Text>
             )}
-            <Link to="/account/password">Change password</Link>
+            <RouteLink to="/account/password" label="Change password" />
 
             <Button label="Log out" onClick={onLogOut} margin="3rem 0 0" />
             <Button label="Delete account" onClick={onDelete} margin="1rem 0 0" />

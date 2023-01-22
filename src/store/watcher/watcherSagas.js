@@ -175,6 +175,8 @@ function* handleCheckWatcherRequested({ payload: { id } }) {
 
     if (data?.item) {
       yield call(showToast, 'New content!');
+    } else {
+      yield call(showToast, 'Nothing new.', 'info');
     }
   }
 

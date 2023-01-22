@@ -1,10 +1,10 @@
 import { Button, PageHeader, Text, TextInput } from 'grommet';
 import React, { useState } from 'react';
-import { Link } from 'wouter';
 
 import AppBar from '../../components/AppBar';
 import ContentWrapper from '../../components/ContentWrapper';
 import PasswordInput from '../../components/PasswordInput';
+import RouteLink from '../../components/RouteLink';
 import Spacer from '../../components/Spacer';
 
 function SignUp({ errorMessage, isLoading, onSignUp }) {
@@ -34,7 +34,7 @@ function SignUp({ errorMessage, isLoading, onSignUp }) {
           margin="1rem 0"
         />
 
-        <Link to="/sign-in">Already have account? Sign in</Link>
+        <RouteLink to="/sign-in" label="Already have account? Sign in" />
       </ContentWrapper>
     </>
   );
