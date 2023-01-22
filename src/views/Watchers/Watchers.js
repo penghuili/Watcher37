@@ -31,7 +31,7 @@ function Watchers({ watchers, isLoading, isChecking, onFetch, onCheckWatcher }) 
             <Box direction="row" align="center">
               <RouteLink to={`/w/${watcher.sortKey}`} label={watcher.title} />
               {watcher.isNew && (
-                <Text color="status-critical" size="small">
+                <Text color="status-critical" size="small" margin="0 0 0 1rem">
                   NEW
                 </Text>
               )}
