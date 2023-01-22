@@ -1,9 +1,10 @@
-import { Anchor, Button, Heading, Text } from 'grommet';
+import { Anchor, Box, Button, Heading, Text } from 'grommet';
+import { Edit, Trash } from 'grommet-icons';
 import React from 'react';
 
 import ScheduleSelector from '../ScheduleSelector';
 
-function CurrentSchedule({ schedule, link }) {
+function CurrentSchedule({ sortKey, schedule, link, isEditing, onEdit, onDeleteSchedule }) {
   if (!schedule) {
     return null;
   }
@@ -21,29 +22,46 @@ function CurrentSchedule({ schedule, link }) {
   const num = parts[0];
   const unit = parts[1];
 
+  if (isEditing) {
+    return <ScheduleSelector id={sortKey} showCancel />;
+  }
+
   return (
-    <Text>
-      This watcher will check <Anchor href={link} label="the page" target="_blank" /> every{' '}
-      {+num === 1 ? '' : `${num} `}
-      {unit}.
-    </Text>
+    <>
+      <Text>
+        This watcher will check <Anchor href={link} label="the page" target="_blank" /> every{' '}
+        {+num === 1 ? '' : `${num} `}
+        {unit}.
+      </Text>
+      <Box direction="row" align="center">
+        <Button icon={<Edit />} onClick={onEdit} />
+        <Button
+          icon={<Trash color="status-critical" />}
+          onClick={() => onDeleteSchedule(sortKey)}
+        />
+      </Box>
+    </>
   );
 }
 
-function WatcherSchedule({ watcher, onDeleteSchedule }) {
+function WatcherSchedule({ watcher, isEditingSchedule, onEdit, onDeleteSchedule }) {
   return (
     <>
-      <Heading level="4" margin="0">
+      <Heading level="4" margin="2rem 0 0">
         Checking schedule
       </Heading>
-      {!!watcher?.event?.schedule && (
-        <>
-          <CurrentSchedule schedule={watcher.event.schedule} link={watcher.link} />
-          <Button label="Delete schedule" onClick={() => onDeleteSchedule(watcher.sortKey)} />
-        </>
+      {watcher?.event?.schedule ? (
+        <CurrentSchedule
+          sortKey={watcher.sortKey}
+          schedule={watcher.event.schedule}
+          link={watcher.link}
+          isEditing={isEditingSchedule}
+          onEdit={onEdit}
+          onDeleteSchedule={onDeleteSchedule}
+        />
+      ) : (
+        <ScheduleSelector id={watcher.sortKey} />
       )}
-
-      {!watcher?.event?.schedule && <ScheduleSelector id={watcher.sortKey} />}
     </>
   );
 }

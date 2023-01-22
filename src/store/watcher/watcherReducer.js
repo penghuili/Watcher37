@@ -5,6 +5,7 @@ const initialState = {
   isLoading: false,
   isChecking: false,
   isDeleting: false,
+  isEditingSchedule: false,
   content: null,
   watchers: [],
   details: null,
@@ -41,6 +42,10 @@ function handleIsDeleting(state, { deleting }) {
   return { ...state, isDeleting: deleting };
 }
 
+function handleIsEditingSchedule(state, { value }) {
+  return { ...state, isEditingSchedule: value };
+}
+
 function handleReset() {
   return initialState;
 }
@@ -64,6 +69,9 @@ export function watcherReducer(state = initialState, action) {
 
     case watcherActionTypes.IS_DELETING:
       return handleIsDeleting(state, action.payload);
+
+    case watcherActionTypes.IS_EDITING_SCHEDULE:
+      return handleIsEditingSchedule(state, action.payload);
 
     case appActionTypes.RESET:
       return handleReset();

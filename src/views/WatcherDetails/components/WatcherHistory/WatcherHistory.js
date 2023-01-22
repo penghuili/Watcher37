@@ -14,6 +14,7 @@ function WatcherHistory({ watcher, isChecking, isDeleting, onCheckWatcher, onDel
           History
         </Heading>
         {isChecking ? <Spinner /> : <Refresh onClick={() => onCheckWatcher(watcher.sortKey)} />}
+        {!!watcher.checkedAt && <Text size="xsmall" margin="0 0 0 1rem">{formatDateTime(watcher.checkedAt)}</Text>}
       </Box>
 
       {(watcher.history || []).map((item, index) => (

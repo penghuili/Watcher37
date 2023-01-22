@@ -4,6 +4,7 @@ export const watcherActionTypes = {
   IS_LOADING: 'watcher/IS_LOADING',
   IS_CHECKING: 'watcher/IS_CHECKING',
   IS_DELETING: 'watcher/IS_DELETING',
+  IS_EDITING_SCHEDULE: 'watcher/IS_EDITING_SCHEDULE',
   SET_WATCHERS: 'watcher/SET_WATCHERS',
   SET_DETAILS: 'watcher/SET_DETAILS',
 
@@ -34,6 +35,9 @@ export const watcherActionCreators = {
   },
   isDeleting(deleting) {
     return { type: watcherActionTypes.IS_DELETING, payload: { deleting } };
+  },
+  isEditingSchedule(value) {
+    return { type: watcherActionTypes.IS_EDITING_SCHEDULE, payload: { value } };
   },
   setWatchers(watchers, lastOpenTime) {
     return { type: watcherActionTypes.SET_WATCHERS, payload: { watchers, lastOpenTime } };

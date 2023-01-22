@@ -196,6 +196,7 @@ function* handleScheduleTriggerPressed({ payload: { id, rate } }) {
   }
 
   yield put(watcherActionCreators.isLoading(false));
+  yield put(watcherActionCreators.isEditingSchedule(false));
 }
 
 function* handleDeleteTriggerPressed({ payload: { id } }) {

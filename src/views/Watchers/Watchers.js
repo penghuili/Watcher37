@@ -58,7 +58,6 @@ function Watchers({ watchers, isLoading, isChecking, onFetch, onCheckWatcher }) 
               )}
               <Anchor href={watcher.link} label={<Link />} target="_blank" margin="0 1rem" />
               <RouteLink to={`/w/${watcher.sortKey}`} label={<Next />} />
-              <Box width="1rem" />
             </Box>
           </Box>
         ))}
