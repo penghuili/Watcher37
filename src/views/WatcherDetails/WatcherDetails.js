@@ -1,5 +1,5 @@
-import { Anchor, Box, Button, Heading, Spinner, Text } from 'grommet';
-import { Edit, Link, Trash } from 'grommet-icons';
+import { Anchor, Box, Heading, Menu, Spinner, Text } from 'grommet';
+import { MoreVertical } from 'grommet-icons';
 import React, { useEffect } from 'react';
 
 import AppBar from '../../components/AppBar';
@@ -22,17 +22,29 @@ function WatcherDetails({ params: { id }, watcher, isLoading, onFetchWatcher, on
         {isLoading && <Spinner />}
         {!!watcher && (
           <>
-            <Heading level="4" margin="0">
-              {watcher.title}
-            </Heading>
+            <Box direction="row" align="center">
+              <Heading level="3" margin="0">
+                {watcher.title}
+              </Heading>
+              <Menu
+                icon={<MoreVertical />}
+                items={[
+                  { label: 'Link', href: watcher.link, target: '_blank' },
+                  {
+                    label: 'Edit',
+                    onClick: () => onEdit(id),
+                  },
+                  {
+                    label: 'Delete',
+                    color: 'status-critical',
+                    onClick: () => onDelete(id),
+                  },
+                ]}
+              />
+            </Box>
             {!!watcher.gotValueAt && (
               <Text size="xsmall">{formatDateTime(watcher.gotValueAt)}</Text>
             )}
-            <Box direction="row" align="center">
-              <Button icon={<Link />} href={watcher.link} target="_blank" margin="0 1rem 0 0" />
-              <Button icon={<Edit />} onClick={() => onEdit(id)} margin="0 1rem 0 0" />
-              <Button icon={<Trash color="status-critical" />} onClick={() => onDelete(id)} margin="0 1rem 0 0" />
-            </Box>
 
             <>
               {watcher.contentLink ? (

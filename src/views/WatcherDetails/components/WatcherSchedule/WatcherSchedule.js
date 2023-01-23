@@ -1,10 +1,10 @@
-import { Anchor, Box, Button, Heading, Text } from 'grommet';
-import { Edit, Trash } from 'grommet-icons';
+import { Anchor, Box, Heading, Menu, Text } from 'grommet';
+import { MoreVertical } from 'grommet-icons';
 import React from 'react';
 
 import ScheduleSelector from '../ScheduleSelector';
 
-function CurrentSchedule({ sortKey, schedule, link, isEditing, onEdit, onDeleteSchedule }) {
+function CurrentSchedule({ sortKey, schedule, link, isEditing, }) {
   if (!schedule) {
     return null;
   }
@@ -27,37 +27,42 @@ function CurrentSchedule({ sortKey, schedule, link, isEditing, onEdit, onDeleteS
   }
 
   return (
-    <>
-      <Text>
-        This watcher will check <Anchor href={link} label="the page" target="_blank" /> every{' '}
-        {+num === 1 ? '' : `${num} `}
-        {unit}.
-      </Text>
-      <Box direction="row" align="center">
-        <Button icon={<Edit />} onClick={onEdit} />
-        <Button
-          icon={<Trash color="status-critical" />}
-          onClick={() => onDeleteSchedule(sortKey)}
-        />
-      </Box>
-    </>
+    <Text>
+      This watcher will check <Anchor href={link} label="the page" target="_blank" /> every{' '}
+      {+num === 1 ? '' : `${num} `}
+      {unit}.
+    </Text>
   );
 }
 
 function WatcherSchedule({ watcher, isEditingSchedule, onEdit, onDeleteSchedule }) {
   return (
     <>
-      <Heading level="4" margin="2rem 0 0">
-        Checking schedule
-      </Heading>
+      <Box direction="row" align="center" margin="2rem 0 0">
+        <Heading level="4" margin="0">Checking schedule</Heading>
+        {!!watcher?.event?.schedule && (
+          <Menu
+            icon={<MoreVertical />}
+            items={[
+              {
+                label: 'Edit',
+                onClick: onEdit,
+              },
+              {
+                label: 'Delete',
+                color: 'status-critical',
+                onClick: () => onDeleteSchedule(watcher.sortKey),
+              },
+            ]}
+          />
+        )}
+      </Box>
       {watcher?.event?.schedule ? (
         <CurrentSchedule
           sortKey={watcher.sortKey}
           schedule={watcher.event.schedule}
           link={watcher.link}
           isEditing={isEditingSchedule}
-          onEdit={onEdit}
-          onDeleteSchedule={onDeleteSchedule}
         />
       ) : (
         <ScheduleSelector id={watcher.sortKey} />

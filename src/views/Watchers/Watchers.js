@@ -47,6 +47,7 @@ function Watchers({ watchers, isLoading, isChecking, onFetch, onCheckWatcher }) 
             )}
 
             <Box direction="row" align="center" margin="0.25rem 0 0">
+              <Anchor href={watcher.link} label={<Link />} target="_blank" margin="0 1rem 0 0" />
               {isChecking && checkId === watcher.sortKey ? (
                 <Spinner size="xsmall" />
               ) : (
@@ -57,7 +58,6 @@ function Watchers({ watchers, isLoading, isChecking, onFetch, onCheckWatcher }) 
                   }}
                 />
               )}
-              <Anchor href={watcher.link} label={<Link />} target="_blank" margin="0 1rem" />
             </Box>
           </Box>
         ))}
