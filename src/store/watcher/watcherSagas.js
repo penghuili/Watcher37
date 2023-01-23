@@ -119,16 +119,7 @@ function* afterNewWatcher(newWatcher, newItem) {
 }
 
 function* handleEditPressed({
-  payload: {
-    id,
-    title,
-    selector,
-    link,
-    skipPersonalTelegram,
-    telegramId,
-    telegramTitle,
-    telegramLink,
-  },
+  payload: { id, title, selector, link, skipPersonalTelegram, telegramId },
 }) {
   yield put(watcherActionCreators.isLoading(true));
 
@@ -138,8 +129,6 @@ function* handleEditPressed({
     link,
     skipPersonalTelegram,
     telegramId,
-    telegramTitle,
-    telegramLink,
   });
 
   if (data) {

@@ -2,6 +2,7 @@ import { Anchor, Box, Heading, Spinner, Text } from 'grommet';
 import { LinkUp, Refresh, Trash } from 'grommet-icons';
 import React, { useState } from 'react';
 
+import HorizontalCenter from '../../../../components/HorizontalCenter';
 import { formatDateTime } from '../../../../lib/date';
 
 function WatcherHistory({ watcher, isChecking, isDeleting, onCheckWatcher, onDeleteItem }) {
@@ -9,20 +10,20 @@ function WatcherHistory({ watcher, isChecking, isDeleting, onCheckWatcher, onDel
 
   return (
     <>
-      <Box align="center" direction="row" margin="2rem 0 0.5rem">
+      <HorizontalCenter margin="2rem 0 0.5rem">
         <Heading level="4" margin="0 1rem 0 0">
           History
         </Heading>
         {isChecking ? <Spinner /> : <Refresh onClick={() => onCheckWatcher(watcher.sortKey)} />}
         {!!watcher.checkedAt && <Text size="xsmall" margin="0 0 0 1rem">{formatDateTime(watcher.checkedAt)}</Text>}
-      </Box>
+      </HorizontalCenter>
 
       {(watcher.history || []).map((item, index) => (
         <Box key={item.sortKey}>
           {index !== 0 && <LinkUp />}
           <Text>{formatDateTime(item.createdAt)}</Text>
 
-          <Box direction="row" align="center">
+          <HorizontalCenter>
             {item.contentLink ? (
               <Anchor label={item.content} href={item.contentLink} target="_blank" margin="0 1rem 0 0" />
             ) : (
@@ -40,7 +41,7 @@ function WatcherHistory({ watcher, isChecking, isDeleting, onCheckWatcher, onDel
                 size="small"
               />
             )}
-          </Box>
+          </HorizontalCenter>
         </Box>
       ))}
     </>

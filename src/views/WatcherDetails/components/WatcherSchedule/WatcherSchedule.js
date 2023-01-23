@@ -1,7 +1,8 @@
-import { Anchor, Box, Heading, Menu, Text } from 'grommet';
+import { Anchor, Heading, Menu, Text } from 'grommet';
 import { MoreVertical } from 'grommet-icons';
 import React from 'react';
 
+import HorizontalCenter from '../../../../components/HorizontalCenter';
 import ScheduleSelector from '../ScheduleSelector';
 
 function CurrentSchedule({ sortKey, schedule, link, isEditing, }) {
@@ -38,7 +39,7 @@ function CurrentSchedule({ sortKey, schedule, link, isEditing, }) {
 function WatcherSchedule({ watcher, isEditingSchedule, onEdit, onDeleteSchedule }) {
   return (
     <>
-      <Box direction="row" align="center" margin="2rem 0 0">
+      <HorizontalCenter margin="2rem 0 0">
         <Heading level="4" margin="0">Checking schedule</Heading>
         {!!watcher?.event?.schedule && (
           <Menu
@@ -47,16 +48,18 @@ function WatcherSchedule({ watcher, isEditingSchedule, onEdit, onDeleteSchedule 
               {
                 label: 'Edit',
                 onClick: onEdit,
+                margin: '0.25rem 0',
               },
               {
                 label: 'Delete',
                 color: 'status-critical',
                 onClick: () => onDeleteSchedule(watcher.sortKey),
+                margin: '0.25rem 0',
               },
             ]}
           />
         )}
-      </Box>
+      </HorizontalCenter>
       {watcher?.event?.schedule ? (
         <CurrentSchedule
           sortKey={watcher.sortKey}

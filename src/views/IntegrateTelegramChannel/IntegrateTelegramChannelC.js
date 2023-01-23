@@ -6,12 +6,12 @@ import IntegrateTelegramChannel from './IntegrateTelegramChannel';
 
 const mapStateToProps = (state, { params: { id } }) => ({
   id,
-  watcher: watcherSelectors.getWatcher(state, id),
+  watcher: watcherSelectors.getDetails(state, id),
   isLoading: watcherSelectors.isLoading(state),
 });
 
 const mapDispatchToProps = {
-  onFetch: watcherActionCreators.fetchWatchersRequested,
+  onFetch: watcherActionCreators.fetchWatcherRequested,
   onEdit: watcherActionCreators.editPressed,
 };
 

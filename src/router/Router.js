@@ -1,7 +1,8 @@
-import { Box, Spinner } from 'grommet';
+import { Spinner } from 'grommet';
 import React from 'react';
 import { Redirect, Route, Switch } from 'wouter';
 
+import HorizontalCenter from '../components/HorizontalCenter';
 import Account from '../views/Account';
 import ChangePassword from '../views/ChangePassword';
 import IntegrateTelegram from '../views/IntegrateTelegram';
@@ -17,9 +18,9 @@ import Welcome from '../views/Welcome';
 function Router({ isCheckingRefreshToken, isLoggedIn }) {
   if (isCheckingRefreshToken) {
     return (
-      <Box align="center" justify="center" margin="3rem 0 0">
+      <HorizontalCenter justify="center" margin="3rem 0 0">
         <Spinner size="large" />
-      </Box>
+      </HorizontalCenter>
     );
   }
 

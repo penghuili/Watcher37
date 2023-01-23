@@ -12,7 +12,14 @@ function* handleGoBack() {
   yield call(routeHelpers.goBack);
 }
 
+function* handleNavigate({ payload: { path } }) {
+  yield call(routeHelpers.navigate, path);
+}
+
 export function* appSagas() {
   yield fork(init);
-  yield all([takeLatest(appActionTypes.GO_BACK, handleGoBack)]);
+  yield all([
+    takeLatest(appActionTypes.GO_BACK, handleGoBack),
+    takeLatest(appActionTypes.NAVIGATE, handleNavigate),
+  ]);
 }

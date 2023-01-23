@@ -2,11 +2,13 @@ import { Box, TextInput } from 'grommet';
 import { FormView, FormViewHide } from 'grommet-icons';
 import React, { useState } from 'react';
 
+import HorizontalCenter from './HorizontalCenter';
+
 function PasswordInput({ placeholder, value, onChange }) {
   const [show, setShow] = useState(false);
 
   return (
-    <Box direction="row" align="center" width="100%">
+    <HorizontalCenter width="100%">
       <TextInput
         type={show ? 'text' : 'password'}
         placeholder={placeholder}
@@ -29,7 +31,7 @@ function PasswordInput({ placeholder, value, onChange }) {
           size="large"
         />
       )}
-    </Box>
+    </HorizontalCenter>
   );
 }
 

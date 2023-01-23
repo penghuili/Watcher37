@@ -2,6 +2,7 @@ import { Anchor, Box, Button, Heading, Spinner, Text, TextInput } from 'grommet'
 import React, { useState } from 'react';
 
 import AppBar from '../../components/AppBar';
+import Bot from '../../components/Bot';
 import ContentWrapper from '../../components/ContentWrapper';
 import { useEffectOnce } from '../../hooks/useEffectOnce';
 import { useListener } from '../../hooks/useListener';
@@ -10,9 +11,9 @@ function IntegrateTelegramChannel({ id, watcher, isLoading, onFetch, onEdit }) {
   const [telegramId, setTelegramId] = useState('');
   useListener(watcher?.telegramId, value => setTelegramId(value || ''));
 
-  useEffectOnce(onFetch);
+  useEffectOnce(() => onFetch(id));
 
-  const hasTelegram = !!watcher?.telegramId && !!watcher?.telegramTitle;
+  const hasTelegram = !!watcher?.telegram;
 
   return (
     <>
@@ -27,11 +28,10 @@ function IntegrateTelegramChannel({ id, watcher, isLoading, onFetch, onEdit }) {
         )}
 
         <Text margin="0 0 1rem">
-          The <Anchor href="https://t.me/p_watcher_bot" label="PageWatcherBot" target="_blank" />{' '}
-          will send a message to the{' '}
+          <Bot /> will send a message to the{' '}
           {hasTelegram ? (
             <>
-              <Text weight="bold">{watcher.telegramTitle}</Text> Telegram channel
+              <Text weight="bold">{watcher.telegram.title}</Text> channel
             </>
           ) : (
             <Text weight="bold">Telegram channel</Text>
@@ -52,26 +52,24 @@ function IntegrateTelegramChannel({ id, watcher, isLoading, onFetch, onEdit }) {
           ;
         </Text>
         <Text margin="0 0 0.5rem">
-          2. Find the{' '}
-          <Anchor href="https://t.me/p_watcher_bot" label="PageWatcherBot" target="_blank" />:
-          Search <Text weight="bold">p_watcher_bot</Text> in your Telegram, or open this link:{' '}
-          <Anchor href="https://t.me/p_watcher_bot" label="PageWatcherBot" target="_blank" />;
+          2. Find the <Bot />: Search <Text weight="bold">p_watcher_bot</Text> in your Telegram, or
+          open this link: <Bot />;
         </Text>
         <Text margin="0 0 0.5rem">
-          3. Tap <Text weight="bold">Start</Text> at the bottom (The bot will send your Telegram ID,
-          you can ignore this for now);
+          3. Tap <Text weight="bold">Start</Text> at the bottom, if you have not added the bot (The
+          bot will send your Telegram ID, you can ignore this for now);
         </Text>
         <Text margin="0 0 0.5rem">
           4. Add <Text weight="bold">PageWatcherBot</Text> to your channel: Go to the{' '}
           <Text weight="bold">Info</Text> page of your channel, then add{' '}
           <Text weight="bold">PageWatcherBot</Text> as an <Text weight="bold">Administrator</Text>.
           Make sure to give it the <Text weight="bold">Post Messages</Text> permission, so the bot
-          can send messages to this channel.
+          can send messages to this channel. (The bot will not do anything else.)
         </Text>
         <Text margin="0 0 0.5rem">
-          5. Get the Telegram ID of your channel: Send a random message to your channel, then
-          forward it to <Text weight="bold">PageWatcherBot</Text>. The bot will send you the ID of
-          your channel.
+          5. Get the Telegram ID of your channel: Send a random message to{' '}
+          <Text weight="bold">your channel</Text>, then forward it to{' '}
+          <Text weight="bold">PageWatcherBot</Text>. The bot will send you the ID of your channel.
         </Text>
         <Text margin="0 0 0.5rem">
           6. Add your channel&lsquo;s Telegram ID below (It may have a leading{' '}
@@ -94,9 +92,7 @@ function IntegrateTelegramChannel({ id, watcher, isLoading, onFetch, onEdit }) {
           {hasTelegram && (
             <Button
               label="Remove Telegram"
-              onClick={() =>
-                onEdit(id, { telegramId: null, telegramTitle: null, telegramLink: null })
-              }
+              onClick={() => onEdit(id, { telegramId: null })}
               disabled={isLoading}
               color="status-critical"
               margin="0 0 0 1rem"

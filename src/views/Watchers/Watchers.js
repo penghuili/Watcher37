@@ -4,6 +4,7 @@ import React, { useEffect, useState } from 'react';
 
 import AppBar from '../../components/AppBar';
 import ContentWrapper from '../../components/ContentWrapper';
+import HorizontalCenter from '../../components/HorizontalCenter';
 import RouteLink from '../../components/RouteLink';
 import { formatDateTime } from '../../lib/date';
 
@@ -28,14 +29,14 @@ function Watchers({ watchers, isLoading, isChecking, onFetch, onCheckWatcher }) 
 
         {watchers.map(watcher => (
           <Box key={watcher.sortKey} margin="0 0 2rem" align="start">
-            <Box direction="row" align="center">
+            <HorizontalCenter>
               <RouteLink to={`/w/${watcher.sortKey}`} label={watcher.title} />
               {watcher.isNew && (
                 <Text color="status-critical" size="small" margin="0 0 0 1rem">
                   NEW
                 </Text>
               )}
-            </Box>
+            </HorizontalCenter>
 
             {!!watcher.gotValueAt && (
               <Text size="xsmall">{formatDateTime(watcher.gotValueAt)}</Text>
@@ -46,7 +47,7 @@ function Watchers({ watchers, isLoading, isChecking, onFetch, onCheckWatcher }) 
               <Text>{watcher.content}</Text>
             )}
 
-            <Box direction="row" align="center" margin="0.25rem 0 0">
+            <HorizontalCenter margin="0.25rem 0 0">
               <Anchor href={watcher.link} label={<Link />} target="_blank" margin="0 1rem 0 0" />
               {isChecking && checkId === watcher.sortKey ? (
                 <Spinner size="xsmall" />
@@ -58,7 +59,7 @@ function Watchers({ watchers, isLoading, isChecking, onFetch, onCheckWatcher }) 
                   }}
                 />
               )}
-            </Box>
+            </HorizontalCenter>
           </Box>
         ))}
 

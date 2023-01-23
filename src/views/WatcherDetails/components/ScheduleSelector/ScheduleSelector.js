@@ -1,5 +1,6 @@
 import { Box, Button, Select, Text } from 'grommet';
 import React, { useMemo, useState } from 'react';
+import HorizontalCenter from '../../../../components/HorizontalCenter';
 
 const optionTypes = {
   minute: 'minute',
@@ -46,7 +47,7 @@ function ScheduleSelector({ isLoading, id, showCancel, onSchedule, onCancel }) {
   return (
     <>
       <Text margin="0 0 0.5rem">How often do you want the watcher to check the page?</Text>
-      <Box direction="row" align="center">
+      <HorizontalCenter>
         <Text size="small">Every</Text>
         <Select
           options={getOptionNumber(optionType.value)}
@@ -70,7 +71,7 @@ function ScheduleSelector({ isLoading, id, showCancel, onSchedule, onCancel }) {
           }}
           size="small"
         />
-      </Box>
+      </HorizontalCenter>
       <Box margin="0.5rem 0 0" direction="row">
         <Button
           label="Schedule"

@@ -4,6 +4,7 @@ import React, { useEffect } from 'react';
 
 import AppBar from '../../components/AppBar';
 import ContentWrapper from '../../components/ContentWrapper';
+import HorizontalCenter from '../../components/HorizontalCenter';
 import { formatDateTime } from '../../lib/date';
 import WatcherHistory from './components/WatcherHistory';
 import WatcherSchedule from './components/WatcherSchedule';
@@ -22,37 +23,39 @@ function WatcherDetails({ params: { id }, watcher, isLoading, onFetchWatcher, on
         {isLoading && <Spinner />}
         {!!watcher && (
           <>
-            <Box direction="row" align="center">
+            <HorizontalCenter>
               <Heading level="3" margin="0">
                 {watcher.title}
               </Heading>
               <Menu
                 icon={<MoreVertical />}
                 items={[
-                  { label: 'Link', href: watcher.link, target: '_blank' },
+                  { label: 'Link', href: watcher.link, target: '_blank', margin: '0.25rem 0' },
                   {
                     label: 'Edit',
                     onClick: () => onEdit(id),
+                    margin: '0.25rem 0',
                   },
                   {
                     label: 'Delete',
                     color: 'status-critical',
                     onClick: () => onDelete(id),
+                    margin: '0.25rem 0',
                   },
                 ]}
               />
-            </Box>
+            </HorizontalCenter>
             {!!watcher.gotValueAt && (
               <Text size="xsmall">{formatDateTime(watcher.gotValueAt)}</Text>
             )}
 
-            <>
+            <Box pad="1rem" border={{ size: 'medium', style: 'ridge' }}>
               {watcher.contentLink ? (
                 <Anchor label={watcher.content} href={watcher.contentLink} target="_blank" />
               ) : (
                 <Text>{watcher.content}</Text>
               )}
-            </>
+            </Box>
 
             <WatcherSchedule watcher={watcher} />
             <WatcherTelegram watcher={watcher} />

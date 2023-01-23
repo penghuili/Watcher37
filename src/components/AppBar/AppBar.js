@@ -1,17 +1,18 @@
-import { Avatar, Box, Header, Text } from 'grommet';
+import { Avatar, Header, Text } from 'grommet';
 import { Previous, User } from 'grommet-icons';
 import React from 'react';
 
 import logo from '../../assets/logo.png';
+import HorizontalCenter from '../HorizontalCenter';
 
 function AppBar({ title, hasBack, isLoggedIn, onBack, onNavToAccount }) {
   return (
     <>
       <Header pad={{ left: 'medium', right: 'small', vertical: 'small' }} justify="between">
-        <Box direction="row" justify="start" align="center">
+        <HorizontalCenter>
           {hasBack ? <Previous onClick={onBack} /> : <Avatar src={logo} size="32px" />}
           <Text size="large" margin="0 0 0 1rem">{title}</Text>
-        </Box>
+        </HorizontalCenter>
         {isLoggedIn && !hasBack && <User onClick={onNavToAccount} />}
       </Header>
     </>

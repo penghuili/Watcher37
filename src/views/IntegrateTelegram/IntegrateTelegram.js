@@ -17,7 +17,7 @@ function IntegrateTelegram({ isLoading, telegramId, onAddTelegramId }) {
 
         <Text margin="0 0 1rem">
           The <Anchor href="https://t.me/p_watcher_bot" label="PageWatcherBot" target="_blank" />{' '}
-          will send a message to <Text weight="bold">You</Text> when any watcher gets new content.
+          will send a message to you when any watcher gets new content.
         </Text>
 
         <Heading level="4" margin="0">
