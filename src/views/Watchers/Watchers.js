@@ -46,7 +46,7 @@ function Watchers({ watchers, isLoading, isChecking, onFetch, onCheckWatcher }) 
           >
             <CardHeader pad="1rem">
               <HorizontalCenter>
-                <RouteLink to={`/w/${watcher.sortKey}`} label={watcher.title} />
+                <RouteLink to={`/w/${watcher.sid}`} label={watcher.title} />
                 {watcher.isNew && (
                   <Text color="status-critical" size="small" margin="0 0 0 1rem">
                     NEW

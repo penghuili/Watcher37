@@ -41,7 +41,7 @@ function WatcherSchedule({ watcher, isEditingSchedule, onEdit, onDeleteSchedule 
     <>
       <HorizontalCenter margin="2rem 0 0">
         <Heading level="4" margin="0">Checking schedule</Heading>
-        {!!watcher?.event?.schedule && (
+        {!!watcher?.schedule && (
           <Menu
             icon={<MoreVertical />}
             items={[
@@ -60,10 +60,10 @@ function WatcherSchedule({ watcher, isEditingSchedule, onEdit, onDeleteSchedule 
           />
         )}
       </HorizontalCenter>
-      {watcher?.event?.schedule ? (
+      {watcher?.schedule ? (
         <CurrentSchedule
           sortKey={watcher.sortKey}
-          schedule={watcher.event.schedule}
+          schedule={watcher.schedule}
           link={watcher.link}
           isEditing={isEditingSchedule}
         />
