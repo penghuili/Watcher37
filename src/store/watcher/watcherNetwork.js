@@ -1,4 +1,5 @@
 import HTTP from '../../lib/HTTP';
+import { LocalStorage, LocalStorageKeys } from '../../lib/LocalStorage';
 
 export async function fetchPageContent(link, selector) {
   try {
@@ -32,7 +33,7 @@ export async function createWatcher({ title, link, selector }) {
 
 export async function updateWatcher(
   id,
-  { title, selector, link, skipPersonalTelegram, telegramId }
+  { title, selector, link, skipPersonalTelegram, telegramId, isPublic }
 ) {
   try {
     const watcher = await HTTP.put(`/v1/page-watcher/watchers/${id}`, {
@@ -41,6 +42,7 @@ export async function updateWatcher(
       link,
       skipPersonalTelegram,
       telegramId,
+      isPublic,
     });
 
     return { data: watcher, error: null };
@@ -61,7 +63,13 @@ export async function deleteWatcher(id) {
 
 export async function fetchWatcher(id) {
   try {
-    const watcher = await HTTP.get(`/v1/page-watcher/watchers/${id}`);
+    const hasToken =
+      LocalStorage.get(LocalStorageKeys.refreshToken) &&
+      LocalStorage.get(LocalStorageKeys.accessToken);
+
+    const watcher = hasToken
+      ? await HTTP.get(`/v1/page-watcher/watchers/${id}`)
+      : await HTTP.publicGet(`/v1/page-watcher/watchers/${id}`);
 
     return { data: watcher, error: null };
   } catch (error) {

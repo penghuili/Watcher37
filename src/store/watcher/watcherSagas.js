@@ -119,7 +119,7 @@ function* afterNewWatcher(newWatcher, newItem) {
 }
 
 function* handleEditPressed({
-  payload: { id, title, selector, link, skipPersonalTelegram, telegramId },
+  payload: { id, title, selector, link, skipPersonalTelegram, telegramId, isPublic },
 }) {
   yield put(watcherActionCreators.isLoading(true));
 
@@ -129,11 +129,29 @@ function* handleEditPressed({
     link,
     skipPersonalTelegram,
     telegramId,
+    isPublic,
   });
 
   if (data) {
     yield call(afterNewWatcher, data);
-    yield call(showToast, 'Watcher is updated!');
+    if (telegramId) {
+      yield call(showToast, 'Telegram channel is integrated!');
+    } else if (telegramId === null) {
+      yield call(showToast, 'Telegram channel is removed.');
+    } else if (skipPersonalTelegram === true) {
+      yield call(showToast, 'This watcher is muted.');
+    } else if (skipPersonalTelegram === false) {
+      yield call(showToast, 'This watcher will notify your personal Telegram account again.');
+    } else if (isPublic === true) {
+      yield call(
+        showToast,
+        'This watcher is now public, anyone can check it. (They cannot update it though.)'
+      );
+    } else if (isPublic === false) {
+      yield call(showToast, 'This watcher is now private, only you can check it.');
+    } else {
+      yield call(showToast, 'Watcher is updated!');
+    }
   } else {
     yield call(showToast, 'Something went wrong, please try again.', 'error');
   }
@@ -142,13 +160,24 @@ function* handleEditPressed({
 }
 
 function* handleFetchWatcherRequested({ payload: { id } }) {
+  yield put(watcherActionCreators.setFetchError(''));
   yield put(watcherActionCreators.isLoading(true));
   yield put(watcherActionCreators.setDetails(null));
 
-  const { data } = yield call(fetchWatcher, id);
+  const { data, error } = yield call(fetchWatcher, id);
 
   if (data) {
     yield put(watcherActionCreators.setDetails(data));
+  }
+
+  if (error) {
+    if (error.status === 401) {
+      yield put(watcherActionCreators.setFetchError('You do not have access to this watcher.'));
+    }
+
+    if (error.status === 404) {
+      yield put(watcherActionCreators.setFetchError('This watcher does not exist.'));
+    }
   }
 
   yield put(watcherActionCreators.isLoading(false));

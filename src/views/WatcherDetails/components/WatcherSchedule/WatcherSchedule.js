@@ -5,7 +5,7 @@ import React from 'react';
 import HorizontalCenter from '../../../../components/HorizontalCenter';
 import ScheduleSelector from '../ScheduleSelector';
 
-function CurrentSchedule({ sortKey, schedule, link, isEditing, }) {
+function CurrentSchedule({ sortKey, schedule, link, isEditing }) {
   if (!schedule) {
     return null;
   }
@@ -36,12 +36,32 @@ function CurrentSchedule({ sortKey, schedule, link, isEditing, }) {
   );
 }
 
-function WatcherSchedule({ watcher, isEditingSchedule, onEdit, onDeleteSchedule }) {
+function WatcherSchedule({ watcher, isOwner, isEditingSchedule, onEdit, onDeleteSchedule }) {
+  function renderSchedule() {
+    if (watcher?.schedule) {
+      return (
+        <CurrentSchedule
+          sortKey={watcher.sortKey}
+          schedule={watcher.schedule}
+          link={watcher.link}
+          isEditing={isEditingSchedule}
+        />
+      );
+    }
+
+    return isOwner ? (
+      <ScheduleSelector id={watcher.sortKey} />
+    ) : (
+      <Text>This watcher has no schedule.</Text>
+    );
+  }
   return (
     <>
       <HorizontalCenter margin="2rem 0 0">
-        <Heading level="4" margin="0">Checking schedule</Heading>
-        {!!watcher?.schedule && (
+        <Heading level="4" margin="0">
+          Checking schedule
+        </Heading>
+        {!!watcher?.schedule && isOwner && (
           <Menu
             icon={<MoreVertical />}
             items={[
@@ -60,16 +80,8 @@ function WatcherSchedule({ watcher, isEditingSchedule, onEdit, onDeleteSchedule 
           />
         )}
       </HorizontalCenter>
-      {watcher?.schedule ? (
-        <CurrentSchedule
-          sortKey={watcher.sortKey}
-          schedule={watcher.schedule}
-          link={watcher.link}
-          isEditing={isEditingSchedule}
-        />
-      ) : (
-        <ScheduleSelector id={watcher.sortKey} />
-      )}
+
+      {renderSchedule()}
     </>
   );
 }

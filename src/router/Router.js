@@ -44,6 +44,7 @@ function Router({ isCheckingRefreshToken, isLoggedIn }) {
     <Switch>
       <Route path="/sign-up" component={SignUp} />
       <Route path="/sign-in" component={SignIn} />
+      <Route path="/w/:id" component={WatcherDetails} />
       <Route path="/" component={Welcome} />
       <Route>{() => <Redirect to="/" />}</Route>
     </Switch>

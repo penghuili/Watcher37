@@ -6,13 +6,16 @@ import WatcherDetails from './WatcherDetails';
 
 const mapStateToProps = state => ({
   watcher: watcherSelectors.getDetails(state),
+  fetchError: watcherSelectors.getFetchError(state),
+  isOwner: watcherSelectors.isOwner(state),
   isLoading: watcherSelectors.isLoading(state),
 });
 
 const mapDispatchToProps = {
   onFetchWatcher: watcherActionCreators.fetchWatcherRequested,
   onDelete: watcherActionCreators.deletePressed,
-  onEdit: watcherActionCreators.navToEditPressed,
+  onNavToEdit: watcherActionCreators.navToEditPressed,
+  onEdit: watcherActionCreators.editPressed,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(WatcherDetails);

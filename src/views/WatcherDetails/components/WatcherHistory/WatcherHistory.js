@@ -5,7 +5,14 @@ import React, { useState } from 'react';
 import HorizontalCenter from '../../../../components/HorizontalCenter';
 import { formatDateTime } from '../../../../lib/date';
 
-function WatcherHistory({ watcher, isChecking, isDeleting, onCheckWatcher, onDeleteItem }) {
+function WatcherHistory({
+  isOwner,
+  watcher,
+  isChecking,
+  isDeleting,
+  onCheckWatcher,
+  onDeleteItem,
+}) {
   const [currentId, setCurrentId] = useState('');
 
   return (
@@ -14,8 +21,13 @@ function WatcherHistory({ watcher, isChecking, isDeleting, onCheckWatcher, onDel
         <Heading level="4" margin="0 1rem 0 0">
           History
         </Heading>
-        {isChecking ? <Spinner /> : <Refresh onClick={() => onCheckWatcher(watcher.sortKey)} />}
-        {!!watcher.checkedAt && <Text size="xsmall" margin="0 0 0 1rem">{formatDateTime(watcher.checkedAt)}</Text>}
+        {isOwner &&
+          (isChecking ? <Spinner /> : <Refresh onClick={() => onCheckWatcher(watcher.sortKey)} />)}
+        {!!watcher.checkedAt && (
+          <Text size="xsmall" margin="0 0 0 1rem">
+            {formatDateTime(watcher.checkedAt)}
+          </Text>
+        )}
       </HorizontalCenter>
 
       {(watcher.history || []).map((item, index) => (
@@ -25,22 +37,28 @@ function WatcherHistory({ watcher, isChecking, isDeleting, onCheckWatcher, onDel
 
           <HorizontalCenter>
             {item.contentLink ? (
-              <Anchor label={item.content} href={item.contentLink} target="_blank" margin="0 1rem 0 0" />
+              <Anchor
+                label={item.content}
+                href={item.contentLink}
+                target="_blank"
+                margin="0 1rem 0 0"
+              />
             ) : (
               <Text margin="0 1rem 0 0">{item.content}</Text>
             )}
 
-            {isDeleting && currentId === item.sortKey ? (
-              <Spinner size="small" />
-            ) : (
-              <Trash
-                onClick={() => {
-                  setCurrentId(item.sortKey);
-                  onDeleteItem(watcher.sortKey, item.sortKey);
-                }}
-                size="small"
-              />
-            )}
+            {isOwner &&
+              (isDeleting && currentId === item.sortKey ? (
+                <Spinner size="small" />
+              ) : (
+                <Trash
+                  onClick={() => {
+                    setCurrentId(item.sortKey);
+                    onDeleteItem(watcher.sortKey, item.sortKey);
+                  }}
+                  size="small"
+                />
+              ))}
           </HorizontalCenter>
         </Box>
       ))}

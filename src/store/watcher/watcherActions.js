@@ -7,6 +7,7 @@ export const watcherActionTypes = {
   IS_EDITING_SCHEDULE: 'watcher/IS_EDITING_SCHEDULE',
   SET_WATCHERS: 'watcher/SET_WATCHERS',
   SET_DETAILS: 'watcher/SET_DETAILS',
+  SET_FETCH_ERROR: 'watcher/SET_FETCH_ERROR',
 
   FETCH_WATCHERS_REQUESTED: 'watcher/FETCH_WATCHERS_REQUESTED',
   CREATE_PRESSED: 'watcher/CREATE_PRESSED',
@@ -45,6 +46,9 @@ export const watcherActionCreators = {
   setDetails(details) {
     return { type: watcherActionTypes.SET_DETAILS, payload: { details } };
   },
+  setFetchError(error) {
+    return { type: watcherActionTypes.SET_FETCH_ERROR, payload: { error } };
+  },
   fetchWatchersRequested() {
     return { type: watcherActionTypes.FETCH_WATCHERS_REQUESTED };
   },
@@ -54,7 +58,7 @@ export const watcherActionCreators = {
   navToEditPressed(id) {
     return { type: watcherActionTypes.NAV_TO_EDIT_PRESSED, payload: { id } };
   },
-  editPressed(id, { title, selector, link, skipPersonalTelegram, telegramId }) {
+  editPressed(id, { title, selector, link, skipPersonalTelegram, telegramId, isPublic }) {
     return {
       type: watcherActionTypes.EDIT_PRESSED,
       payload: {
@@ -64,6 +68,7 @@ export const watcherActionCreators = {
         link,
         skipPersonalTelegram,
         telegramId,
+        isPublic,
       },
     };
   },

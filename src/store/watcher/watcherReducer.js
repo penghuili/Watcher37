@@ -6,6 +6,7 @@ const initialState = {
   isChecking: false,
   isDeleting: false,
   isEditingSchedule: false,
+  fetchError: '',
   content: null,
   watchers: [],
   details: null,
@@ -28,6 +29,10 @@ function handleSetWatchers(state, { watchers, lastOpenTime }) {
 
 function handleSetDetails(state, { details }) {
   return { ...state, details };
+}
+
+function handleSetFetchError(state, { error }) {
+  return { ...state, fetchError: error };
 }
 
 function handleIsLoading(state, { loading }) {
@@ -60,6 +65,9 @@ export function watcherReducer(state = initialState, action) {
 
     case watcherActionTypes.SET_DETAILS:
       return handleSetDetails(state, action.payload);
+
+    case watcherActionTypes.SET_FETCH_ERROR:
+      return handleSetFetchError(state, action.payload);
 
     case watcherActionTypes.IS_LOADING:
       return handleIsLoading(state, action.payload);

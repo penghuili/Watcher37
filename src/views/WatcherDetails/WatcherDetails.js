@@ -10,7 +10,17 @@ import WatcherHistory from './components/WatcherHistory';
 import WatcherSchedule from './components/WatcherSchedule';
 import WatcherTelegram from './components/WatcherTelegram';
 
-function WatcherDetails({ params: { id }, watcher, isLoading, onFetchWatcher, onDelete, onEdit }) {
+function WatcherDetails({
+  params: { id },
+  watcher,
+  isOwner,
+  fetchError,
+  isLoading,
+  onFetchWatcher,
+  onDelete,
+  onNavToEdit,
+  onEdit,
+}) {
   useEffect(() => {
     onFetchWatcher(id);
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -21,34 +31,57 @@ function WatcherDetails({ params: { id }, watcher, isLoading, onFetchWatcher, on
       <AppBar title="Watcher details" hasBack />
       <ContentWrapper>
         {isLoading && <Spinner />}
+        {!!fetchError && <Text size="large">{fetchError}</Text>}
         {!!watcher && (
           <>
             <HorizontalCenter>
               <Heading level="3" margin="0">
                 {watcher.title}
               </Heading>
-              <Menu
-                icon={<MoreVertical />}
-                items={[
-                  { label: 'Link', href: watcher.link, target: '_blank', margin: '0.25rem 0' },
-                  {
-                    label: 'Edit',
-                    onClick: () => onEdit(id),
-                    margin: '0.25rem 0',
-                  },
-                  {
-                    label: 'Delete',
-                    color: 'status-critical',
-                    onClick: () => onDelete(id),
-                    margin: '0.25rem 0',
-                  },
-                ]}
-              />
+              {isOwner && (
+                <Menu
+                  icon={<MoreVertical />}
+                  items={[
+                    { label: 'Link', href: watcher.link, target: '_blank', margin: '0.25rem 0' },
+                    {
+                      label: 'Edit',
+                      onClick: () => onNavToEdit(id),
+                      margin: '0.25rem 0',
+                    },
+                    watcher.isPublic
+                      ? {
+                          label: 'Make it private',
+                          onClick: () => onEdit(id, { isPublic: false }),
+                          margin: '0.25rem 0',
+                        }
+                      : {
+                          label: 'Make it public',
+                          onClick: () => onEdit(id, { isPublic: true }),
+                          margin: '0.25rem 0',
+                        },
+                    {
+                      label: 'Delete',
+                      color: 'status-critical',
+                      onClick: () => onDelete(id),
+                      margin: '0.25rem 0',
+                    },
+                  ]}
+                />
+              )}
             </HorizontalCenter>
             {!!watcher.gotValueAt && (
               <Text size="xsmall">{formatDateTime(watcher.gotValueAt)}</Text>
             )}
-            <Text size="xsmall" wordBreak="break-word" margin="0 0 0.5rem">Selector: {watcher.selector}</Text>
+            <Text size="xsmall" wordBreak="break-word">
+              Selector: {watcher.selector}
+            </Text>
+            <Anchor
+              label="Web page"
+              href={watcher.link}
+              target="_blank"
+              size="small"
+              margin="0 0 0.5rem"
+            />
 
             <Box pad="1rem" border={{ size: 'medium', style: 'ridge' }}>
               {watcher.contentLink ? (
@@ -58,9 +91,9 @@ function WatcherDetails({ params: { id }, watcher, isLoading, onFetchWatcher, on
               )}
             </Box>
 
-            <WatcherSchedule watcher={watcher} />
-            <WatcherTelegram watcher={watcher} />
-            <WatcherHistory watcher={watcher} />
+            <WatcherSchedule watcher={watcher} isOwner={isOwner} />
+            <WatcherTelegram watcher={watcher} isOwner={isOwner} />
+            <WatcherHistory watcher={watcher} isOwner={isOwner} />
           </>
         )}
       </ContentWrapper>

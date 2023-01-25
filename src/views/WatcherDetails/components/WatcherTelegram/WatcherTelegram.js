@@ -6,13 +6,18 @@ import Bot from '../../../../components/Bot';
 import HorizontalCenter from '../../../../components/HorizontalCenter';
 import RouteLink from '../../../../components/RouteLink';
 
-function OwnTelegram({ watcherId, telegramId, skipped, onNavigate, onEdit }) {
+function OwnTelegram({ isOwner, watcherId, telegramId, skipped, onNavigate, onEdit }) {
+  if (!isOwner) {
+    return null;
+  }
+
   return (
     <>
       <HorizontalCenter>
         <Heading level="5" margin="0.25rem 1rem 0 0">
           1. Notify yourself
         </Heading>
+
         <Menu
           icon={<MoreVertical size="small" />}
           items={[
@@ -55,27 +60,29 @@ function OwnTelegram({ watcherId, telegramId, skipped, onNavigate, onEdit }) {
   );
 }
 
-function SpecificTelegram({ telegram, watcherId, onNavigate }) {
+function SpecificTelegram({ isOwner, telegram, watcherId, onNavigate }) {
   const integrated = !!telegram;
 
   return (
     <>
       <HorizontalCenter>
         <Heading level="5" margin="0.5rem 1rem 0 0">
-          2. Notify a channel
+          {isOwner ? '2. ' : ''}Notify a channel
         </Heading>
-        <Menu
-          icon={<MoreVertical size="small" />}
-          items={[
-            {
-              label: 'Update',
-              onClick: () => onNavigate(`/w/${watcherId}/telegram`),
-              margin: '0.25rem 0',
-            },
-          ]}
-        />
+        {isOwner && (
+          <Menu
+            icon={<MoreVertical size="small" />}
+            items={[
+              {
+                label: 'Update',
+                onClick: () => onNavigate(`/w/${watcherId}/telegram`),
+                margin: '0.25rem 0',
+              },
+            ]}
+          />
+        )}
       </HorizontalCenter>
-      {integrated ? (
+      {integrated && (
         <>
           <Text size="small">
             <Bot size="small" /> will notify the{' '}
@@ -93,18 +100,29 @@ function SpecificTelegram({ telegram, watcherId, onNavigate }) {
             <Text size="small">This is a private channel.</Text>
           )}
         </>
-      ) : (
+      )}
+      {!integrated && isOwner && (
         <Text size="small">
           Follow <RouteLink to={`/w/${watcherId}/telegram`} label="this guide" size="small" /> to
           integrate a Telegram channel.
         </Text>
+      )}
+      {!integrated && !isOwner && (
+        <Text size="small">This watcher does not notify any Telegram channel.</Text>
       )}
       <Text size="small">Anyone in the channel will get notified.</Text>
     </>
   );
 }
 
-function WatcherTelegram({ watcher, accountTelegramId, isLoadingAccount, onNavigate, onEdit }) {
+function WatcherTelegram({
+  watcher,
+  isOwner,
+  accountTelegramId,
+  isLoadingAccount,
+  onNavigate,
+  onEdit,
+}) {
   if (!watcher || isLoadingAccount) {
     return null;
   }
@@ -114,8 +132,9 @@ function WatcherTelegram({ watcher, accountTelegramId, isLoadingAccount, onNavig
       <Heading level="4" margin="2rem 0 0">
         Integrate Telegram
       </Heading>
-      <Text> Get a Telegram message when this watcher gets new content.</Text>
+      <Text>Get a Telegram message when this watcher gets new content.</Text>
       <OwnTelegram
+        isOwner={isOwner}
         watcherId={watcher.sortKey}
         telegramId={accountTelegramId}
         skipped={watcher.skipPersonalTelegram}
@@ -123,6 +142,7 @@ function WatcherTelegram({ watcher, accountTelegramId, isLoadingAccount, onNavig
         onEdit={onEdit}
       />
       <SpecificTelegram
+        isOwner={isOwner}
         watcherId={watcher.sortKey}
         telegram={watcher.telegram}
         onNavigate={onNavigate}
