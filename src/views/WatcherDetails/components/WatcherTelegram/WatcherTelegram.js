@@ -79,21 +79,19 @@ function SpecificTelegram({ telegram, watcherId, onNavigate }) {
         <>
           <Text size="small">
             <Bot size="small" /> will notify the{' '}
-            {telegram.username ? (
-              <Anchor
-                label={telegram.title}
-                href={`https://t.me/${telegram.username}`}
-                target="_blank"
-                size="small"
-              />
-            ) : (
-              <Text size="small" weight="bold">
-                {telegram.title}
-              </Text>
-            )}{' '}
+            <Text size="small" weight="bold">
+              {telegram.title}
+            </Text>{' '}
             channel.
           </Text>
-          {!telegram.username && <Text size="small">This is a private channel.</Text>}
+          {telegram.username ? (
+            <Text size="small">
+              This is a public channel.{' '}
+              <Anchor label="Join" href={`https://t.me/${telegram.username}`} target="_blank" />
+            </Text>
+          ) : (
+            <Text size="small">This is a private channel.</Text>
+          )}
         </>
       ) : (
         <Text size="small">

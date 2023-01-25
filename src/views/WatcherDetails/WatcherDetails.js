@@ -48,6 +48,7 @@ function WatcherDetails({ params: { id }, watcher, isLoading, onFetchWatcher, on
             {!!watcher.gotValueAt && (
               <Text size="xsmall">{formatDateTime(watcher.gotValueAt)}</Text>
             )}
+            <Text size="xsmall" wordBreak="break-word" margin="0 0 0.5rem">Selector: {watcher.selector}</Text>
 
             <Box pad="1rem" border={{ size: 'medium', style: 'ridge' }}>
               {watcher.contentLink ? (
