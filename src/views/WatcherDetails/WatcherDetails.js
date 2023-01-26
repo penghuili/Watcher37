@@ -72,16 +72,10 @@ function WatcherDetails({
             {!!watcher.gotValueAt && (
               <Text size="xsmall">{formatDateTime(watcher.gotValueAt)}</Text>
             )}
-            <Text size="xsmall" wordBreak="break-word">
+            <Anchor label="Web page" href={watcher.link} target="_blank" size="small" />
+            <Text size="xsmall" wordBreak="break-word" margin="0 0 0.5rem">
               Selector: {watcher.selector}
             </Text>
-            <Anchor
-              label="Web page"
-              href={watcher.link}
-              target="_blank"
-              size="small"
-              margin="0 0 0.5rem"
-            />
 
             <Box pad="1rem" border={{ size: 'medium', style: 'ridge' }}>
               {watcher.contentLink ? (
