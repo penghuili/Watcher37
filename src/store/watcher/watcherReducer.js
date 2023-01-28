@@ -10,6 +10,9 @@ const initialState = {
   content: null,
   watchers: [],
   details: null,
+  history: [],
+  startKey: null,
+  hasMore: true,
 };
 
 function handleSetContent(state, { content }) {
@@ -29,6 +32,10 @@ function handleSetWatchers(state, { watchers, lastOpenTime }) {
 
 function handleSetDetails(state, { details }) {
   return { ...state, details };
+}
+
+function handleSetHistory(state, { history, startKey, hasMore }) {
+  return { ...state, history, startKey, hasMore };
 }
 
 function handleSetFetchError(state, { error }) {
@@ -65,6 +72,9 @@ export function watcherReducer(state = initialState, action) {
 
     case watcherActionTypes.SET_DETAILS:
       return handleSetDetails(state, action.payload);
+
+    case watcherActionTypes.SET_HISTORY:
+      return handleSetHistory(state, action.payload);
 
     case watcherActionTypes.SET_FETCH_ERROR:
       return handleSetFetchError(state, action.payload);

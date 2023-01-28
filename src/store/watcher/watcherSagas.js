@@ -14,6 +14,7 @@ import {
   encryptWatcher,
   fetchPageContent,
   fetchWatcher,
+  fetchWatcherHistory,
   fetchWatchers,
   scheduleTrigger,
   updateWatcher,
@@ -161,11 +162,39 @@ function* handleFetchWatcherRequested({ payload: { id } }) {
   yield put(watcherActionCreators.setFetchError(''));
   yield put(watcherActionCreators.isLoading(true));
   yield put(watcherActionCreators.setDetails(null));
+  yield put(watcherActionCreators.setHistory([], null, true));
+  yield put(watcherActionCreators.fetchHistoryRequested(id));
 
   const { data, error } = yield call(fetchWatcher, id);
 
   if (data) {
     yield put(watcherActionCreators.setDetails(data));
+  }
+
+  if (error) {
+    if (error.status === 401) {
+      yield put(watcherActionCreators.setFetchError('You do not have access to this watcher.'));
+    }
+
+    if (error.status === 404) {
+      yield put(watcherActionCreators.setFetchError('This watcher does not exist.'));
+    }
+  }
+
+  yield put(watcherActionCreators.isLoading(false));
+}
+
+function* handleFetchHistoryRequested({ payload: { id } }) {
+  yield put(watcherActionCreators.isLoading(true));
+  const startKey = yield select(watcherSelectors.getStartKey);
+
+  const { data, error } = yield call(fetchWatcherHistory, id, startKey);
+
+  if (data) {
+    const history = yield select(watcherSelectors.getHistory);
+    yield put(
+      watcherActionCreators.setHistory([...history, ...data.items], data.startKey, data.hasMore)
+    );
   }
 
   if (error) {
@@ -330,6 +359,7 @@ export function* watcherSagas() {
     takeLatest(watcherActionTypes.EDIT_PRESSED, handleEditPressed),
     takeLatest(watcherActionTypes.DELETE_PRESSED, handleDeletePressed),
     takeLatest(watcherActionTypes.FETCH_WATCHER_REQUESTED, handleFetchWatcherRequested),
+    takeLatest(watcherActionTypes.FETCH_HISTORY_REQUESTED, handleFetchHistoryRequested),
     takeLatest(watcherActionTypes.CHECK_WATCHER_REQUESTED, handleCheckWatcherRequested),
     takeLatest(watcherActionTypes.SCHEDULE_TRIGGER_PRESSED, handleScheduleTriggerPressed),
     takeLatest(watcherActionTypes.ENCRYPT_PRESSED, handleEncryptPressed),

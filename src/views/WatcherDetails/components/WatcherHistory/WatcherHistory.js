@@ -1,4 +1,4 @@
-import { Anchor, Box, Heading, Spinner, Text } from 'grommet';
+import { Anchor, Box, Button, Heading, Spinner, Text } from 'grommet';
 import { LinkUp, Refresh, Trash } from 'grommet-icons';
 import React, { useState } from 'react';
 
@@ -8,9 +8,12 @@ import { formatDateTime } from '../../../../lib/date';
 function WatcherHistory({
   isOwner,
   watcher,
+  history,
+  hasMore,
   isChecking,
   isDeleting,
   onCheckWatcher,
+  onFetchHistory,
   onDeleteItem,
 }) {
   const [currentId, setCurrentId] = useState('');
@@ -30,23 +33,11 @@ function WatcherHistory({
         )}
       </HorizontalCenter>
 
-      {(watcher.history || []).map((item, index) => (
+      {(history || []).map((item, index) => (
         <Box key={item.sortKey}>
           {index !== 0 && <LinkUp />}
-          <Text>{formatDateTime(item.createdAt)}</Text>
-
           <HorizontalCenter>
-            {item.contentLink ? (
-              <Anchor
-                label={item.content}
-                href={item.contentLink}
-                target="_blank"
-                margin="0 1rem 0 0"
-              />
-            ) : (
-              <Text margin="0 1rem 0 0">{item.content}</Text>
-            )}
-
+            <Text margin="0 1rem 0 0">{formatDateTime(item.createdAt)}</Text>
             {isOwner &&
               (isDeleting && currentId === item.sortKey ? (
                 <Spinner size="small" />
@@ -60,8 +51,21 @@ function WatcherHistory({
                 />
               ))}
           </HorizontalCenter>
+
+          {item.contentLink ? (
+            <Anchor
+              label={item.content}
+              href={item.contentLink}
+              target="_blank"
+              margin="0 1rem 0 0"
+            />
+          ) : (
+            <Text margin="0 1rem 0 0">{item.content}</Text>
+          )}
         </Box>
       ))}
+
+      {!!hasMore && <Button label="Load more" onClick={() => onFetchHistory(watcher.sid)} margin="1rem 0 0" />}
     </>
   );
 }

@@ -7,6 +7,7 @@ export const watcherActionTypes = {
   IS_EDITING_SCHEDULE: 'watcher/IS_EDITING_SCHEDULE',
   SET_WATCHERS: 'watcher/SET_WATCHERS',
   SET_DETAILS: 'watcher/SET_DETAILS',
+  SET_HISTORY: 'watcher/SET_HISTORY',
   SET_FETCH_ERROR: 'watcher/SET_FETCH_ERROR',
 
   FETCH_WATCHERS_REQUESTED: 'watcher/FETCH_WATCHERS_REQUESTED',
@@ -15,6 +16,7 @@ export const watcherActionTypes = {
   EDIT_PRESSED: 'watcher/EDIT_PRESSED',
   DELETE_PRESSED: 'watcher/DELETE_PRESSED',
   FETCH_WATCHER_REQUESTED: 'watcher/FETCH_WATCHER_REQUESTED',
+  FETCH_HISTORY_REQUESTED: 'watcher/FETCH_HISTORY_REQUESTED',
   CHECK_WATCHER_REQUESTED: 'watcher/CHECK_WATCHER_REQUESTED',
   SCHEDULE_TRIGGER_PRESSED: 'watcher/SCHEDULE_TRIGGER_PRESSED',
   ENCRYPT_PRESSED: 'watcher/ENCRYPT_PRESSED',
@@ -50,6 +52,9 @@ export const watcherActionCreators = {
   setDetails(details) {
     return { type: watcherActionTypes.SET_DETAILS, payload: { details } };
   },
+  setHistory(history, startKey, hasMore) {
+    return { type: watcherActionTypes.SET_HISTORY, payload: { history, startKey, hasMore } };
+  },
   setFetchError(error) {
     return { type: watcherActionTypes.SET_FETCH_ERROR, payload: { error } };
   },
@@ -81,6 +86,9 @@ export const watcherActionCreators = {
   },
   fetchWatcherRequested(id) {
     return { type: watcherActionTypes.FETCH_WATCHER_REQUESTED, payload: { id } };
+  },
+  fetchHistoryRequested(id) {
+    return { type: watcherActionTypes.FETCH_HISTORY_REQUESTED, payload: { id } };
   },
   checkWatchersRequested(id) {
     return { type: watcherActionTypes.CHECK_WATCHER_REQUESTED, payload: { id } };

@@ -245,15 +245,39 @@ export async function fetchWatcher(id) {
       : await HTTP.publicGet(`/v1/page-watcher/watchers/${id}`);
 
     const decrypted = await decryptWatcherContent(watcher);
-    const decryptedHistory = [];
-    if (watcher.history?.length) {
-      await asyncForEach(watcher.history, async item => {
-        const decryptedItem = await decryptWatcherItemContent(item);
-        decryptedHistory.push(decryptedItem);
+
+    return { data: decrypted, error: null };
+  } catch (error) {
+    return { data: null, error };
+  }
+}
+
+export async function fetchWatcherHistory(id, startKey) {
+  try {
+    const hasToken =
+      LocalStorage.get(LocalStorageKeys.refreshToken) &&
+      LocalStorage.get(LocalStorageKeys.accessToken);
+
+    const query = startKey ? `?startKey=${startKey}` : '';
+    const { items, startKey: newStartKey } = hasToken
+      ? await HTTP.get(`/v1/page-watcher/watchers/${id}/history${query}`)
+      : await HTTP.publicGet(`/v1/page-watcher/watchers/${id}/history${query}`);
+
+    const decryptedItems = [];
+    if (items?.length) {
+      await asyncForEach(items, async item => {
+        try {
+          const decryptedItem = await decryptWatcherItemContent(item);
+          decryptedItems.push(decryptedItem);
+          // eslint-disable-next-line no-empty
+        } catch (e) {}
       });
     }
 
-    return { data: { ...decrypted, history: decryptedHistory }, error: null };
+    return {
+      data: { items: decryptedItems, startKey: newStartKey, hasMore: decryptedItems.length === 50 },
+      error: null,
+    };
   } catch (error) {
     return { data: null, error };
   }
