@@ -6,7 +6,7 @@ import WatcherEdit from './WatcherEdit';
 
 const mapStateToProps = (state, { params: { id } }) => ({
   id,
-  watcher: watcherSelectors.getWatcher(state, id),
+  watcher: watcherSelectors.getDetails(state),
   pageContent: watcherSelectors.getContent(state),
   isLoading: watcherSelectors.isLoading(state),
 });
