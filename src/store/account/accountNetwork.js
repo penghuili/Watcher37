@@ -7,9 +7,21 @@ import HTTP from '../../lib/HTTP';
 
 export async function fetchAccount() {
   try {
-    const { id, username, createdAt, updatedAt, telegramId } = await HTTP.get(`/v1/me`);
+    const { id, username, createdAt, updatedAt, telegramId, backendPublicKey } = await HTTP.get(
+      `/v1/me`
+    );
 
-    return { data: { userId: id, username, createdAt, updatedAt, telegramId }, error: null };
+    return {
+      data: {
+        userId: id,
+        username,
+        createdAt,
+        updatedAt,
+        telegramId,
+        botPublicKey: JSON.parse(`"${backendPublicKey}"`),
+      },
+      error: null,
+    };
   } catch (error) {
     return { data: null, error };
   }
@@ -72,7 +84,9 @@ export async function fetchSettings() {
 
 export async function updateSettings(lastOpenTime) {
   try {
-    const { lastOpenTime: updated, expiresAt } = await HTTP.put(`/v1/page-watcher/settings`, { lastOpenTime });
+    const { lastOpenTime: updated, expiresAt } = await HTTP.put(`/v1/page-watcher/settings`, {
+      lastOpenTime,
+    });
 
     return { data: { lastOpenTime: updated, expiresAt }, error: null };
   } catch (error) {

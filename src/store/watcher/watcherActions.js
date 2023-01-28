@@ -17,6 +17,10 @@ export const watcherActionTypes = {
   FETCH_WATCHER_REQUESTED: 'watcher/FETCH_WATCHER_REQUESTED',
   CHECK_WATCHER_REQUESTED: 'watcher/CHECK_WATCHER_REQUESTED',
   SCHEDULE_TRIGGER_PRESSED: 'watcher/SCHEDULE_TRIGGER_PRESSED',
+  ENCRYPT_PRESSED: 'watcher/ENCRYPT_PRESSED',
+  DECRYPT_PRESSED: 'watcher/DECRYPT_PRESSED',
+  PUBLIC_PRESSED: 'watcher/PUBLIC_PRESSED',
+  PRIVATE_PRESSED: 'watcher/PRIVATE_PRESSED',
   DELETE_TRIGGER_PRESSED: 'watcher/DELETE_TRIGGER_PRESSED',
   DELETE_ITEM_PRESSED: 'watcher/DELETE_ITEM_PRESSED',
 };
@@ -83,6 +87,18 @@ export const watcherActionCreators = {
   },
   scheduleTriggerPressed(id, rate) {
     return { type: watcherActionTypes.SCHEDULE_TRIGGER_PRESSED, payload: { id, rate } };
+  },
+  encryptPressed(id) {
+    return { type: watcherActionTypes.ENCRYPT_PRESSED, payload: { id } };
+  },
+  decryptPressed(id) {
+    return { type: watcherActionTypes.DECRYPT_PRESSED, payload: { id } };
+  },
+  publicPressed(id) {
+    return { type: watcherActionTypes.PUBLIC_PRESSED, payload: { id } };
+  },
+  privatePressed(id) {
+    return { type: watcherActionTypes.PRIVATE_PRESSED, payload: { id } };
   },
   deleteTriggerPressed(id) {
     return { type: watcherActionTypes.DELETE_TRIGGER_PRESSED, payload: { id } };

@@ -15,7 +15,10 @@ const mapDispatchToProps = {
   onFetchWatcher: watcherActionCreators.fetchWatcherRequested,
   onDelete: watcherActionCreators.deletePressed,
   onNavToEdit: watcherActionCreators.navToEditPressed,
-  onEdit: watcherActionCreators.editPressed,
+  onEncrypt: watcherActionCreators.encryptPressed,
+  onDecrypt: watcherActionCreators.decryptPressed,
+  onPublic: watcherActionCreators.publicPressed,
+  onPrivate: watcherActionCreators.privatePressed,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(WatcherDetails);

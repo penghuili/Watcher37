@@ -9,10 +9,11 @@ const initialState = {
   telegramId: null,
   lastOpenTime: null,
   expiresAt: null,
+  botPublicKey: null,
 };
 
-function handleSetUserData(state, { userId, username, createdAt, telegramId }) {
-  return { ...state, userId, username, createdAt, telegramId };
+function handleSetUserData(state, { userId, username, createdAt, telegramId, botPublicKey }) {
+  return { ...state, userId, username, createdAt, telegramId, botPublicKey };
 }
 
 function handleSetSettings(state, { lastOpenTime, expiresAt }) {

@@ -7,9 +7,11 @@ import { watcherActionCreators, watcherActionTypes } from './watcherActions';
 import {
   checkWatcher,
   createWatcher,
+  decryptWatcher,
   deleteItem,
   deleteTrigger,
   deleteWatcher,
+  encryptWatcher,
   fetchPageContent,
   fetchWatcher,
   fetchWatchers,
@@ -57,7 +59,8 @@ function* handleFetchWatchersRequested() {
 function* handleCreatePressed({ payload: { title, link, selector } }) {
   yield put(watcherActionCreators.isLoading(true));
 
-  const { data } = yield call(createWatcher, { title, link, selector });
+  const botPublicKey = yield select(accountSelectors.getBotPublicKey);
+  const { data } = yield call(createWatcher, { title, link, selector }, botPublicKey);
 
   if (data) {
     const watchers = yield select(watcherSelectors.getWatchers);
@@ -123,7 +126,9 @@ function* handleEditPressed({
 }) {
   yield put(watcherActionCreators.isLoading(true));
 
+  const { encrypted } = yield select(watcherSelectors.getWatcher, id);
   const { data } = yield call(updateWatcher, id, {
+    encrypted,
     title,
     selector,
     link,
@@ -142,13 +147,6 @@ function* handleEditPressed({
       yield call(showToast, 'This watcher is muted.');
     } else if (skipPersonalTelegram === false) {
       yield call(showToast, 'This watcher will notify your personal Telegram account again.');
-    } else if (isPublic === true) {
-      yield call(
-        showToast,
-        'This watcher is now public, anyone can check it. (They cannot update it though.)'
-      );
-    } else if (isPublic === false) {
-      yield call(showToast, 'This watcher is now private, only you can check it.');
     } else {
       yield call(showToast, 'Watcher is updated!');
     }
@@ -207,7 +205,7 @@ function* handleScheduleTriggerPressed({ payload: { id, rate } }) {
   const { data } = yield call(scheduleTrigger, id, rate);
 
   if (data) {
-    yield put(watcherActionCreators.setDetails(data));
+    yield call(afterNewWatcher, data);
     yield call(showToast, 'Trigger is scheduled!');
   } else {
     yield call(showToast, 'Something went wrong, please try again.', 'error');
@@ -217,13 +215,83 @@ function* handleScheduleTriggerPressed({ payload: { id, rate } }) {
   yield put(watcherActionCreators.isEditingSchedule(false));
 }
 
+function* handleEncryptPressed({ payload: { id } }) {
+  yield put(watcherActionCreators.isLoading(true));
+  const watcher = yield select(watcherSelectors.getDetails);
+  const botPublicKey = yield select(accountSelectors.getBotPublicKey);
+  const { data } = yield call(encryptWatcher, id, watcher, botPublicKey);
+
+  if (data) {
+    yield call(afterNewWatcher, data);
+    yield call(showToast, 'Your watcher is now end-to-end encrypted!');
+  } else {
+    yield call(showToast, 'Something went wrong, please try again.', 'error');
+  }
+
+  yield put(watcherActionCreators.isLoading(false));
+}
+
+function* handleDecryptPressed({ payload: { id } }) {
+  yield put(watcherActionCreators.isLoading(true));
+  const watcher = yield select(watcherSelectors.getDetails);
+
+  const { data } = yield call(decryptWatcher, id, watcher);
+
+  if (data) {
+    yield call(afterNewWatcher, data);
+    yield call(showToast, 'Your watcher is now decrypted!');
+  } else {
+    yield call(showToast, 'Something went wrong, please try again.', 'error');
+  }
+
+  yield put(watcherActionCreators.isLoading(false));
+}
+
+function* handlePublicPressed({ payload: { id } }) {
+  yield put(watcherActionCreators.isLoading(true));
+  const watcher = yield select(watcherSelectors.getDetails);
+  if (watcher.encrypted) {
+    yield call(decryptWatcher, id, watcher);
+  }
+
+  const { data } = yield call(updateWatcher, id, { encrypted: false, isPublic: true });
+
+  if (data) {
+    yield call(afterNewWatcher, data);
+    yield call(
+      showToast,
+      'This watcher is now public, anyone can check it. (They cannot update it though.)'
+    );
+  } else {
+    yield call(showToast, 'Something went wrong, please try again.', 'error');
+  }
+
+  yield put(watcherActionCreators.isLoading(false));
+}
+
+function* handlePrivatePressed({ payload: { id } }) {
+  yield put(watcherActionCreators.isLoading(true));
+  const watcher = yield select(watcherSelectors.getDetails);
+
+  const { data } = yield call(updateWatcher, id, { encrypted: watcher.encrypted, isPublic: false });
+
+  if (data) {
+    yield call(afterNewWatcher, data);
+    yield call(showToast, 'This watcher is now private, only you can check it.');
+  } else {
+    yield call(showToast, 'Something went wrong, please try again.', 'error');
+  }
+
+  yield put(watcherActionCreators.isLoading(false));
+}
+
 function* handleDeleteTriggerPressed({ payload: { id } }) {
   yield put(watcherActionCreators.isLoading(true));
 
   const { data } = yield call(deleteTrigger, id);
 
   if (data) {
-    yield put(watcherActionCreators.setDetails(data));
+    yield call(afterNewWatcher, data);
     yield call(showToast, 'Trigger is deleted!');
   } else {
     yield call(showToast, 'Something went wrong, please try again.', 'error');
@@ -264,6 +332,10 @@ export function* watcherSagas() {
     takeLatest(watcherActionTypes.FETCH_WATCHER_REQUESTED, handleFetchWatcherRequested),
     takeLatest(watcherActionTypes.CHECK_WATCHER_REQUESTED, handleCheckWatcherRequested),
     takeLatest(watcherActionTypes.SCHEDULE_TRIGGER_PRESSED, handleScheduleTriggerPressed),
+    takeLatest(watcherActionTypes.ENCRYPT_PRESSED, handleEncryptPressed),
+    takeLatest(watcherActionTypes.DECRYPT_PRESSED, handleDecryptPressed),
+    takeLatest(watcherActionTypes.PUBLIC_PRESSED, handlePublicPressed),
+    takeLatest(watcherActionTypes.PRIVATE_PRESSED, handlePrivatePressed),
     takeLatest(watcherActionTypes.DELETE_TRIGGER_PRESSED, handleDeleteTriggerPressed),
     takeLatest(watcherActionTypes.DELETE_ITEM_PRESSED, handleDeleteItemPressed),
   ]);

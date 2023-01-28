@@ -7,5 +7,6 @@ export const accountSelectors = {
   }),
   getLastOpenTime: state => state.account.lastOpenTime,
   getExpiresAt: state => state.account.expiresAt,
+  getBotPublicKey: state => state.account.botPublicKey,
   isLoading: state => state.account.isLoading,
 };

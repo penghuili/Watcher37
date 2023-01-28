@@ -16,7 +16,7 @@ function WatcherEdit({ id, watcher, pageContent, isLoading, onFetch, onEdit, onF
   useListener(watcher?.selector, value => setSelector(value || ''));
 
   useEffectOnce(() => {
-    onFetch();
+    onFetch(id);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   });
 

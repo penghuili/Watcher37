@@ -19,7 +19,10 @@ function WatcherDetails({
   onFetchWatcher,
   onDelete,
   onNavToEdit,
-  onEdit,
+  onEncrypt,
+  onDecrypt,
+  onPublic,
+  onPrivate,
 }) {
   useEffect(() => {
     onFetchWatcher(id);
@@ -48,15 +51,47 @@ function WatcherDetails({
                       onClick: () => onNavToEdit(id),
                       margin: '0.25rem 0',
                     },
+                    watcher.encrypted
+                      ? {
+                          label: 'Decrypt this watcher',
+                          onClick: () => onDecrypt(id),
+                          margin: '0.25rem 0',
+                        }
+                      : {
+                          label: 'Encrypt this watcher',
+                          onClick: () => {
+                            let confirmed = true;
+                            if (watcher.isPublic) {
+                              confirmed = window.confirm(
+                                'This watcher is public. You need to turn it into private to encrypt it.'
+                              );
+                            }
+                            if (confirmed) {
+                              onEncrypt(id);
+                            }
+                          },
+                          margin: '0.25rem 0',
+                        },
                     watcher.isPublic
                       ? {
                           label: 'Make it private',
-                          onClick: () => onEdit(id, { isPublic: false }),
+                          onClick: () => onPrivate(id),
                           margin: '0.25rem 0',
                         }
                       : {
                           label: 'Make it public',
-                          onClick: () => onEdit(id, { isPublic: true }),
+                          onClick: () => {
+                            let confirmed = true;
+                            if (watcher.encrypted) {
+                              confirmed = window.confirm(
+                                'This watcher is encrypted. You need to decrypt it to turn it into public.'
+                              );
+                            }
+
+                            if (confirmed) {
+                              onPublic(id);
+                            }
+                          },
                           margin: '0.25rem 0',
                         },
                     {

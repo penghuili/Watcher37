@@ -15,10 +15,10 @@ export const accountActionCreators = {
   isLoading(loading) {
     return { type: accountActionTypes.IS_LOADING, payload: { loading } };
   },
-  setUserData({ userId, username, createdAt, telegramId }) {
+  setUserData({ userId, username, createdAt, telegramId, botPublicKey }) {
     return {
       type: accountActionTypes.SET_USER_DATA,
-      payload: { userId, username, createdAt, telegramId },
+      payload: { userId, username, createdAt, telegramId, botPublicKey },
     };
   },
   fetchRequested() {
