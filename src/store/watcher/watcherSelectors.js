@@ -9,6 +9,7 @@ export const watcherSelectors = {
   getStartKey: state => state.watcher.startKey,
   hasMore: state => state.watcher.hasMore,
   isLoading: state => state.watcher.isLoading,
+  isLoadingHistory: state => state.watcher.isLoadingHistory,
   isChecking: state => state.watcher.isChecking,
   isDeleting: state => state.watcher.isDeleting,
   isEditingSchedule: state => state.watcher.isEditingSchedule,

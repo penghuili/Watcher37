@@ -3,6 +3,7 @@ import { watcherActionTypes } from './watcherActions';
 
 const initialState = {
   isLoading: false,
+  isLoadingHistory: false,
   isChecking: false,
   isDeleting: false,
   isEditingSchedule: false,
@@ -51,6 +52,10 @@ function handleIsLoading(state, { loading }) {
   return { ...state, isLoading: loading };
 }
 
+function handleIsLoadingHistory(state, { value }) {
+  return { ...state, isLoadingHistory: value };
+}
+
 function handleIsChecking(state, { checking }) {
   return { ...state, isChecking: checking };
 }
@@ -86,6 +91,9 @@ export function watcherReducer(state = initialState, action) {
 
     case watcherActionTypes.IS_LOADING:
       return handleIsLoading(state, action.payload);
+
+    case watcherActionTypes.IS_LOADING_HISTORY:
+      return handleIsLoadingHistory(state, action.payload);
 
     case watcherActionTypes.IS_CHECKING:
       return handleIsChecking(state, action.payload);

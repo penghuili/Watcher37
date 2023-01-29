@@ -188,7 +188,7 @@ function* handleFetchWatcherRequested({ payload: { id } }) {
 }
 
 function* handleFetchHistoryRequested({ payload: { id } }) {
-  yield put(watcherActionCreators.isLoading(true));
+  yield put(watcherActionCreators.isLoadingHistory(true));
   const startKey = yield select(watcherSelectors.getStartKey);
 
   const { data, error } = yield call(fetchWatcherHistory, id, startKey);
@@ -210,7 +210,7 @@ function* handleFetchHistoryRequested({ payload: { id } }) {
     }
   }
 
-  yield put(watcherActionCreators.isLoading(false));
+  yield put(watcherActionCreators.isLoadingHistory(false));
 }
 
 function* handleCheckWatcherRequested({ payload: { id } }) {

@@ -2,6 +2,7 @@ export const watcherActionTypes = {
   FETCH_CONTENT_PRESSED: 'watcher/FETCH_CONTENT_PRESSED',
   SET_CONTENT: 'watcher/SET_CONTENT',
   IS_LOADING: 'watcher/IS_LOADING',
+  IS_LOADING_HISTORY: 'watcher/IS_LOADING_HISTORY',
   IS_CHECKING: 'watcher/IS_CHECKING',
   IS_DELETING: 'watcher/IS_DELETING',
   IS_EDITING_SCHEDULE: 'watcher/IS_EDITING_SCHEDULE',
@@ -36,6 +37,9 @@ export const watcherActionCreators = {
   },
   isLoading(loading) {
     return { type: watcherActionTypes.IS_LOADING, payload: { loading } };
+  },
+  isLoadingHistory(value) {
+    return { type: watcherActionTypes.IS_LOADING_HISTORY, payload: { value } };
   },
   isChecking(checking) {
     return { type: watcherActionTypes.IS_CHECKING, payload: { checking } };

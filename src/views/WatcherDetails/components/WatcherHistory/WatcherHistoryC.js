@@ -7,6 +7,7 @@ import WatcherHistory from './WatcherHistory';
 const mapStateToProps = state => ({
   history: watcherSelectors.getHistory(state),
   hasMore: watcherSelectors.hasMore(state),
+  isLoadingHistory: watcherSelectors.isLoadingHistory(state),
   isChecking: watcherSelectors.isChecking(state),
   isDeleting: watcherSelectors.isDeleting(state),
 });

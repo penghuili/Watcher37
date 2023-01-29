@@ -10,6 +10,7 @@ function WatcherHistory({
   watcher,
   history,
   hasMore,
+  isLoadingHistory,
   isChecking,
   isDeleting,
   onCheckWatcher,
@@ -65,7 +66,10 @@ function WatcherHistory({
         </Box>
       ))}
 
-      {!!hasMore && <Button label="Load more" onClick={() => onFetchHistory(watcher.sid)} margin="1rem 0 0" />}
+      {!!hasMore && (
+        <Button label="Load more" onClick={() => onFetchHistory(watcher.sid)} margin="1rem 0 0" />
+      )}
+      {isLoadingHistory && <Spinner size="small" margin="1rem 0 0" />}
     </>
   );
 }
