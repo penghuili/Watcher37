@@ -136,7 +136,7 @@ function WatcherDetails({
                 />
               )}
             </HorizontalCenter>
-            <Anchor label="Web page" href={watcher.link} target="_blank" size="small" />
+            <Anchor label="web page" href={watcher.link} target="_blank" size="small" />
             <Text size="xsmall" wordBreak="break-word" margin="0 0 0.5rem">
               Selector: {watcher.selector}
             </Text>

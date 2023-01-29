@@ -17,6 +17,9 @@ const theme = deepMerge(grommet, {
       size: '18px',
       height: '20px',
     },
+    colors: {
+      brand: '#e8751a',
+    },
   },
 });
 
@@ -25,7 +28,7 @@ function App() {
 
   return (
     <StoreProvider store={store}>
-      <Grommet theme={theme} full>
+      <Grommet theme={theme} full themeMode="dark">
         <Page>
           <Router />
 

@@ -38,7 +38,9 @@ function WatcherHistory({
         <Box key={item.sortKey}>
           {index !== 0 && <LinkUp />}
           <HorizontalCenter>
-            <Text margin="0 1rem 0 0">{formatDateTime(item.createdAt)}</Text>
+            <Text size="xsmall" margin="0 1rem 0 0">
+              {formatDateTime(item.createdAt)}
+            </Text>
             {isOwner &&
               (isDeleting && currentId === item.sortKey ? (
                 <Spinner size="small" />

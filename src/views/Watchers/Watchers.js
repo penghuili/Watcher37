@@ -41,7 +41,6 @@ function Watchers({ watchers, isLoading, isChecking, onFetch, onCheckWatcher }) 
           <Card
             key={watcher.sortKey}
             width="large"
-            background="light-1"
             margin="0 0 2rem"
           >
             <CardHeader pad="1rem">
@@ -64,7 +63,7 @@ function Watchers({ watchers, isLoading, isChecking, onFetch, onCheckWatcher }) 
                 <Text>{watcher.content}</Text>
               )}
             </CardBody>
-            <CardFooter pad="0 1rem" background="light-2" justify="start">
+            <CardFooter pad="0 1rem" justify="start">
               <Button icon={<Link />} href={watcher.link} target="_blank" hoverIndicator />
               {isChecking && checkId === watcher.sortKey ? (
                 <Spinner size="xsmall" />
