@@ -335,12 +335,15 @@ function* handleDeleteItemPressed({ payload: { id, sortKey } }) {
   const { data } = yield call(deleteItem, id, sortKey);
 
   if (data) {
-    const watcher = yield select(watcherSelectors.getDetails);
+    const history = yield select(watcherSelectors.getHistory);
+    const startKey = yield select(watcherSelectors.getStartKey);
+    const hasMore = yield select(watcherSelectors.hasMore);
     yield put(
-      watcherActionCreators.setDetails({
-        ...watcher,
-        history: watcher.history.filter(i => i.sortKey !== sortKey),
-      })
+      watcherActionCreators.setHistory(
+        history.filter(i => i.sortKey !== sortKey),
+        startKey,
+        hasMore
+      )
     );
     yield call(showToast, 'Deleted!');
   } else {
