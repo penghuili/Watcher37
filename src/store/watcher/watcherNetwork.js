@@ -259,7 +259,11 @@ export async function fetchWatcherHistory(id, startKey) {
       LocalStorage.get(LocalStorageKeys.accessToken);
 
     const query = startKey ? `?startKey=${startKey}` : '';
-    const { items, startKey: newStartKey } = hasToken
+    const {
+      items,
+      startKey: newStartKey,
+      limit,
+    } = hasToken
       ? await HTTP.get(`/v1/page-watcher/watchers/${id}/history${query}`)
       : await HTTP.publicGet(`/v1/page-watcher/watchers/${id}/history${query}`);
 
@@ -275,7 +279,11 @@ export async function fetchWatcherHistory(id, startKey) {
     }
 
     return {
-      data: { items: decryptedItems, startKey: newStartKey, hasMore: decryptedItems.length === 50 },
+      data: {
+        items: decryptedItems,
+        startKey: newStartKey,
+        hasMore: decryptedItems.length === limit,
+      },
       error: null,
     };
   } catch (error) {
