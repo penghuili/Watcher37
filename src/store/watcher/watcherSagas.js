@@ -127,7 +127,7 @@ function* handleEditPressed({
 }) {
   yield put(watcherActionCreators.isLoading(true));
 
-  const { encrypted } = yield select(watcherSelectors.getWatcher, id);
+  const { encrypted } = yield select(watcherSelectors.getDetails);
   const { data } = yield call(updateWatcher, id, {
     encrypted,
     title,

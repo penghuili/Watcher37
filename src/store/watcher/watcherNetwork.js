@@ -3,8 +3,8 @@ import { decryptMessage, encryptMessage } from '../../lib/encryption';
 import HTTP from '../../lib/HTTP';
 import { LocalStorage, LocalStorageKeys } from '../../lib/LocalStorage';
 
-async function encryptWatcherContent(watcher, botPublicKey) {
-  if (watcher.encrypted) {
+async function encryptWatcherContent(watcher, needToEncrypt, botPublicKey) {
+  if (!needToEncrypt) {
     return watcher;
   }
 
@@ -109,7 +109,7 @@ export async function createWatcher({ title, link, selector }, botPublicKey) {
       linkForBot: encryptedLinkForBot,
       selector: encryptedSelector,
       selectorForBot: encryptedSelectorForBot,
-    } = await encryptWatcherContent({ encrypted: false, title, link, selector }, botPublicKey);
+    } = await encryptWatcherContent({ title, link, selector }, true, botPublicKey);
 
     const watcher = await HTTP.post(`/v1/page-watcher/watchers`, {
       title: encryptedTitle,
@@ -139,7 +139,11 @@ export async function updateWatcher(
       linkForBot: encryptedLinkForBot,
       selector: encryptedSelector,
       selectorForBot: encryptedSelectorForBot,
-    } = await encryptWatcherContent({ encrypted, title, link, selector }, botPublicKey);
+    } = await encryptWatcherContent(
+      { needToEncrypt: encrypted, title, link, selector },
+      encrypted,
+      botPublicKey
+    );
 
     const watcher = await HTTP.put(`/v1/page-watcher/watchers/${id}`, {
       title: encryptedTitle,
@@ -155,6 +159,7 @@ export async function updateWatcher(
 
     return { data: decrypted, error: null };
   } catch (error) {
+    console.log(error);
     return { data: null, error };
   }
 }
@@ -173,7 +178,11 @@ export async function encryptWatcher(
       selectorForBot: encryptedSelectorForBot,
       content: encryptedContent,
       contentLink: encryptedContentLink,
-    } = await encryptWatcherContent({ title, selector, link, content, contentLink }, botPublicKey);
+    } = await encryptWatcherContent(
+      { title, selector, link, content, contentLink },
+      true,
+      botPublicKey
+    );
 
     const watcher = await HTTP.put(`/v1/page-watcher/watchers/${id}`, {
       encrypted: true,

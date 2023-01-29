@@ -1,10 +1,11 @@
 import { Anchor, Box, Heading, Menu, Spinner, Text } from 'grommet';
-import { MoreVertical } from 'grommet-icons';
-import React, { useEffect } from 'react';
+import { FormView, FormViewHide, Insecure, MoreVertical, Secure } from 'grommet-icons';
+import React, { useEffect, useState } from 'react';
 
 import AppBar from '../../components/AppBar';
 import ContentWrapper from '../../components/ContentWrapper';
 import HorizontalCenter from '../../components/HorizontalCenter';
+import Modal from '../../components/Modal';
 import { formatDateTime } from '../../lib/date';
 import WatcherHistory from './components/WatcherHistory';
 import WatcherSchedule from './components/WatcherSchedule';
@@ -24,6 +25,8 @@ function WatcherDetails({
   onPublic,
   onPrivate,
 }) {
+  const [modalMessage, setModalMessage] = useState('');
+
   useEffect(() => {
     onFetchWatcher(id);
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -45,7 +48,6 @@ function WatcherDetails({
                 <Menu
                   icon={<MoreVertical />}
                   items={[
-                    { label: 'Link', href: watcher.link, target: '_blank', margin: '0.25rem 0' },
                     {
                       label: 'Edit',
                       onClick: () => onNavToEdit(id),
@@ -104,9 +106,36 @@ function WatcherDetails({
                 />
               )}
             </HorizontalCenter>
-            {!!watcher.gotValueAt && (
-              <Text size="xsmall">{formatDateTime(watcher.gotValueAt)}</Text>
-            )}
+
+            <HorizontalCenter>
+              {!!watcher.gotValueAt && (
+                <Text size="xsmall" margin="0 0.5rem 0 0">
+                  {formatDateTime(watcher.gotValueAt)}
+                </Text>
+              )}
+
+              {watcher.encrypted ? (
+                <Secure
+                  onClick={() => setModalMessage('This watcher is end-to-end encrytped.')}
+                  size="20px"
+                />
+              ) : (
+                <Insecure
+                  onClick={() => setModalMessage('This watcher is not encrypted.')}
+                  size="20px"
+                />
+              )}
+              <Box width="0.25rem" />
+
+              {watcher.isPublic ? (
+                <FormView onClick={() => setModalMessage('This watcher is public.')} size="24px" />
+              ) : (
+                <FormViewHide
+                  onClick={() => setModalMessage('This watcher is private.')}
+                  size="24px"
+                />
+              )}
+            </HorizontalCenter>
             <Anchor label="Web page" href={watcher.link} target="_blank" size="small" />
             <Text size="xsmall" wordBreak="break-word" margin="0 0 0.5rem">
               Selector: {watcher.selector}
@@ -123,6 +152,10 @@ function WatcherDetails({
             <WatcherSchedule watcher={watcher} isOwner={isOwner} />
             <WatcherTelegram watcher={watcher} isOwner={isOwner} />
             <WatcherHistory watcher={watcher} isOwner={isOwner} />
+
+            <Modal show={!!modalMessage} onClose={() => setModalMessage('')}>
+              {modalMessage}
+            </Modal>
           </>
         )}
       </ContentWrapper>
