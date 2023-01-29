@@ -7,7 +7,7 @@ function Modal({ show, onClose, children }) {
   }
 
   return (
-    <Layer onEsc={onClose} onClickOutside={onClose}>
+    <Layer onEsc={onClose} onClickOutside={onClose} responsive={false} modal>
       <Box pad="1rem">{children}</Box>
     </Layer>
   );

@@ -91,12 +91,16 @@ export async function fetchWatchers() {
 
     const decryptedWatchers = [];
     await asyncForEach(watchers, async watcher => {
-      const decrypted = await decryptWatcherContent(watcher);
-      decryptedWatchers.push(decrypted);
+      try {
+        const decrypted = await decryptWatcherContent(watcher);
+        decryptedWatchers.push(decrypted);
+        // eslint-disable-next-line no-empty
+      } catch (e) {}
     });
 
     return { data: decryptedWatchers, error: null };
   } catch (error) {
+    console.log(error);
     return { data: null, error };
   }
 }
