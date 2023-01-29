@@ -110,9 +110,12 @@ function* afterNewWatcher(newWatcher, newItem) {
       watcherActionCreators.setDetails({
         ...watcher,
         ...newWatcher,
-        history: newItem ? [newItem, ...watcher.history] : watcher.history,
       })
     );
+    if (newItem) {
+      const history = yield select(watcherSelectors.getHistory);
+      yield put(watcherActionCreators.setHistory([newItem, ...history]));
+    }
   }
 
   const watchers = yield select(watcherSelectors.getWatchers);
@@ -336,15 +339,7 @@ function* handleDeleteItemPressed({ payload: { id, sortKey } }) {
 
   if (data) {
     const history = yield select(watcherSelectors.getHistory);
-    const startKey = yield select(watcherSelectors.getStartKey);
-    const hasMore = yield select(watcherSelectors.hasMore);
-    yield put(
-      watcherActionCreators.setHistory(
-        history.filter(i => i.sortKey !== sortKey),
-        startKey,
-        hasMore
-      )
-    );
+    yield put(watcherActionCreators.setHistory(history.filter(i => i.sortKey !== sortKey)));
     yield call(showToast, 'Deleted!');
   } else {
     yield call(showToast, 'Something went wrong, please try again.', 'error');

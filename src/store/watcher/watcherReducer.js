@@ -35,7 +35,12 @@ function handleSetDetails(state, { details }) {
 }
 
 function handleSetHistory(state, { history, startKey, hasMore }) {
-  return { ...state, history, startKey, hasMore };
+  return {
+    ...state,
+    history,
+    startKey: startKey === undefined ? state.startKey : startKey,
+    hasMore: hasMore === undefined ? state.hasMore : hasMore,
+  };
 }
 
 function handleSetFetchError(state, { error }) {
