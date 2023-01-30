@@ -49,7 +49,7 @@ function WatcherEdit({ id, watcher, pageContent, isLoading, onFetch, onEdit, onF
           margin="1rem 0"
         />
 
-        {!!pageContent && <Text margin="1rem 0">{pageContent}</Text>}
+        {!!pageContent && <Text margin="0 0 1rem">{pageContent}</Text>}
 
         <Button
           label="Update watcher"
