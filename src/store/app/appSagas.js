@@ -17,6 +17,7 @@ function* handleNavigate({ payload: { path } }) {
 }
 
 function* handleChangeThemeModePressed({ payload: { themeMode } }) {
+  yield call(LocalStorage.set, LocalStorageKeys.themeMode, themeMode);
   yield put(appActionCreators.setThemeMode(themeMode));
 }
 
