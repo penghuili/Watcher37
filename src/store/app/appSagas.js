@@ -1,8 +1,8 @@
-import { all, call, fork, takeLatest } from 'redux-saga/effects';
+import { all, call, fork, put, takeLatest } from 'redux-saga/effects';
 import { LocalStorage, LocalStorageKeys } from '../../lib/LocalStorage';
 
 import { routeHelpers } from '../../lib/routeHelpers';
-import { appActionTypes } from './appActions';
+import { appActionCreators, appActionTypes } from './appActions';
 
 function* init() {
   yield call(LocalStorage.set, LocalStorageKeys.openTime, Date.now());
@@ -16,10 +16,15 @@ function* handleNavigate({ payload: { path } }) {
   yield call(routeHelpers.navigate, path);
 }
 
+function* handleChangeThemeModePressed({ payload: { themeMode } }) {
+  yield put(appActionCreators.setThemeMode(themeMode));
+}
+
 export function* appSagas() {
   yield fork(init);
   yield all([
     takeLatest(appActionTypes.GO_BACK, handleGoBack),
     takeLatest(appActionTypes.NAVIGATE, handleNavigate),
+    takeLatest(appActionTypes.CHNAGE_THEME_MODE_PRESSED, handleChangeThemeModePressed),
   ]);
 }

@@ -1,10 +1,16 @@
 export const appActionTypes = {
+  SET_THEME_MODE: 'app/SET_THEME_MODE',
   RESET: 'app/RESET',
   GO_BACK: 'app/GO_BACK',
   NAVIGATE: 'app/NAVIGATE',
+
+  CHNAGE_THEME_MODE_PRESSED: 'app/CHNAGE_THEME_MODE_PRESSED',
 };
 
 export const appActionCreators = {
+  setThemeMode(themeMode) {
+    return { type: appActionTypes.SET_THEME_MODE, payload: { themeMode } };
+  },
   reset() {
     return { type: appActionTypes.RESET };
   },
@@ -13,5 +19,8 @@ export const appActionCreators = {
   },
   navigate(path) {
     return { type: appActionTypes.NAVIGATE, payload: { path } };
+  },
+  changeThemeModePressed(themeMode) {
+    return { type: appActionTypes.CHNAGE_THEME_MODE_PRESSED, payload: { themeMode } };
   },
 };

@@ -2,11 +2,12 @@ import { Button, Heading, Spinner, Text } from 'grommet';
 import React from 'react';
 
 import AppBar from '../../components/AppBar';
+import ChangeTheme from '../../components/ChangeTheme';
 import ContentWrapper from '../../components/ContentWrapper';
 import RouteLink from '../../components/RouteLink';
 import { formatDate, formatDateTime } from '../../lib/date';
 
-function Home({ account, expiresAt, isLoadingAccount, onLogOut, onDelete }) {
+function Home({ account, expiresAt, isLoadingAccount, onNavigate, onLogOut, onDelete }) {
   return (
     <>
       <AppBar title="Account" hasBack />
@@ -26,10 +27,21 @@ function Home({ account, expiresAt, isLoadingAccount, onLogOut, onDelete }) {
                 <RouteLink to="/account/telegram" label={account.telegramId} />
               </Text>
             )}
-            <RouteLink to="/account/password" label="Change password" />
 
-            <Button label="Log out" onClick={onLogOut} margin="3rem 0 0" />
-            <Button label="Delete account" onClick={onDelete} margin="1rem 0 0" />
+            <ChangeTheme />
+
+            <Button
+              label="Change password"
+              onClick={() => onNavigate('/account/password')}
+              margin="3rem 0 0"
+            />
+            <Button label="Log out" onClick={onLogOut} margin="1rem 0 0" />
+            <Button
+              label="Delete account"
+              onClick={onDelete}
+              color="status-critical"
+              margin="1rem 0 0"
+            />
           </>
         )}
       </ContentWrapper>

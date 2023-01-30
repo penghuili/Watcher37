@@ -9,6 +9,7 @@ export const LocalStorageKeys = {
 
   openTime: 'openTime',
   lastOpenTime: 'lastOpenTime',
+  themeMode: 'themeMode',
 };
 
 export const LocalStorage = {
