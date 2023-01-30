@@ -34,7 +34,7 @@ function App({ themeMode }) {
 
   return (
     <Grommet theme={theme} full themeMode={themeMode}>
-      <Page>
+      <Page kind="narrow">
         <Router />
 
         <Toast />

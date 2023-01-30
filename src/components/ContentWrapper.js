@@ -3,7 +3,7 @@ import React from 'react';
 
 function ContentWrapper({ children }) {
   return (
-      <PageContent align="start" margin="0 0 3rem">
+      <PageContent align="start" as="main" pad="small" margin="0 0 3rem" responsive={false}>
         {children}
       </PageContent>
   );
