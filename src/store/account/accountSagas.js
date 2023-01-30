@@ -2,7 +2,8 @@ import { all, call, put, select, takeLatest } from 'redux-saga/effects';
 
 import { LocalStorage, LocalStorageKeys } from '../../lib/LocalStorage';
 import { routeHelpers } from '../../lib/routeHelpers';
-import { showToast } from '../../lib/showToast';
+import { appActionCreators } from '../app/appActions';
+import { toastTypes } from '../app/appReducer';
 import { authActionCreators, authActionTypes } from '../auth/authActions';
 import { accountActionCreators, accountActionTypes } from './accountActions';
 import {
@@ -81,9 +82,11 @@ function* handleDeletePressed() {
 
   if (data) {
     yield put(authActionCreators.logOutPressed());
-    yield call(showToast, 'Your account is deleted.');
+    yield put(appActionCreators.setToast('Your account is deleted.'));
   } else {
-    yield call(showToast, 'Something went wrong, please try again.', 'error');
+    yield put(
+      appActionCreators.setToast('Something went wrong, please try again.', toastTypes.critical)
+    );
   }
 
   yield put(accountActionCreators.isLoading(false));
@@ -96,14 +99,17 @@ function* handleAddTelegramIdPressed({ payload: { telegramId } }) {
 
   if (data) {
     yield put(accountActionCreators.setUserData(data));
-    yield call(
-      showToast,
-      telegramId
-        ? 'Telegram id is added, you will get notification when there is new content.'
-        : 'You removed Telegram integraion.'
+    yield put(
+      appActionCreators.setToast(
+        telegramId
+          ? 'Telegram id is added, you will get notification when there is new content.'
+          : 'You removed Telegram integraion.'
+      )
     );
   } else {
-    yield call(showToast, 'Something went wrong, please try again.', 'error');
+    yield put(
+      appActionCreators.setToast('Something went wrong, please try again.', toastTypes.critical)
+    );
   }
 
   yield put(accountActionCreators.isLoading(false));
@@ -121,10 +127,15 @@ function* handleChangePasswordPressed({ payload: { currentPassword, newPassword 
 
   if (data) {
     yield put(accountActionCreators.setUserData(data));
-    yield call(showToast, 'Your password is changed! Please login again.');
+    yield put(appActionCreators.setToast('Your password is changed! Please login again.'));
     yield put(authActionCreators.logOutPressed());
   } else {
-    yield call(showToast, 'Something went wrong, your current password may be wrong.', 'error');
+    yield put(
+      appActionCreators.setToast(
+        'Something went wrong, your current password may be wrong.',
+        toastTypes.critical
+      )
+    );
   }
 
   yield put(accountActionCreators.isLoading(false));

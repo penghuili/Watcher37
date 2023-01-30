@@ -1,5 +1,6 @@
 export const appActionTypes = {
   SET_THEME_MODE: 'app/SET_THEME_MODE',
+  SET_TOAST: 'app/SET_TOAST',
   RESET: 'app/RESET',
   GO_BACK: 'app/GO_BACK',
   NAVIGATE: 'app/NAVIGATE',
@@ -10,6 +11,9 @@ export const appActionTypes = {
 export const appActionCreators = {
   setThemeMode(themeMode) {
     return { type: appActionTypes.SET_THEME_MODE, payload: { themeMode } };
+  },
+  setToast(message, type) {
+    return { type: appActionTypes.SET_TOAST, payload: { message, type } };
   },
   reset() {
     return { type: appActionTypes.RESET };

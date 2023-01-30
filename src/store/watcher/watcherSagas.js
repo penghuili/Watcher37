@@ -1,8 +1,9 @@
 import { all, call, put, select, takeLatest, takeLeading } from 'redux-saga/effects';
 
 import { routeHelpers } from '../../lib/routeHelpers';
-import { showToast } from '../../lib/showToast';
 import { accountSelectors } from '../account/accountSelectors';
+import { appActionCreators } from '../app/appActions';
+import { toastTypes } from '../app/appReducer';
 import { watcherActionCreators, watcherActionTypes } from './watcherActions';
 import {
   checkWatcher,
@@ -30,10 +31,11 @@ function* handleFetchContentPressed({ payload: { link, selector } }) {
   if (data?.content) {
     yield put(watcherActionCreators.setContent(data.content));
   } else {
-    yield call(
-      showToast,
-      'No content. Either the selector is not correct, or the website does not support crawling.',
-      'error'
+    yield put(
+      appActionCreators.setToast(
+        'No content. Either the selector is not correct, or the website does not support crawling.',
+        toastTypes.critical
+      )
     );
   }
 
@@ -67,9 +69,11 @@ function* handleCreatePressed({ payload: { title, link, selector } }) {
     const watchers = yield select(watcherSelectors.getWatchers);
     yield call(setWatchers, [data, ...watchers]);
     yield call(routeHelpers.goBack);
-    yield call(showToast, 'Watcher is created!');
+    yield put(appActionCreators.setToast('Watcher is created!'));
   } else {
-    yield call(showToast, 'Something went wrong, please try again.', 'error');
+    yield put(
+      appActionCreators.setToast('Something went wrong, please try again.', toastTypes.critical)
+    );
   }
 
   yield put(watcherActionCreators.isLoading(false));
@@ -87,9 +91,11 @@ function* handleDeletePressed({ payload: { id } }) {
       setWatchers,
       watchers.filter(w => w.sid !== id)
     );
-    yield call(showToast, 'Watcher is delete!');
+    yield put(appActionCreators.setToast('Watcher is delete!'));
   } else {
-    yield call(showToast, 'Something went wrong, please try again.', 'error');
+    yield put(
+      appActionCreators.setToast('Something went wrong, please try again.', toastTypes.critical)
+    );
   }
 
   yield put(watcherActionCreators.isLoading(false));
@@ -143,19 +149,24 @@ function* handleEditPressed({
 
   if (data) {
     yield call(afterNewWatcher, data);
+    let message;
     if (telegramId) {
-      yield call(showToast, 'Telegram channel is integrated!');
+      message = 'Telegram channel is integrated!';
     } else if (telegramId === null) {
-      yield call(showToast, 'Telegram channel is removed.');
+      message = 'Telegram channel is removed.';
     } else if (skipPersonalTelegram === true) {
-      yield call(showToast, 'This watcher is muted.');
+      message = 'This watcher is muted.';
     } else if (skipPersonalTelegram === false) {
-      yield call(showToast, 'This watcher will notify your personal Telegram account again.');
+      message = 'This watcher will notify your personal Telegram account again.';
     } else {
-      yield call(showToast, 'Watcher is updated!');
+      message = 'Watcher is updated!';
     }
+
+    yield put(appActionCreators.setToast(message));
   } else {
-    yield call(showToast, 'Something went wrong, please try again.', 'error');
+    yield put(
+      appActionCreators.setToast('Something went wrong, please try again.', toastTypes.critical)
+    );
   }
 
   yield put(watcherActionCreators.isLoading(false));
@@ -222,9 +233,9 @@ function* handleCheckWatcherRequested({ payload: { id } }) {
     yield call(afterNewWatcher, data.watcher, data?.item);
 
     if (data?.item) {
-      yield call(showToast, 'New content!');
+      yield put(appActionCreators.setToast('New content!'));
     } else {
-      yield call(showToast, 'Nothing new.', 'info');
+      yield put(appActionCreators.setToast('Nothing new.', toastTypes.info));
     }
   }
 
@@ -238,9 +249,11 @@ function* handleScheduleTriggerPressed({ payload: { id, rate } }) {
 
   if (data) {
     yield call(afterNewWatcher, data);
-    yield call(showToast, 'Trigger is scheduled!');
+    yield put(appActionCreators.setToast('Trigger is scheduled!'));
   } else {
-    yield call(showToast, 'Something went wrong, please try again.', 'error');
+    yield put(
+      appActionCreators.setToast('Something went wrong, please try again.', toastTypes.critical)
+    );
   }
 
   yield put(watcherActionCreators.isLoading(false));
@@ -255,9 +268,11 @@ function* handleEncryptPressed({ payload: { id } }) {
 
   if (data) {
     yield call(afterNewWatcher, data);
-    yield call(showToast, 'Your watcher is now end-to-end encrypted!');
+    yield put(appActionCreators.setToast('Your watcher is now end-to-end encrypted!'));
   } else {
-    yield call(showToast, 'Something went wrong, please try again.', 'error');
+    yield put(
+      appActionCreators.setToast('Something went wrong, please try again.', toastTypes.critical)
+    );
   }
 
   yield put(watcherActionCreators.isLoading(false));
@@ -271,9 +286,11 @@ function* handleDecryptPressed({ payload: { id } }) {
 
   if (data) {
     yield call(afterNewWatcher, data);
-    yield call(showToast, 'Your watcher is now decrypted!');
+    yield put(appActionCreators.setToast('NYour watcher is now decrypted.'));
   } else {
-    yield call(showToast, 'Something went wrong, please try again.', 'error');
+    yield put(
+      appActionCreators.setToast('Something went wrong, please try again.', toastTypes.critical)
+    );
   }
 
   yield put(watcherActionCreators.isLoading(false));
@@ -290,12 +307,15 @@ function* handlePublicPressed({ payload: { id } }) {
 
   if (data) {
     yield call(afterNewWatcher, data);
-    yield call(
-      showToast,
-      'This watcher is now public, anyone can check it. (They cannot update it though.)'
+    yield put(
+      appActionCreators.setToast(
+        'This watcher is now public, anyone can check it. (They cannot update it though.)'
+      )
     );
   } else {
-    yield call(showToast, 'Something went wrong, please try again.', 'error');
+    yield put(
+      appActionCreators.setToast('Something went wrong, please try again.', toastTypes.critical)
+    );
   }
 
   yield put(watcherActionCreators.isLoading(false));
@@ -309,9 +329,11 @@ function* handlePrivatePressed({ payload: { id } }) {
 
   if (data) {
     yield call(afterNewWatcher, data);
-    yield call(showToast, 'This watcher is now private, only you can check it.');
+    yield put(appActionCreators.setToast('This watcher is now private, only you can check it.'));
   } else {
-    yield call(showToast, 'Something went wrong, please try again.', 'error');
+    yield put(
+      appActionCreators.setToast('Something went wrong, please try again.', toastTypes.critical)
+    );
   }
 
   yield put(watcherActionCreators.isLoading(false));
@@ -324,9 +346,11 @@ function* handleDeleteTriggerPressed({ payload: { id } }) {
 
   if (data) {
     yield call(afterNewWatcher, data);
-    yield call(showToast, 'Trigger is deleted!');
+    yield put(appActionCreators.setToast('Trigger is deleted!'));
   } else {
-    yield call(showToast, 'Something went wrong, please try again.', 'error');
+    yield put(
+      appActionCreators.setToast('Something went wrong, please try again.', toastTypes.critical)
+    );
   }
 
   yield put(watcherActionCreators.isLoading(false));
@@ -340,9 +364,11 @@ function* handleDeleteItemPressed({ payload: { id, sortKey } }) {
   if (data) {
     const history = yield select(watcherSelectors.getHistory);
     yield put(watcherActionCreators.setHistory(history.filter(i => i.sortKey !== sortKey)));
-    yield call(showToast, 'Deleted!');
+    yield put(appActionCreators.setToast('Deleted!'));
   } else {
-    yield call(showToast, 'Something went wrong, please try again.', 'error');
+    yield put(
+      appActionCreators.setToast('Something went wrong, please try again.', toastTypes.critical)
+    );
   }
 
   yield put(watcherActionCreators.isDeleting(false));

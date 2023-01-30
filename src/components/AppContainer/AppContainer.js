@@ -1,12 +1,10 @@
-import 'react-toastify/dist/ReactToastify.css';
-
 import { Grommet, grommet, Page } from 'grommet';
 import { deepMerge } from 'grommet/utils';
 import React from 'react';
-import { ToastContainer } from 'react-toastify';
 
 import { useNavigateListner } from '../../hooks/useNavigateListener';
 import Router from '../../router';
+import Toast from '../Toast';
 
 const theme = deepMerge(grommet, {
   global: {
@@ -39,7 +37,7 @@ function App({ themeMode }) {
       <Page>
         <Router />
 
-        <ToastContainer />
+        <Toast />
       </Page>
     </Grommet>
   );
