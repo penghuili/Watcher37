@@ -5,7 +5,7 @@ import React from 'react';
 import HorizontalCenter from '../../../../components/HorizontalCenter';
 import ScheduleSelector from '../ScheduleSelector';
 
-function CurrentSchedule({ sortKey, schedule, link, isEditing }) {
+function CurrentSchedule({ sid, schedule, link, isEditing }) {
   if (!schedule) {
     return null;
   }
@@ -24,7 +24,7 @@ function CurrentSchedule({ sortKey, schedule, link, isEditing }) {
   const unit = parts[1];
 
   if (isEditing) {
-    return <ScheduleSelector id={sortKey} showCancel />;
+    return <ScheduleSelector id={sid} showCancel />;
   }
 
   return (
@@ -41,7 +41,7 @@ function WatcherSchedule({ watcher, isOwner, isEditingSchedule, onEdit, onDelete
     if (watcher?.schedule) {
       return (
         <CurrentSchedule
-          sortKey={watcher.sortKey}
+          sid={watcher.sid}
           schedule={watcher.schedule}
           link={watcher.link}
           isEditing={isEditingSchedule}
@@ -50,7 +50,7 @@ function WatcherSchedule({ watcher, isOwner, isEditingSchedule, onEdit, onDelete
     }
 
     return isOwner ? (
-      <ScheduleSelector id={watcher.sortKey} />
+      <ScheduleSelector id={watcher.sid} />
     ) : (
       <Text>This watcher has no schedule.</Text>
     );
@@ -73,7 +73,7 @@ function WatcherSchedule({ watcher, isOwner, isEditingSchedule, onEdit, onDelete
               {
                 label: 'Delete',
                 color: 'status-critical',
-                onClick: () => onDeleteSchedule(watcher.sortKey),
+                onClick: () => onDeleteSchedule(watcher.sid),
                 margin: '0.25rem 0',
               },
             ]}

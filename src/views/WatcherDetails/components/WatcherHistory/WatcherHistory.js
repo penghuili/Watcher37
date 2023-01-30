@@ -26,7 +26,7 @@ function WatcherHistory({
           History
         </Heading>
         {isOwner &&
-          (isChecking ? <Spinner /> : <Refresh onClick={() => onCheckWatcher(watcher.sortKey)} />)}
+          (isChecking ? <Spinner /> : <Refresh onClick={() => onCheckWatcher(watcher.sid)} />)}
         {!!watcher.checkedAt && (
           <Text size="xsmall" margin="0 0 0 1rem">
             {formatDateTime(watcher.checkedAt)}

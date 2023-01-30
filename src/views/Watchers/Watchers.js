@@ -39,7 +39,7 @@ function Watchers({ watchers, isLoading, isChecking, onFetch, onCheckWatcher }) 
 
         {watchers.map(watcher => (
           <Card
-            key={watcher.sortKey}
+            key={watcher.sid}
             width="large"
             margin="0 0 2rem"
           >
@@ -65,14 +65,14 @@ function Watchers({ watchers, isLoading, isChecking, onFetch, onCheckWatcher }) 
             </CardBody>
             <CardFooter pad="0 1rem" justify="start">
               <Button icon={<Link />} href={watcher.link} target="_blank" hoverIndicator />
-              {isChecking && checkId === watcher.sortKey ? (
+              {isChecking && checkId === watcher.sid ? (
                 <Spinner size="xsmall" />
               ) : (
                 <Button
                   icon={<Refresh />}
                   onClick={() => {
-                    setCheckId(watcher.sortKey);
-                    onCheckWatcher(watcher.sortKey);
+                    setCheckId(watcher.sid);
+                    onCheckWatcher(watcher.sid);
                   }}
                   hoverIndicator
                 />

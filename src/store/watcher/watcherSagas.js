@@ -85,7 +85,7 @@ function* handleDeletePressed({ payload: { id } }) {
     const watchers = yield select(watcherSelectors.getWatchers);
     yield call(
       setWatchers,
-      watchers.filter(w => w.sortKey !== id)
+      watchers.filter(w => w.sid !== id)
     );
     yield call(showToast, 'Watcher is delete!');
   } else {
@@ -121,7 +121,7 @@ function* afterNewWatcher(newWatcher, newItem) {
   const watchers = yield select(watcherSelectors.getWatchers);
   yield call(
     setWatchers,
-    (watchers || []).map(w => (w.sortKey === newWatcher.sortKey ? newWatcher : w))
+    (watchers || []).map(w => (w.sid === newWatcher.sid ? newWatcher : w))
   );
 }
 

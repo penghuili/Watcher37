@@ -135,7 +135,7 @@ function WatcherTelegram({
       <Text>Get a Telegram message when this watcher gets new content.</Text>
       <OwnTelegram
         isOwner={isOwner}
-        watcherId={watcher.sortKey}
+        watcherId={watcher.sid}
         telegramId={accountTelegramId}
         skipped={watcher.skipPersonalTelegram}
         onNavigate={onNavigate}
@@ -143,7 +143,7 @@ function WatcherTelegram({
       />
       <SpecificTelegram
         isOwner={isOwner}
-        watcherId={watcher.sortKey}
+        watcherId={watcher.sid}
         telegram={watcher.telegram}
         onNavigate={onNavigate}
       />
