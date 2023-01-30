@@ -1,19 +1,10 @@
-import {
-  Anchor,
-  Box,
-  Button,
-  Card,
-  CardBody,
-  CardFooter,
-  CardHeader,
-  Spinner,
-  Text,
-} from 'grommet';
-import { Link, Refresh } from 'grommet-icons';
+import { Anchor, Box, Button, Spinner, Text } from 'grommet';
+import { Refresh } from 'grommet-icons';
 import React, { useEffect, useState } from 'react';
 
 import AppBar from '../../components/AppBar';
 import ContentWrapper from '../../components/ContentWrapper';
+import Divider from '../../components/Divider';
 import HorizontalCenter from '../../components/HorizontalCenter';
 import RouteLink from '../../components/RouteLink';
 import { formatDateTime } from '../../lib/date';
@@ -37,39 +28,28 @@ function Watchers({ watchers, isLoading, isChecking, onFetch, onCheckWatcher }) 
           {!isLoading && <Refresh onClick={onFetch} />}
         </Box>
 
+        <Divider />
+
         {watchers.map(watcher => (
-          <Card
-            key={watcher.sid}
-            width="large"
-            margin="0 0 2rem"
-          >
-            <CardHeader pad="1rem">
-              <HorizontalCenter>
-                <RouteLink to={`/w/${watcher.sid}`} label={watcher.title} />
-                {watcher.isNew && (
-                  <Text color="status-critical" size="small" margin="0 0 0 1rem">
-                    NEW
-                  </Text>
-                )}
-              </HorizontalCenter>
-            </CardHeader>
-            <CardBody pad="0 1rem 1rem">
+          <Box key={watcher.sid} margin="0 0 2rem">
+            <HorizontalCenter margin="1rem 0 0">
+              <RouteLink to={`/w/${watcher.sid}`} label={watcher.title} />
+              {watcher.isNew && (
+                <Text color="status-critical" size="small" margin="0 0 0 1rem">
+                  NEW
+                </Text>
+              )}
+            </HorizontalCenter>
+            <HorizontalCenter>
               {!!watcher.gotValueAt && (
                 <Text size="xsmall">{formatDateTime(watcher.gotValueAt)}</Text>
               )}
-              {watcher.contentLink ? (
-                <Anchor label={watcher.content} href={watcher.contentLink} target="_blank" />
-              ) : (
-                <Text>{watcher.content}</Text>
-              )}
-            </CardBody>
-            <CardFooter pad="0 1rem" justify="start">
-              <Button icon={<Link />} href={watcher.link} target="_blank" hoverIndicator />
+
               {isChecking && checkId === watcher.sid ? (
-                <Spinner size="xsmall" />
+                <Spinner size="20px" />
               ) : (
                 <Button
-                  icon={<Refresh />}
+                  icon={<Refresh size="20px" />}
                   onClick={() => {
                     setCheckId(watcher.sid);
                     onCheckWatcher(watcher.sid);
@@ -77,8 +57,14 @@ function Watchers({ watchers, isLoading, isChecking, onFetch, onCheckWatcher }) 
                   hoverIndicator
                 />
               )}
-            </CardFooter>
-          </Card>
+            </HorizontalCenter>
+
+            {watcher.contentLink ? (
+              <Anchor label={watcher.content} href={watcher.contentLink} target="_blank" />
+            ) : (
+              <Text>{watcher.content}</Text>
+            )}
+          </Box>
         ))}
 
         {!watchers?.length && !isLoading && <Text>No watchers.</Text>}
