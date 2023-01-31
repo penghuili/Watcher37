@@ -62,8 +62,8 @@ export const watcherActionCreators = {
   setFetchError(error) {
     return { type: watcherActionTypes.SET_FETCH_ERROR, payload: { error } };
   },
-  fetchWatchersRequested() {
-    return { type: watcherActionTypes.FETCH_WATCHERS_REQUESTED };
+  fetchWatchersRequested(isHardRefresh) {
+    return { type: watcherActionTypes.FETCH_WATCHERS_REQUESTED, payload: { isHardRefresh } };
   },
   createPressed({ title, link, selector }) {
     return { type: watcherActionTypes.CREATE_PRESSED, payload: { title, link, selector } };

@@ -13,7 +13,7 @@ function Watchers({ watchers, isLoading, isChecking, onFetch, onCheckWatcher }) 
   const [checkId, setCheckId] = useState();
 
   useEffect(() => {
-    onFetch();
+    onFetch(false);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
@@ -25,7 +25,7 @@ function Watchers({ watchers, isLoading, isChecking, onFetch, onCheckWatcher }) 
 
         <Box margin="1rem 0">
           {isLoading && <Spinner />}
-          {!isLoading && <Refresh onClick={onFetch} />}
+          {!isLoading && <Refresh onClick={() => onFetch(true)} />}
         </Box>
 
         <Divider />

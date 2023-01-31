@@ -47,7 +47,12 @@ function* setWatchers(watchers) {
   yield put(watcherActionCreators.setWatchers(watchers, lastOpenTime));
 }
 
-function* handleFetchWatchersRequested() {
+function* handleFetchWatchersRequested({ payload: { isHardRefresh } }) {
+  const watchers = yield select(watcherSelectors.getWatchers);
+  if (!isHardRefresh && watchers?.length) {
+    return;
+  }
+
   yield put(watcherActionCreators.isLoading(true));
 
   const { data } = yield call(fetchWatchers);
