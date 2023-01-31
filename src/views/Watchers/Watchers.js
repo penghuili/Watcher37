@@ -65,7 +65,6 @@ function Watchers({ watchers, isLoading, isChecking, onFetch, onCheckWatcher }) 
                   setCheckId(watcher.sid);
                   onCheckWatcher(watcher.sid);
                 }}
-                hoverIndicator
               />
             )}
           </Box>

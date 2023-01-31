@@ -1,12 +1,13 @@
-import { dispatch } from 'use-bus';
-import { navigationBusAction } from './constants';
+import { getHook } from './hooksOutside';
 
 export const routeHelpers = {
   navigate: path => {
-    dispatch({ type: navigationBusAction, payload: { path, replace: false } });
+    const location = getHook('location');
+    location[1](path, { replace: false });
   },
   replace: path => {
-    dispatch({ type: navigationBusAction, payload: { path, replace: true } });
+    const location = getHook('location');
+    location[1](path, { replace: true });
   },
   goBack() {
     if (history.length > 1) {

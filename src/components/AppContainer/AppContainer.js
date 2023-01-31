@@ -2,7 +2,6 @@ import { Grommet, grommet, Page } from 'grommet';
 import { deepMerge } from 'grommet/utils';
 import React from 'react';
 
-import { useNavigateListner } from '../../hooks/useNavigateListener';
 import Router from '../../router';
 import Toast from '../Toast';
 
@@ -30,8 +29,6 @@ const theme = deepMerge(grommet, {
 });
 
 function App({ themeMode }) {
-  useNavigateListner();
-
   return (
     <Grommet theme={theme} full themeMode={themeMode}>
       <Page kind="narrow">

@@ -15,7 +15,6 @@
     "redux": "4.2.0",
     "redux-saga": "1.2.2",
     "styled-components": "5.3.6",
-    "use-bus": "2.5.2",
     "wouter": "2.9.0"
   },
   "devDependencies": {
