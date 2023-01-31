@@ -1,4 +1,4 @@
-import { Button, Heading, Spinner, Text } from 'grommet';
+import { Button, Spinner, Text } from 'grommet';
 import React from 'react';
 
 import AppBar from '../../components/AppBar';
@@ -15,7 +15,7 @@ function Home({ account, expiresAt, isLoadingAccount, onNavigate, onLogOut, onDe
         {isLoadingAccount && <Spinner />}
         {!!account?.userId && (
           <>
-            <Heading level="2">{`Hi ${account.username}`}</Heading>
+            <Text margin="0 0 1rem">Username: {account.username}</Text>
             <Text margin="0 0 1rem">User ID: {account.userId}</Text>
             <Text margin="0 0 1rem">Created at: {formatDateTime(account.createdAt)}</Text>
             {!!expiresAt && (
