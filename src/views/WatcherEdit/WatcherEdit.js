@@ -1,4 +1,4 @@
-import { Button, Text, TextInput } from 'grommet';
+import { Button, Text, TextArea, TextInput } from 'grommet';
 import React, { useState } from 'react';
 
 import AppBar from '../../components/AppBar';
@@ -36,10 +36,11 @@ function WatcherEdit({ id, watcher, pageContent, isLoading, onFetch, onEdit, onF
           onChange={event => setLink(event.target.value)}
         />
         <Spacer />
-        <TextInput
+        <TextArea
           placeholder="Selector"
           value={selector}
           onChange={event => setSelector(event.target.value)}
+          resize="vertical"
         />
 
         <Button
