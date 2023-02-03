@@ -3,9 +3,9 @@ import { MoreVertical } from 'grommet-icons';
 import React, { useEffect, useState } from 'react';
 
 import AppBar from '../../components/AppBar';
+import Confirm from '../../components/Confirm';
 import ContentWrapper from '../../components/ContentWrapper';
 import HorizontalCenter from '../../components/HorizontalCenter';
-import Modal from '../../components/Modal';
 import WatcherAccess from '../../components/WatcherAccess';
 import { formatDateTime } from '../../lib/date';
 import WatcherHistory from './components/WatcherHistory';
@@ -26,7 +26,8 @@ function WatcherDetails({
   onPublic,
   onPrivate,
 }) {
-  const [modalMessage, setModalMessage] = useState('');
+  const [showMakePublicConfirm, setShowMakePublicConfirm] = useState(false);
+  const [showEncryptConfirm, setShowEncryptConfirm] = useState(false);
 
   useEffect(() => {
     onFetchWatcher(id);
@@ -63,13 +64,9 @@ function WatcherDetails({
                       : {
                           label: 'Encrypt this watcher',
                           onClick: () => {
-                            let confirmed = true;
                             if (watcher.isPublic) {
-                              confirmed = window.confirm(
-                                'This watcher is public. You need to turn it into private to encrypt it.'
-                              );
-                            }
-                            if (confirmed) {
+                              setShowEncryptConfirm(true);
+                            } else {
                               onEncrypt(id);
                             }
                           },
@@ -84,14 +81,9 @@ function WatcherDetails({
                       : {
                           label: 'Make it public',
                           onClick: () => {
-                            let confirmed = true;
                             if (watcher.encrypted) {
-                              confirmed = window.confirm(
-                                'This watcher is encrypted. You need to decrypt it to turn it into public.'
-                              );
-                            }
-
-                            if (confirmed) {
+                              setShowMakePublicConfirm(true);
+                            } else {
                               onPublic(id);
                             }
                           },
@@ -138,12 +130,21 @@ function WatcherDetails({
             <WatcherSchedule watcher={watcher} isOwner={isOwner} />
             <WatcherTelegram watcher={watcher} isOwner={isOwner} />
             <WatcherHistory watcher={watcher} isOwner={isOwner} />
-
-            <Modal show={!!modalMessage} onClose={() => setModalMessage('')}>
-              {modalMessage}
-            </Modal>
           </>
         )}
+
+        <Confirm
+          message="This watcher is public. It will be turned into private after it's encrypted."
+          show={showEncryptConfirm}
+          onClose={() => setShowEncryptConfirm(false)}
+          onConfirm={() => onEncrypt(id)}
+        />
+        <Confirm
+          message="This watcher is encrypted. It will be decrypted after it's public."
+          show={showMakePublicConfirm}
+          onClose={() => setShowMakePublicConfirm(false)}
+          onConfirm={() => onPublic(id)}
+        />
       </ContentWrapper>
     </>
   );
