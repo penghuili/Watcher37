@@ -22,9 +22,9 @@ function* handleIsLoggedIn({ payload: { loggedIn } }) {
 
     yield put(accountActionCreators.fetchSettingsRequested());
 
-    const openTime = yield call(LocalStorage.get, LocalStorageKeys.openTime);
-    if (openTime) {
-      yield put(accountActionCreators.updateSettingsRequested(openTime));
+    const lastOpenTime = yield call(LocalStorage.get, LocalStorageKeys.lastOpenTime);
+    if (lastOpenTime) {
+      yield put(accountActionCreators.updateSettingsRequested(lastOpenTime));
     }
   }
 }
