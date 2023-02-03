@@ -9,6 +9,7 @@ const initialState = {
   isEditingSchedule: false,
   fetchError: '',
   content: null,
+  contentLink: null,
   watchers: [],
   details: null,
   history: [],
@@ -16,8 +17,8 @@ const initialState = {
   hasMore: true,
 };
 
-function handleSetContent(state, { content }) {
-  return { ...state, content };
+function handleSetContent(state, { content, contentLink }) {
+  return { ...state, content, contentLink };
 }
 
 function handleSetWatchers(state, { watchers, lastOpenTime }) {

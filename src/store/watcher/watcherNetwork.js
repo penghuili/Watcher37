@@ -77,9 +77,12 @@ async function decryptWatcherItemContent(item) {
 
 export async function fetchPageContent(link, selector) {
   try {
-    const { content } = await HTTP.post(`/v1/page-watcher/content`, { link, selector });
+    const { content, contentLink } = await HTTP.post(`/v1/page-watcher/content`, {
+      link,
+      selector,
+    });
 
-    return { data: { content }, error: null };
+    return { data: { content, contentLink }, error: null };
   } catch (error) {
     return { data: null, error };
   }

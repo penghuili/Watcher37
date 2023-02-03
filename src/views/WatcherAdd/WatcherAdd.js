@@ -1,11 +1,15 @@
-import { Button, Text, TextArea, TextInput } from 'grommet';
+import { Button, Text } from 'grommet';
 import React, { useState } from 'react';
 
 import AppBar from '../../components/AppBar';
+import AreaField from '../../components/AreaField';
 import ContentWrapper from '../../components/ContentWrapper';
+import InputField from '../../components/InputField';
+import RouteLink from '../../components/RouteLink';
 import Spacer from '../../components/Spacer';
+import WatcherContent from '../../components/WatcherContent';
 
-function WatcherAdd({ pageContent, isLoading, onFetchContent, onCreate }) {
+function WatcherAdd({ content, contentLink, isLoading, onFetchContent, onCreate }) {
   const [title, setTitle] = useState('');
   const [link, setLink] = useState('');
   const [selector, setSelector] = useState('');
@@ -14,41 +18,46 @@ function WatcherAdd({ pageContent, isLoading, onFetchContent, onCreate }) {
     <>
       <AppBar title="Add watcher" hasBack />
       <ContentWrapper>
-        <TextInput
-          placeholder="Title"
-          value={title}
-          onChange={event => setTitle(event.target.value)}
-        />
-        <Spacer />
-        <TextInput
+        <InputField
+          label="Which page do you want to watch?"
           placeholder="Link"
           value={link}
-          onChange={event => setLink(event.target.value)}
+          onChange={setLink}
         />
         <Spacer />
-        <TextArea
+        <AreaField
+          label="Selector of the content:"
           placeholder="Selector"
           value={selector}
-          onChange={event => setSelector(event.target.value)}
-          resize="vertical"
+          onChange={setSelector}
         />
+        <RouteLink label="How to find the selector of a content?" to="/selector" />
+        <Spacer />
         <Button
           label="Get content"
           onClick={() => onFetchContent(link, selector)}
           disabled={!link || !selector || isLoading}
-          margin="1rem 0"
         />
 
-        {!!pageContent && (
+        {!!content && (
           <>
-            <Text margin="0 0 2rem">{pageContent}</Text>
+            <Spacer />
+            <WatcherContent content={content} contentLink={contentLink} />
+            <Spacer size="2rem" />
 
-            {!!title && <Text>Happy with the selector?</Text>}
+            <Text>Happy with the selector?</Text>
+            <Spacer />
+            <InputField
+              label="Then give this watcher a name:"
+              placeholder="Name"
+              value={title}
+              onChange={setTitle}
+            />
+            <Spacer />
             <Button
               label="Create watcher"
               onClick={() => onCreate({ title, link, selector })}
               disabled={!title || !link || !selector || isLoading}
-              margin="0.5rem 0 0"
             />
           </>
         )}

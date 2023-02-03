@@ -24,12 +24,12 @@ import { watcherSelectors } from './watcherSelectors';
 
 function* handleFetchContentPressed({ payload: { link, selector } }) {
   yield put(watcherActionCreators.isLoading(true));
-  yield put(watcherActionCreators.setContent(null));
+  yield put(watcherActionCreators.setContent(null, null));
 
   const { data } = yield call(fetchPageContent, link, selector);
 
   if (data?.content) {
-    yield put(watcherActionCreators.setContent(data.content));
+    yield put(watcherActionCreators.setContent(data.content, data.contentLink));
   } else {
     yield put(
       appActionCreators.setToast(

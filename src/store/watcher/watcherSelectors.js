@@ -2,6 +2,7 @@ import { accountSelectors } from '../account/accountSelectors';
 
 export const watcherSelectors = {
   getContent: state => state.watcher.content,
+  getContentLink: state => state.watcher.contentLink,
   getWatchers: state => state.watcher.watchers,
   getWatcher: (state, id) => watcherSelectors.getWatchers(state)?.find(w => w.sid === id),
   getDetails: state => state.watcher.details,

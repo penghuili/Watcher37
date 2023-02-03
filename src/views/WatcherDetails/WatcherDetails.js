@@ -1,4 +1,4 @@
-import { Anchor, Box, Heading, Menu, Spinner, Text } from 'grommet';
+import { Anchor, Heading, Menu, Spinner, Text } from 'grommet';
 import { MoreVertical } from 'grommet-icons';
 import React, { useEffect, useState } from 'react';
 
@@ -7,6 +7,7 @@ import Confirm from '../../components/Confirm';
 import ContentWrapper from '../../components/ContentWrapper';
 import HorizontalCenter from '../../components/HorizontalCenter';
 import WatcherAccess from '../../components/WatcherAccess';
+import WatcherContent from '../../components/WatcherContent';
 import { formatDateTime } from '../../lib/date';
 import WatcherHistory from './components/WatcherHistory';
 import WatcherSchedule from './components/WatcherSchedule';
@@ -119,13 +120,7 @@ function WatcherDetails({
               Selector: {watcher.selector}
             </Text>
 
-            <Box pad="1rem" border={{ size: 'medium', style: 'ridge' }}>
-              {watcher.contentLink ? (
-                <Anchor label={watcher.content} href={watcher.contentLink} target="_blank" />
-              ) : (
-                <Text>{watcher.content}</Text>
-              )}
-            </Box>
+            <WatcherContent content={watcher.content} contentLink={watcher.contentLink} />
 
             <WatcherSchedule watcher={watcher} isOwner={isOwner} />
             <WatcherTelegram watcher={watcher} isOwner={isOwner} />

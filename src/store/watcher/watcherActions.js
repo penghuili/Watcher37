@@ -32,8 +32,8 @@ export const watcherActionCreators = {
   fetchContentPressed(link, selector) {
     return { type: watcherActionTypes.FETCH_CONTENT_PRESSED, payload: { link, selector } };
   },
-  setContent(content) {
-    return { type: watcherActionTypes.SET_CONTENT, payload: { content } };
+  setContent(content, contentLink) {
+    return { type: watcherActionTypes.SET_CONTENT, payload: { content, contentLink } };
   },
   isLoading(loading) {
     return { type: watcherActionTypes.IS_LOADING, payload: { loading } };

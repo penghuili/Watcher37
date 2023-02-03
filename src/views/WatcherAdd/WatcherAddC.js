@@ -5,7 +5,8 @@ import { watcherSelectors } from '../../store/watcher/watcherSelectors';
 import WatcherAdd from './WatcherAdd';
 
 const mapStateToProps = state => ({
-  pageContent: watcherSelectors.getContent(state),
+  content: watcherSelectors.getContent(state),
+  contentLink: watcherSelectors.getContentLink(state),
   isLoading: watcherSelectors.isLoading(state),
 });
 

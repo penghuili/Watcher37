@@ -73,7 +73,7 @@ function Watchers({ watchers, isLoading, isChecking, onFetch, onCheckWatcher }) 
           </Box>
         ))}
 
-        {!watchers?.length && !isLoading && <Text>No watchers.</Text>}
+        {!watchers?.length && !isLoading && <Text margin="1rem 0 0">No watchers.</Text>}
       </ContentWrapper>
     </>
   );
