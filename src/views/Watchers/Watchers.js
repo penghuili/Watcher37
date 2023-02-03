@@ -7,6 +7,7 @@ import ContentWrapper from '../../components/ContentWrapper';
 import Divider from '../../components/Divider';
 import HorizontalCenter from '../../components/HorizontalCenter';
 import RouteLink from '../../components/RouteLink';
+import WatcherAccess from '../../components/WatcherAccess';
 import { formatDateTime } from '../../lib/date';
 
 function Watchers({ watchers, isLoading, isChecking, onFetch, onCheckWatcher }) {
@@ -48,6 +49,8 @@ function Watchers({ watchers, isLoading, isChecking, onFetch, onCheckWatcher }) 
                   {formatDateTime(watcher.gotValueAt)}
                 </Text>
               )}
+
+              <WatcherAccess watcher={watcher} />
             </HorizontalCenter>
 
             {watcher.contentLink ? (
