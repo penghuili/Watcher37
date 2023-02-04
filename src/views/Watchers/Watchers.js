@@ -1,4 +1,4 @@
-import { Anchor, Box, Spinner, Text } from 'grommet';
+import { Anchor, Box, Heading, Spinner, Text } from 'grommet';
 import { Refresh } from 'grommet-icons';
 import React, { useEffect, useState } from 'react';
 
@@ -73,7 +73,34 @@ function Watchers({ watchers, isLoading, isChecking, onFetch, onCheckWatcher }) 
           </Box>
         ))}
 
-        {!watchers?.length && !isLoading && <Text margin="1rem 0 0">No watchers.</Text>}
+        {!watchers?.length && !isLoading && (
+          <>
+            <Text margin="1rem 0 0">No watchers.</Text>
+            <Heading level="4" margin="1rem 0 0.5rem">
+              Check some public watchers:
+            </Heading>
+            <Box direction="row" wrap>
+              <Anchor
+                label="Berlin Weather"
+                href="/w/8U3nmNJWxBl"
+                target="_blank"
+                margin="0 1.5rem 0 0"
+              />
+              <Anchor
+                label="ETH Price"
+                href="/w/l10wKJvjs89"
+                target="_blank"
+                margin="0 1.5rem 0 0"
+              />
+              <Anchor
+                label="Ski in Braunlage"
+                href="/w/z6fb0huCWg2"
+                target="_blank"
+                margin="0 1.5rem 0 0"
+              />
+            </Box>
+          </>
+        )}
       </ContentWrapper>
     </>
   );

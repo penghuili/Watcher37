@@ -148,7 +148,7 @@ function* handleEditPressed({
     updateWatcher,
     id,
     {
-      encrypted,
+      encrypted: !!encrypted,
       title,
       selector,
       link,
@@ -347,7 +347,10 @@ function* handlePrivatePressed({ payload: { id } }) {
   yield put(watcherActionCreators.isLoading(true));
   const watcher = yield select(watcherSelectors.getDetails);
 
-  const { data } = yield call(updateWatcher, id, { encrypted: watcher.encrypted, isPublic: false });
+  const { data } = yield call(updateWatcher, id, {
+    encrypted: !!watcher.encrypted,
+    isPublic: false,
+  });
 
   if (data) {
     yield call(afterNewWatcher, data);
