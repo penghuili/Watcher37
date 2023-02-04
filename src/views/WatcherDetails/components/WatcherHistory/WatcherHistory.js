@@ -25,10 +25,13 @@ function WatcherHistory({
         <Heading level="4" margin="0 1rem 0 0">
           History
         </Heading>
-        {isOwner &&
-          (isChecking ? <Spinner /> : <Refresh onClick={() => onCheckWatcher(watcher.sid)} />)}
+        {isOwner && (
+          <Box margin="0 1rem 0 0">
+            {isChecking ? <Spinner /> : <Refresh onClick={() => onCheckWatcher(watcher.sid)} />}
+          </Box>
+        )}
         {!!watcher.checkedAt && (
-          <Text size="xsmall" margin="0 0 0 1rem">
+          <Text size="xsmall">
             {formatDateTime(watcher.checkedAt)}
           </Text>
         )}
@@ -68,7 +71,9 @@ function WatcherHistory({
         </Box>
       ))}
 
-      {!!hasMore && (
+      {!history?.length && !isLoadingHistory && <Text>No history yet.</Text>}
+
+      {!!hasMore && !isLoadingHistory && (
         <Button label="Load more" onClick={() => onFetchHistory(watcher.sid)} margin="1rem 0 0" />
       )}
       {isLoadingHistory && <Spinner size="small" margin="1rem 0 0" />}

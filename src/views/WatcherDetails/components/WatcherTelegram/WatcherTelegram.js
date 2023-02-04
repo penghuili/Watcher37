@@ -44,18 +44,18 @@ function OwnTelegram({ isOwner, watcherId, telegramId, skipped, onNavigate, onEd
       </HorizontalCenter>
       {telegramId ? (
         skipped ? (
-          <Text size="small">
-            <Bot size="small" /> will NOT notify you. It is muted.
+          <Text>
+            <Bot /> will NOT notify you. It is muted.
           </Text>
         ) : (
-          <Text size="small">
-            <Bot size="small" /> will notify you.
+          <Text>
+            <Bot /> will notify you.
           </Text>
         )
       ) : (
-        <Text size="small">
-          Follow <RouteLink to="/account/telegram" label="this guide" size="small" /> to integrate
-          your Telegram account.
+        <Text>
+          Follow <RouteLink to="/account/telegram" label="this guide" /> to integrate your Telegram
+          account.
         </Text>
       )}
     </>
@@ -91,33 +91,27 @@ function TelegramChannel({ isOwner, telegram, watcherId, onNavigate }) {
       </HorizontalCenter>
       {integrated && (
         <>
-          <Text size="small">
-            <Bot size="small" /> will notify the{' '}
-            <Text size="small" weight="bold">
-              {telegram.title}
-            </Text>{' '}
-            channel.
+          <Text>
+            <Bot /> will notify the <Text weight="bold">{telegram.title}</Text> channel.
           </Text>
           {telegram.username ? (
-            <Text size="small">
+            <Text>
               This is a public channel.{' '}
               <Anchor label="Join" href={`https://t.me/${telegram.username}`} target="_blank" />
             </Text>
           ) : (
-            <Text size="small">This is a private channel.</Text>
+            <Text>This is a private channel.</Text>
           )}
         </>
       )}
       {!integrated && isOwner && (
-        <Text size="small">
-          Follow <RouteLink to={`/w/${watcherId}/telegram`} label="this guide" size="small" /> to
-          integrate a Telegram channel.
+        <Text>
+          Follow <RouteLink to={`/w/${watcherId}/telegram`} label="this guide" /> to integrate a
+          Telegram channel.
         </Text>
       )}
-      {!integrated && !isOwner && (
-        <Text size="small">This watcher does not notify any Telegram channel.</Text>
-      )}
-      <Text size="small">Anyone in the channel will get notified.</Text>
+      {!integrated && !isOwner && <Text>This watcher does not notify any Telegram channel.</Text>}
+      {(integrated || isOwner) && <Text>Anyone in the channel will get notified.</Text>}
     </>
   );
 }
