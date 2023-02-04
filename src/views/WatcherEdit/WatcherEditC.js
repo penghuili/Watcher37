@@ -7,7 +7,8 @@ import WatcherEdit from './WatcherEdit';
 const mapStateToProps = (state, { params: { id } }) => ({
   id,
   watcher: watcherSelectors.getDetails(state),
-  pageContent: watcherSelectors.getContent(state),
+  content: watcherSelectors.getContent(state),
+  contentLink: watcherSelectors.getContentLink(state),
   isLoading: watcherSelectors.isLoading(state),
 });
 
@@ -15,6 +16,7 @@ const mapDispatchToProps = {
   onFetch: watcherActionCreators.fetchWatcherRequested,
   onEdit: watcherActionCreators.editPressed,
   onFetchContent: watcherActionCreators.fetchContentPressed,
+  onClearContent: () => watcherActionCreators.setContent(null, null),
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(WatcherEdit);

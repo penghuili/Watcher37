@@ -12,6 +12,7 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = {
   onFetchContent: watcherActionCreators.fetchContentPressed,
+  onClearContent: () => watcherActionCreators.setContent(null, null),
   onCreate: watcherActionCreators.createPressed,
 };
 

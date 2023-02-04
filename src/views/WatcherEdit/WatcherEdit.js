@@ -1,13 +1,25 @@
-import { Button, Text, TextArea, TextInput } from 'grommet';
-import React, { useState } from 'react';
+import { Button, TextArea, TextInput } from 'grommet';
+import React, { useEffect, useState } from 'react';
 
 import AppBar from '../../components/AppBar';
 import ContentWrapper from '../../components/ContentWrapper';
+import HorizontalCenter from '../../components/HorizontalCenter';
 import Spacer from '../../components/Spacer';
+import WatcherContent from '../../components/WatcherContent';
 import { useEffectOnce } from '../../hooks/useEffectOnce';
 import { useListener } from '../../hooks/useListener';
 
-function WatcherEdit({ id, watcher, pageContent, isLoading, onFetch, onEdit, onFetchContent }) {
+function WatcherEdit({
+  id,
+  watcher,
+  content,
+  contentLink,
+  isLoading,
+  onFetch,
+  onEdit,
+  onFetchContent,
+  onClearContent,
+}) {
   const [title, setTitle] = useState(watcher?.title || '');
   useListener(watcher?.title, value => setTitle(value || ''));
   const [link, setLink] = useState(watcher?.link || '');
@@ -17,8 +29,13 @@ function WatcherEdit({ id, watcher, pageContent, isLoading, onFetch, onEdit, onF
 
   useEffectOnce(() => {
     onFetch(id);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   });
+  useEffect(() => {
+    return () => {
+      onClearContent();
+    };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   return (
     <>
@@ -43,20 +60,21 @@ function WatcherEdit({ id, watcher, pageContent, isLoading, onFetch, onEdit, onF
           resize="vertical"
         />
 
-        <Button
-          label="Get content"
-          onClick={() => onFetchContent(link, selector)}
-          disabled={!link || !selector || isLoading}
-          margin="1rem 0"
-        />
+        <HorizontalCenter margin="1rem 0">
+          <Button
+            label="Get content"
+            onClick={() => onFetchContent(link, selector)}
+            disabled={!link || !selector || isLoading}
+            margin=" 0 1rem 0 0"
+          />
+          <Button
+            label="Update watcher"
+            onClick={() => onEdit(id, { title, selector, link })}
+            disabled={!title || isLoading}
+          />
+        </HorizontalCenter>
 
-        {!!pageContent && <Text margin="0 0 1rem">{pageContent}</Text>}
-
-        <Button
-          label="Update watcher"
-          onClick={() => onEdit(id, { title, selector, link })}
-          disabled={!title || isLoading}
-        />
+        {!!content && <WatcherContent content={content} contentLink={contentLink} />}
       </ContentWrapper>
     </>
   );

@@ -62,7 +62,7 @@ function OwnTelegram({ isOwner, watcherId, telegramId, skipped, onNavigate, onEd
   );
 }
 
-function SpecificTelegram({ isOwner, telegram, watcherId, onNavigate }) {
+function TelegramChannel({ isOwner, telegram, watcherId, onNavigate }) {
   const integrated = !!telegram;
 
   return (
@@ -152,7 +152,7 @@ function WatcherTelegram({
         onNavigate={onNavigate}
         onEdit={onEdit}
       />
-      <SpecificTelegram
+      <TelegramChannel
         isOwner={isOwner}
         watcherId={watcher.sid}
         telegram={watcher.telegram}

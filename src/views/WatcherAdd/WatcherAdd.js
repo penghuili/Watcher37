@@ -1,5 +1,5 @@
 import { Anchor, Button, Heading } from 'grommet';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 
 import AppBar from '../../components/AppBar';
 import AreaField from '../../components/AreaField';
@@ -8,10 +8,17 @@ import InputField from '../../components/InputField';
 import Spacer from '../../components/Spacer';
 import WatcherContent from '../../components/WatcherContent';
 
-function WatcherAdd({ content, contentLink, isLoading, onFetchContent, onCreate }) {
+function WatcherAdd({ content, contentLink, isLoading, onFetchContent, onClearContent, onCreate }) {
   const [title, setTitle] = useState('');
   const [link, setLink] = useState('');
   const [selector, setSelector] = useState('');
+
+  useEffect(() => {
+    return () => {
+      onClearContent();
+    };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   return (
     <>
@@ -44,7 +51,9 @@ function WatcherAdd({ content, contentLink, isLoading, onFetchContent, onCreate 
             <WatcherContent content={content} contentLink={contentLink} />
             <Spacer size="2rem" />
 
-            <Heading level="3" margin="0">Happy with the selector?</Heading>
+            <Heading level="3" margin="0">
+              Happy with the selector?
+            </Heading>
             <Spacer />
             <InputField
               label="Then give this watcher a name:"
