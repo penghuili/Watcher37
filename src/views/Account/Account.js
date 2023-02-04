@@ -1,13 +1,14 @@
-import { Button, Spinner, Text } from 'grommet';
+import { Spinner, Text } from 'grommet';
 import React from 'react';
 
 import AppBar from '../../components/AppBar';
 import ChangeTheme from '../../components/ChangeTheme';
 import ContentWrapper from '../../components/ContentWrapper';
 import RouteLink from '../../components/RouteLink';
+import Spacer from '../../components/Spacer';
 import { formatDate, formatDateTime } from '../../lib/date';
 
-function Home({ account, expiresAt, isLoadingAccount, onNavigate, onLogOut, onDelete }) {
+function Home({ account, expiresAt, isLoadingAccount }) {
   return (
     <>
       <AppBar title="Account" hasBack />
@@ -30,18 +31,14 @@ function Home({ account, expiresAt, isLoadingAccount, onNavigate, onLogOut, onDe
 
             <ChangeTheme />
 
-            <Button
-              label="Change password"
-              onClick={() => onNavigate('/account/password')}
-              margin="3rem 0 0"
-            />
-            <Button label="Log out" onClick={onLogOut} margin="1rem 0 0" />
-            <Button
-              label="Delete account"
-              onClick={onDelete}
-              color="status-critical"
-              margin="1rem 0 0"
-            />
+            <Spacer size="3rem" />
+            <RouteLink label="Security" to="/security" />
+            <Spacer />
+            <RouteLink label="How it works?" to="/how" />
+            <Spacer />
+            <RouteLink label="Limitations" to="/limitations" />
+            <Spacer />
+            <RouteLink label="How encryption works?" to="/encryption" />
           </>
         )}
       </ContentWrapper>

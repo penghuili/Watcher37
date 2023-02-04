@@ -1,6 +1,6 @@
 import { Anchor, Box, Heading, Spinner, Text } from 'grommet';
 import { Refresh } from 'grommet-icons';
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 
 import AppBar from '../../components/AppBar';
 import ContentWrapper from '../../components/ContentWrapper';
@@ -8,15 +8,15 @@ import Divider from '../../components/Divider';
 import HorizontalCenter from '../../components/HorizontalCenter';
 import RouteLink from '../../components/RouteLink';
 import WatcherAccess from '../../components/WatcherAccess';
+import { useEffectOnce } from '../../hooks/useEffectOnce';
 import { formatDateTime } from '../../lib/date';
 
 function Watchers({ watchers, isLoading, isChecking, onFetch, onCheckWatcher }) {
   const [checkId, setCheckId] = useState();
 
-  useEffect(() => {
+  useEffectOnce(() => {
     onFetch(false);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  });
 
   return (
     <>
@@ -84,19 +84,19 @@ function Watchers({ watchers, isLoading, isChecking, onFetch, onCheckWatcher }) 
                 label="Berlin Weather"
                 href="/w/8U3nmNJWxBl"
                 target="_blank"
-                margin="0 1.5rem 0 0"
+                margin="0 1.5rem 0.25rem 0"
               />
               <Anchor
                 label="ETH Price"
                 href="/w/l10wKJvjs89"
                 target="_blank"
-                margin="0 1.5rem 0 0"
+                margin="0 1.5rem 0.25rem 0"
               />
               <Anchor
                 label="Ski in Braunlage"
                 href="/w/z6fb0huCWg2"
                 target="_blank"
-                margin="0 1.5rem 0 0"
+                margin="0 1.5rem 0.25rem 0"
               />
             </Box>
           </>

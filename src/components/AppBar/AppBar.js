@@ -8,7 +8,7 @@ import HorizontalCenter from '../HorizontalCenter';
 function AppBar({ title, hasBack, isLoggedIn, onBack, onNavToAccount }) {
   return (
     <>
-      <Header pad="small" responsive={false} justify="between">
+      <Header pad="12px 16px" responsive={false} justify="between">
         <HorizontalCenter>
           {hasBack ? <Previous onClick={onBack} /> : <Avatar src={logo} size="32px" />}
           <Text size="large" margin="0 0 0 1rem">{title}</Text>

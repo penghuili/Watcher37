@@ -1,4 +1,4 @@
-import { Button, PageHeader, Text, TextInput } from 'grommet';
+import { Anchor, Button, PageHeader, Text, TextInput } from 'grommet';
 import React, { useState } from 'react';
 
 import AppBar from '../../components/AppBar';
@@ -34,6 +34,12 @@ function SignIn({ errorMessage, isLoading, onSignIn }) {
         />
 
         <RouteLink to="/sign-up" label="No account? Sign up" />
+        <Spacer />
+        <Text>
+          Be careful, you can't reset your password. Check the{' '}
+          <Anchor label="How encryption works" href="/encryption" target="_blank" /> page to know
+          why. You will also see the unique way of authentication.
+        </Text>
       </ContentWrapper>
     </>
   );

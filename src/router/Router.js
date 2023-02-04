@@ -5,9 +5,13 @@ import { Redirect, Route, Switch } from 'wouter';
 import HorizontalCenter from '../components/HorizontalCenter';
 import Account from '../views/Account';
 import ChangePassword from '../views/ChangePassword';
+import Encryption from '../views/Encryption';
+import HowItWorks from '../views/HowItWorks';
 import HowToFindSelector from '../views/HowToFindSelector';
 import IntegrateTelegram from '../views/IntegrateTelegram';
 import IntegrateTelegramChannel from '../views/IntegrateTelegramChannel';
+import Limitations from '../views/Limitations';
+import Security from '../views/Security';
 import SignIn from '../views/SignIn';
 import SignUp from '../views/SignUp';
 import WatcherAdd from '../views/WatcherAdd';
@@ -30,12 +34,16 @@ function Router({ isCheckingRefreshToken, isLoggedIn }) {
       <Switch>
         <Route path="/account" component={Account} />
         <Route path="/account/telegram" component={IntegrateTelegram} />
-        <Route path="/account/password" component={ChangePassword} />
+        <Route path="/security" component={Security} />
+        <Route path="/security/password" component={ChangePassword} />
         <Route path="/w/add" component={WatcherAdd} />
         <Route path="/w/:id" component={WatcherDetails} />
         <Route path="/w/:id/edit" component={WatcherEdit} />
         <Route path="/w/:id/telegram" component={IntegrateTelegramChannel} />
         <Route path="/selector" component={HowToFindSelector} />
+        <Route path="/limitations" component={Limitations} />
+        <Route path="/how" component={HowItWorks} />
+        <Route path="/encryption" component={Encryption} />
         <Route path="/" component={Watchers} />
         <Route>{() => <Redirect to="/" />}</Route>
       </Switch>
@@ -48,6 +56,9 @@ function Router({ isCheckingRefreshToken, isLoggedIn }) {
       <Route path="/sign-in" component={SignIn} />
       <Route path="/w/:id" component={WatcherDetails} />
       <Route path="/selector" component={HowToFindSelector} />
+      <Route path="/limitations" component={Limitations} />
+      <Route path="/how" component={HowItWorks} />
+      <Route path="/encryption" component={Encryption} />
       <Route path="/" component={Welcome} />
       <Route>{() => <Redirect to="/" />}</Route>
     </Switch>
