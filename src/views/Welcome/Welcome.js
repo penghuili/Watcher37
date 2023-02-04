@@ -5,6 +5,7 @@ import logo from '../../assets/logo.png';
 import ContentWrapper from '../../components/ContentWrapper';
 import Divider from '../../components/Divider';
 import HorizontalCenter from '../../components/HorizontalCenter';
+import Pitch from '../../components/Pitch';
 import RouteLink from '../../components/RouteLink';
 import Spacer from '../../components/Spacer';
 
@@ -12,12 +13,15 @@ function Welcome() {
   return (
     <>
       <ContentWrapper>
-        <HorizontalCenter margin="2rem 0">
+        <HorizontalCenter margin="2rem 0 1rem">
           <Avatar src={logo} />{' '}
           <Heading level="2" margin="0 0 0 1rem">
             PageWatcher
           </Heading>
         </HorizontalCenter>
+        <Pitch />
+        <Spacer size="2rem" />
+
         <RouteLink to="/sign-up" label="Sign up" />
         <Spacer />
         <RouteLink to="/sign-in" label="Sign in" />

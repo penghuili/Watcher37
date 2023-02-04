@@ -11,6 +11,15 @@ function SignIn({ errorMessage, isLoading, onSignIn }) {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
 
+  const isDisabled = !username || !password || isLoading;
+
+  function handleSubmit() {
+    if (isDisabled) {
+      return;
+    }
+
+    onSignIn(username, password);
+  }
   return (
     <>
       <AppBar title="Page Watcher" />
@@ -22,13 +31,17 @@ function SignIn({ errorMessage, isLoading, onSignIn }) {
           onChange={event => setUsername(event.target.value)}
         />
         <Spacer />
-        <PasswordInput placeholder="Password" value={password} onChange={setPassword} />
-        {!!errorMessage && <Text color="error">{errorMessage}</Text>}
+        <PasswordInput
+          placeholder="Password"
+          value={password}
+          onChange={setPassword}
+        />
+        {!!errorMessage && <Text color="status-error">{errorMessage}</Text>}
 
         <Button
           label={isLoading ? 'Loading...' : 'Sign in'}
-          onClick={() => onSignIn(username, password)}
-          disabled={!username || !password || isLoading}
+          onClick={handleSubmit}
+          disabled={isDisabled}
           primary
           margin="1rem 0"
         />

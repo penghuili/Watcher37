@@ -24,8 +24,7 @@ function Home({ account, expiresAt, isLoadingAccount }) {
             )}
             {!!account.telegramId && (
               <Text margin="0 0 1rem">
-                Telegram integration:{' '}
-                <RouteLink to="/account/telegram" label={account.telegramId} />
+                Telegram ID: <RouteLink to="/account/telegram" label={account.telegramId} />
               </Text>
             )}
 

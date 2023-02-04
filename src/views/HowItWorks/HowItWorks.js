@@ -30,12 +30,12 @@ function HowItWorks() {
         </Text>
 
         <Text margin="1rem 0 0">
-          5. If you integrate Telegram, it will send you a message to you whenever it finds
-          something new. It won't bother you if nothing is changed.
+          5. If you integrate Telegram, it will send a message to you whenever it finds something
+          new. It won't bother you if nothing is changed.
         </Text>
 
         <Text margin="1rem 0 0">
-          6. If you integrate Telegram channel, it will send a message to the channel, so everyone
+          6. If you integrate a Telegram channel, it will send a message to the channel, so everyone
           in that channel will get notified.
         </Text>
       </ContentWrapper>
