@@ -291,7 +291,7 @@ function* handleDecryptPressed({ payload: { id } }) {
 
   if (data) {
     yield call(afterNewWatcher, data);
-    yield put(appActionCreators.setToast('NYour watcher is now decrypted.'));
+    yield put(appActionCreators.setToast('Your watcher is now decrypted.'));
   } else {
     yield put(
       appActionCreators.setToast('Something went wrong, please try again.', toastTypes.critical)

@@ -1,11 +1,10 @@
-import { Button, Text } from 'grommet';
+import { Anchor, Button, Text } from 'grommet';
 import React, { useState } from 'react';
 
 import AppBar from '../../components/AppBar';
 import AreaField from '../../components/AreaField';
 import ContentWrapper from '../../components/ContentWrapper';
 import InputField from '../../components/InputField';
-import RouteLink from '../../components/RouteLink';
 import Spacer from '../../components/Spacer';
 import WatcherContent from '../../components/WatcherContent';
 
@@ -31,7 +30,7 @@ function WatcherAdd({ content, contentLink, isLoading, onFetchContent, onCreate 
           value={selector}
           onChange={setSelector}
         />
-        <RouteLink label="How to find the selector of a content?" to="/selector" />
+        <Anchor label="How to find the selector of a content?" href="/selector" target="_blank" />
         <Spacer />
         <Button
           label="Get content"

@@ -5,6 +5,7 @@ import { Redirect, Route, Switch } from 'wouter';
 import HorizontalCenter from '../components/HorizontalCenter';
 import Account from '../views/Account';
 import ChangePassword from '../views/ChangePassword';
+import HowToFindSelector from '../views/HowToFindSelector';
 import IntegrateTelegram from '../views/IntegrateTelegram';
 import IntegrateTelegramChannel from '../views/IntegrateTelegramChannel';
 import SignIn from '../views/SignIn';
@@ -34,6 +35,7 @@ function Router({ isCheckingRefreshToken, isLoggedIn }) {
         <Route path="/w/:id" component={WatcherDetails} />
         <Route path="/w/:id/edit" component={WatcherEdit} />
         <Route path="/w/:id/telegram" component={IntegrateTelegramChannel} />
+        <Route path="/selector" component={HowToFindSelector} />
         <Route path="/" component={Watchers} />
         <Route>{() => <Redirect to="/" />}</Route>
       </Switch>
@@ -45,6 +47,7 @@ function Router({ isCheckingRefreshToken, isLoggedIn }) {
       <Route path="/sign-up" component={SignUp} />
       <Route path="/sign-in" component={SignIn} />
       <Route path="/w/:id" component={WatcherDetails} />
+      <Route path="/selector" component={HowToFindSelector} />
       <Route path="/" component={Welcome} />
       <Route>{() => <Redirect to="/" />}</Route>
     </Switch>
