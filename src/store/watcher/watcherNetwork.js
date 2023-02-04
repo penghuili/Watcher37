@@ -140,17 +140,17 @@ export async function updateWatcher(
   botPublicKey
 ) {
   try {
+    if (encrypted === undefined) {
+      throw new Error('NO_encrypted');
+    }
+
     const {
       title: encryptedTitle,
       link: encryptedLink,
       linkForBot: encryptedLinkForBot,
       selector: encryptedSelector,
       selectorForBot: encryptedSelectorForBot,
-    } = await encryptWatcherContent(
-      { needToEncrypt: encrypted, title, link, selector },
-      encrypted,
-      botPublicKey
-    );
+    } = await encryptWatcherContent({ title, link, selector }, encrypted, botPublicKey);
 
     const watcher = await HTTP.put(`/v1/page-watcher/watchers/${id}`, {
       title: encryptedTitle,

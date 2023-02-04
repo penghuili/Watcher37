@@ -1,4 +1,4 @@
-import { Anchor, Button, Text } from 'grommet';
+import { Anchor, Button, Heading } from 'grommet';
 import React, { useState } from 'react';
 
 import AppBar from '../../components/AppBar';
@@ -44,7 +44,7 @@ function WatcherAdd({ content, contentLink, isLoading, onFetchContent, onCreate 
             <WatcherContent content={content} contentLink={contentLink} />
             <Spacer size="2rem" />
 
-            <Text>Happy with the selector?</Text>
+            <Heading level="3" margin="0">Happy with the selector?</Heading>
             <Spacer />
             <InputField
               label="Then give this watcher a name:"

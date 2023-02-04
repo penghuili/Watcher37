@@ -73,7 +73,7 @@ function* handleCreatePressed({ payload: { title, link, selector } }) {
   if (data) {
     const watchers = yield select(watcherSelectors.getWatchers);
     yield call(setWatchers, [data, ...watchers]);
-    yield call(routeHelpers.goBack);
+    yield call(routeHelpers.replace, `/w/${data.sid}`);
     yield put(appActionCreators.setToast('Watcher is created!'));
   } else {
     yield put(
@@ -142,15 +142,22 @@ function* handleEditPressed({
   yield put(watcherActionCreators.isLoading(true));
 
   const { encrypted } = yield select(watcherSelectors.getDetails);
-  const { data } = yield call(updateWatcher, id, {
-    encrypted,
-    title,
-    selector,
-    link,
-    skipPersonalTelegram,
-    telegramId,
-    isPublic,
-  });
+  const botPublicKey = yield select(accountSelectors.getBotPublicKey);
+
+  const { data } = yield call(
+    updateWatcher,
+    id,
+    {
+      encrypted,
+      title,
+      selector,
+      link,
+      skipPersonalTelegram,
+      telegramId,
+      isPublic,
+    },
+    botPublicKey
+  );
 
   if (data) {
     yield call(afterNewWatcher, data);
@@ -305,22 +312,32 @@ function* handlePublicPressed({ payload: { id } }) {
   yield put(watcherActionCreators.isLoading(true));
   const watcher = yield select(watcherSelectors.getDetails);
   if (watcher.encrypted) {
-    yield call(decryptWatcher, id, watcher);
-  }
+    const { data: decrypted } = yield call(decryptWatcher, id, watcher);
 
-  const { data } = yield call(updateWatcher, id, { encrypted: false, isPublic: true });
+    if (!decrypted) {
+      yield put(
+        appActionCreators.setToast('Something went wrong, please try again.', toastTypes.critical)
+      );
+      return;
+    }
 
-  if (data) {
-    yield call(afterNewWatcher, data);
-    yield put(
-      appActionCreators.setToast(
-        'This watcher is now public, anyone can check it. (They cannot update it though.)'
-      )
-    );
-  } else {
-    yield put(
-      appActionCreators.setToast('Something went wrong, please try again.', toastTypes.critical)
-    );
+    const { data } = yield call(updateWatcher, id, {
+      encrypted: decrypted.encrypted,
+      isPublic: true,
+    });
+
+    if (data) {
+      yield call(afterNewWatcher, data);
+      yield put(
+        appActionCreators.setToast(
+          'This watcher is now public, anyone can check it. (They cannot update it though.)'
+        )
+      );
+    } else {
+      yield put(
+        appActionCreators.setToast('Something went wrong, please try again.', toastTypes.critical)
+      );
+    }
   }
 
   yield put(watcherActionCreators.isLoading(false));
