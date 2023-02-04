@@ -74,7 +74,7 @@ function ScheduleSelector({ isLoading, id, showCancel, onSchedule, onCancel }) {
       </HorizontalCenter>
       <Box margin="0.5rem 0 0" direction="row">
         <Button
-          label="Schedule"
+          label="Setup"
           onClick={() =>
             onSchedule(id, `${num} ${num > 1 ? `${optionType.value}s` : optionType.value}`)
           }

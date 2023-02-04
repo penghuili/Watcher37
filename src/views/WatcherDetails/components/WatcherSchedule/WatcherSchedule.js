@@ -1,5 +1,5 @@
 import { Anchor, Heading, Menu, Text } from 'grommet';
-import { MoreVertical } from 'grommet-icons';
+import { Checkmark, MoreVertical } from 'grommet-icons';
 import React from 'react';
 
 import HorizontalCenter from '../../../../components/HorizontalCenter';
@@ -52,14 +52,21 @@ function WatcherSchedule({ watcher, isOwner, isEditingSchedule, onEdit, onDelete
     return isOwner ? (
       <ScheduleSelector id={watcher.sid} />
     ) : (
-      <Text>This watcher has no schedule.</Text>
+      <Text>This watcher has no checking schedule.</Text>
     );
   }
+
   return (
     <>
       <HorizontalCenter margin="2rem 0 0">
         <Heading level="4" margin="0">
-          Checking schedule
+          {isOwner && !watcher?.schedule ? (
+            <>
+              <Text color="status-warning">TODO</Text>: Setup checking schedule
+            </>
+          ) : (
+            'Checking schedule'
+          )}
         </Heading>
         {!!watcher?.schedule && isOwner && (
           <Menu
@@ -79,6 +86,7 @@ function WatcherSchedule({ watcher, isOwner, isEditingSchedule, onEdit, onDelete
             ]}
           />
         )}
+        {isOwner && !!watcher?.schedule && <Checkmark color="status-ok" size="16px" />}
       </HorizontalCenter>
 
       {renderSchedule()}

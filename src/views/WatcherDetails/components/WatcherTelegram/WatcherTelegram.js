@@ -1,5 +1,5 @@
 import { Anchor, Heading, Menu, Text } from 'grommet';
-import { MoreVertical } from 'grommet-icons';
+import { Checkmark, MoreVertical } from 'grommet-icons';
 import React from 'react';
 
 import Bot from '../../../../components/Bot';
@@ -39,6 +39,8 @@ function OwnTelegram({ isOwner, watcherId, telegramId, skipped, onNavigate, onEd
                 },
           ]}
         />
+
+        {isOwner && !!telegramId && <Checkmark color="status-ok" size="16px" />}
       </HorizontalCenter>
       {telegramId ? (
         skipped ? (
@@ -69,6 +71,7 @@ function SpecificTelegram({ isOwner, telegram, watcherId, onNavigate }) {
         <Heading level="5" margin="0.5rem 1rem 0 0">
           {isOwner ? '2. ' : ''}Notify a channel
         </Heading>
+
         {isOwner && (
           <Menu
             icon={<MoreVertical size="small" />}
@@ -81,6 +84,8 @@ function SpecificTelegram({ isOwner, telegram, watcherId, onNavigate }) {
             ]}
           />
         )}
+
+        {isOwner && !!telegram && <Checkmark color="status-ok" size="16px" />}
       </HorizontalCenter>
       {integrated && (
         <>
@@ -130,7 +135,13 @@ function WatcherTelegram({
   return (
     <>
       <Heading level="4" margin="2rem 0 0">
-        Integrate Telegram
+        {isOwner && !accountTelegramId && !watcher.telegram ? (
+          <>
+            <Text color="status-warning">TODO</Text>: Integrate Telegram
+          </>
+        ) : (
+          'Integrate Telegram'
+        )}
       </Heading>
       <Text>Get a Telegram message when this watcher gets new content.</Text>
       <OwnTelegram
