@@ -68,9 +68,11 @@ function TelegramChannel({ isOwner, telegram, watcherId, onNavigate }) {
   return (
     <>
       <HorizontalCenter>
-        <Heading level="5" margin="0.5rem 1rem 0 0">
-          {isOwner ? '2. ' : ''}Notify a channel
-        </Heading>
+        {isOwner && (
+          <Heading level="5" margin="0.5rem 1rem 0 0">
+            2. Notify a channel
+          </Heading>
+        )}
 
         {isOwner && (
           <Menu
@@ -140,10 +142,12 @@ function WatcherTelegram({
             <Text color="status-warning">TODO</Text>: Integrate Telegram
           </>
         ) : (
-          'Integrate Telegram'
+          'Telegram integration'
         )}
       </Heading>
-      <Text>Get a Telegram message when this watcher gets new content.</Text>
+      {isOwner && (
+        <Text size="small">Get a Telegram message when this watcher gets new content.</Text>
+      )}
       <OwnTelegram
         isOwner={isOwner}
         watcherId={watcher.sid}
