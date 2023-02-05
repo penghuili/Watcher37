@@ -9,6 +9,7 @@ const mapStateToProps = (state, { params: { id } }) => ({
   watcher: watcherSelectors.getDetails(state),
   content: watcherSelectors.getContent(state),
   contentLink: watcherSelectors.getContentLink(state),
+  contentError: watcherSelectors.getContentError(state),
   isLoading: watcherSelectors.isLoading(state),
 });
 

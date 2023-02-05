@@ -10,6 +10,7 @@ const initialState = {
   fetchError: '',
   content: null,
   contentLink: null,
+  contentError: null,
   watchers: [],
   details: null,
   history: [],
@@ -19,6 +20,10 @@ const initialState = {
 
 function handleSetContent(state, { content, contentLink }) {
   return { ...state, content, contentLink };
+}
+
+function handleSetContentError(state, { contentError }) {
+  return { ...state, contentError };
 }
 
 function handleSetWatchers(state, { watchers, lastOpenTime }) {
@@ -77,6 +82,9 @@ export function watcherReducer(state = initialState, action) {
   switch (action.type) {
     case watcherActionTypes.SET_CONTENT:
       return handleSetContent(state, action.payload);
+
+    case watcherActionTypes.SET_CONTENT_ERROR:
+      return handleSetContentError(state, action.payload);
 
     case watcherActionTypes.SET_WATCHERS:
       return handleSetWatchers(state, action.payload);

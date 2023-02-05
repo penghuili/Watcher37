@@ -1,6 +1,7 @@
 export const watcherActionTypes = {
   FETCH_CONTENT_PRESSED: 'watcher/FETCH_CONTENT_PRESSED',
   SET_CONTENT: 'watcher/SET_CONTENT',
+  SET_CONTENT_ERROR: 'watcher/SET_CONTENT_ERROR',
   IS_LOADING: 'watcher/IS_LOADING',
   IS_LOADING_HISTORY: 'watcher/IS_LOADING_HISTORY',
   IS_CHECKING: 'watcher/IS_CHECKING',
@@ -34,6 +35,9 @@ export const watcherActionCreators = {
   },
   setContent(content, contentLink) {
     return { type: watcherActionTypes.SET_CONTENT, payload: { content, contentLink } };
+  },
+  setContentError(contentError) {
+    return { type: watcherActionTypes.SET_CONTENT_ERROR, payload: { contentError } };
   },
   isLoading(loading) {
     return { type: watcherActionTypes.IS_LOADING, payload: { loading } };

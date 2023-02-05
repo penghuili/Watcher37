@@ -1,4 +1,4 @@
-import { Anchor, Button, Heading } from 'grommet';
+import { Anchor, Button, Heading, Text } from 'grommet';
 import React, { useEffect, useState } from 'react';
 
 import AppBar from '../../components/AppBar';
@@ -8,7 +8,15 @@ import InputField from '../../components/InputField';
 import Spacer from '../../components/Spacer';
 import WatcherContent from '../../components/WatcherContent';
 
-function WatcherAdd({ content, contentLink, isLoading, onFetchContent, onClearContent, onCreate }) {
+function WatcherAdd({
+  content,
+  contentLink,
+  contentError,
+  isLoading,
+  onFetchContent,
+  onClearContent,
+  onCreate,
+}) {
   const [title, setTitle] = useState('');
   const [link, setLink] = useState('');
   const [selector, setSelector] = useState('');
@@ -67,6 +75,16 @@ function WatcherAdd({ content, contentLink, isLoading, onFetchContent, onClearCo
               onClick={() => onCreate({ title, link, selector })}
               disabled={!title || !link || !selector || isLoading}
             />
+          </>
+        )}
+
+        {!!contentError && (
+          <>
+            <Text color="status-warning" margin="1rem 0 0">{contentError}</Text>
+            <Text>
+              Please also check the{' '}
+              <Anchor label="limitations" href="/limitations" target="_blank" /> of PageWatcher.
+            </Text>
           </>
         )}
       </ContentWrapper>

@@ -1,4 +1,4 @@
-import { Button, TextArea, TextInput } from 'grommet';
+import { Anchor, Button, Text, TextArea, TextInput } from 'grommet';
 import React, { useEffect, useState } from 'react';
 
 import AppBar from '../../components/AppBar';
@@ -14,6 +14,7 @@ function WatcherEdit({
   watcher,
   content,
   contentLink,
+  contentError,
   isLoading,
   onFetch,
   onEdit,
@@ -75,6 +76,16 @@ function WatcherEdit({
         </HorizontalCenter>
 
         {!!content && <WatcherContent content={content} contentLink={contentLink} />}
+
+        {!!contentError && (
+          <>
+            <Text color="status-warning">{contentError}</Text>
+            <Text>
+              Please also check the{' '}
+              <Anchor label="limitations" href="/limitations" target="_blank" /> of PageWatcher.
+            </Text>
+          </>
+        )}
       </ContentWrapper>
     </>
   );

@@ -25,6 +25,7 @@ import { watcherSelectors } from './watcherSelectors';
 function* handleFetchContentPressed({ payload: { link, selector } }) {
   yield put(watcherActionCreators.isLoading(true));
   yield put(watcherActionCreators.setContent(null, null));
+  yield put(watcherActionCreators.setContentError(null));
 
   const { data } = yield call(fetchPageContent, link, selector);
 
@@ -32,9 +33,8 @@ function* handleFetchContentPressed({ payload: { link, selector } }) {
     yield put(watcherActionCreators.setContent(data.content, data.contentLink));
   } else {
     yield put(
-      appActionCreators.setToast(
-        'No content. Either the selector is not correct, or the website does not support crawling.',
-        toastTypes.critical
+      watcherActionCreators.setContentError(
+        'No content. Either the selector is not correct, or the website does not support crawling.'
       )
     );
   }
