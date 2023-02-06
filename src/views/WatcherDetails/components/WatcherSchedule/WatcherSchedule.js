@@ -36,7 +36,7 @@ function CurrentSchedule({ sid, schedule, link, isEditing }) {
   );
 }
 
-function WatcherSchedule({ watcher, isOwner, isEditingSchedule, onEdit, onDeleteSchedule }) {
+function WatcherSchedule({ watcher, canEdit, isEditingSchedule, onEdit, onDeleteSchedule }) {
   function renderSchedule() {
     if (watcher?.schedule) {
       return (
@@ -49,7 +49,7 @@ function WatcherSchedule({ watcher, isOwner, isEditingSchedule, onEdit, onDelete
       );
     }
 
-    return isOwner ? (
+    return canEdit ? (
       <ScheduleSelector id={watcher.sid} />
     ) : (
       <Text>This watcher has no checking schedule.</Text>
@@ -60,7 +60,7 @@ function WatcherSchedule({ watcher, isOwner, isEditingSchedule, onEdit, onDelete
     <>
       <HorizontalCenter margin="2rem 0 0">
         <Heading level="4" margin="0">
-          {isOwner && !watcher?.schedule ? (
+          {canEdit && !watcher?.schedule ? (
             <>
               <Text color="status-warning">TODO</Text>: Setup checking schedule
             </>
@@ -68,7 +68,7 @@ function WatcherSchedule({ watcher, isOwner, isEditingSchedule, onEdit, onDelete
             'Checking schedule'
           )}
         </Heading>
-        {!!watcher?.schedule && isOwner && (
+        {!!watcher?.schedule && canEdit && (
           <Menu
             icon={<MoreVertical />}
             items={[
@@ -86,7 +86,7 @@ function WatcherSchedule({ watcher, isOwner, isEditingSchedule, onEdit, onDelete
             ]}
           />
         )}
-        {isOwner && !!watcher?.schedule && <Checkmark color="status-ok" size="16px" />}
+        {canEdit && !!watcher?.schedule && <Checkmark color="status-ok" size="16px" />}
       </HorizontalCenter>
 
       {renderSchedule()}

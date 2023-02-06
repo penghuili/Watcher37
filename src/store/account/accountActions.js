@@ -6,11 +6,12 @@ export const accountActionTypes = {
   FETCH_SETTINGS_REQUESTED: 'account/FETCH_SETTINGS_REQUESTED',
   UPDATE_SETTINGS_REQUESTED: 'account/UPDATE_SETTINGS_REQUESTED',
   SET_SETTINGS: 'account/SET_SETTINGS',
+  SET_PAY_ERROR: 'account/SET_PAY_ERROR',
   DELETE_PRESSED: 'account/DELETE_PRESSED',
   ADD_TELEGRAM_ID_PRESSED: 'account/ADD_TELEGRAM_ID_PRESSED',
-  NAV_TO_ACCOUNT_PRESSED: 'account/NAV_TO_ACCOUNT_PRESSED',
   CHANGE_PASSWORD_PRESSED: 'account/CHANGE_PASSWORD_PRESSED',
   TRY_PRESSED: 'account/TRY_PRESSED',
+  PAY_PRESSED: 'account/PAY_PRESSED',
 };
 
 export const accountActionCreators = {
@@ -38,6 +39,9 @@ export const accountActionCreators = {
   setSettings({ lastOpenTime, expiresAt, tried }) {
     return { type: accountActionTypes.SET_SETTINGS, payload: { lastOpenTime, expiresAt, tried } };
   },
+  setPayError(message) {
+    return { type: accountActionTypes.SET_PAY_ERROR, payload: { message } };
+  },
   deletePressed() {
     return { type: accountActionTypes.DELETE_PRESSED };
   },
@@ -45,11 +49,6 @@ export const accountActionCreators = {
     return {
       type: accountActionTypes.ADD_TELEGRAM_ID_PRESSED,
       payload: { telegramId },
-    };
-  },
-  navToAccountPressed() {
-    return {
-      type: accountActionTypes.NAV_TO_ACCOUNT_PRESSED,
     };
   },
   changePasswordPressed(currentPassword, newPassword) {
@@ -61,6 +60,12 @@ export const accountActionCreators = {
   tryPressed() {
     return {
       type: accountActionTypes.TRY_PRESSED,
+    };
+  },
+  payPressed(code) {
+    return {
+      type: accountActionTypes.PAY_PRESSED,
+      payload: { code },
     };
   },
 };

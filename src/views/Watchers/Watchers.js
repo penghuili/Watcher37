@@ -1,17 +1,28 @@
-import { Anchor, Box, Heading, Spinner, Text } from 'grommet';
+import { Anchor, Box, Button, Heading, Spinner, Text } from 'grommet';
 import { Refresh } from 'grommet-icons';
 import React, { useState } from 'react';
 
 import AppBar from '../../components/AppBar';
 import ContentWrapper from '../../components/ContentWrapper';
 import Divider from '../../components/Divider';
+import ExpiredBanner from '../../components/ExpiredBanner';
 import HorizontalCenter from '../../components/HorizontalCenter';
 import RouteLink from '../../components/RouteLink';
 import WatcherAccess from '../../components/WatcherAccess';
 import { useEffectOnce } from '../../hooks/useEffectOnce';
 import { formatDateTime } from '../../lib/date';
 
-function Watchers({ watchers, isLoading, isChecking, onFetch, onCheckWatcher }) {
+function Watchers({
+  watchers,
+  isAccountValid,
+  tried,
+  isLoadingSettings,
+  isLoading,
+  isChecking,
+  onFetch,
+  onCheckWatcher,
+  onTry,
+}) {
   const [checkId, setCheckId] = useState();
 
   useEffectOnce(() => {
@@ -22,7 +33,9 @@ function Watchers({ watchers, isLoading, isChecking, onFetch, onCheckWatcher }) 
     <>
       <AppBar title="Watchers" />
       <ContentWrapper>
-        <RouteLink to="/w/add" label="Create watcher" />
+        <ExpiredBanner />
+
+        {isAccountValid && <RouteLink to="/w/add" label="Create watcher" />}
 
         <Box margin="1rem 0">
           {isLoading && <Spinner />}
@@ -75,8 +88,9 @@ function Watchers({ watchers, isLoading, isChecking, onFetch, onCheckWatcher }) 
 
         {!watchers?.length && !isLoading && (
           <>
-            <Text margin="1rem 0 0">No watchers.</Text>
-            <Heading level="4" margin="1rem 0 0.5rem">
+            <Text margin="1rem 0 0">No watchers yet.</Text>
+
+            <Heading level="4" margin="2rem 0 0.5rem">
               Check some public watchers:
             </Heading>
             <Box direction="row" wrap>
@@ -99,6 +113,19 @@ function Watchers({ watchers, isLoading, isChecking, onFetch, onCheckWatcher }) 
                 margin="0 1.5rem 0.25rem 0"
               />
             </Box>
+
+            {!tried && (
+              <>
+                <Heading level="4" margin="2rem 0 0.5rem">
+                  Start 14 days of <Text color="status-ok">free</Text> trial to create your own
+                  watchers
+                </Heading>
+                <Button label="Start" onClick={onTry} disabled={isLoadingSettings} />
+                <Text margin="1rem 0 0">
+                  Check pricing <RouteLink label="here" to="/pricing" />
+                </Text>
+              </>
+            )}
           </>
         )}
       </ContentWrapper>

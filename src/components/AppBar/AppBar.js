@@ -3,9 +3,12 @@ import { Previous, User } from 'grommet-icons';
 import React from 'react';
 
 import logo from '../../assets/logo.png';
+import ExpiredTag from '../ExpiredTag';
 import HorizontalCenter from '../HorizontalCenter';
 
-function AppBar({ title, hasBack, isLoggedIn, onBack, onNavToAccount }) {
+function AppBar({ title, hasBack, isLoggedIn, onBack, onNav }) {
+  const showUserIcon = isLoggedIn && !hasBack;
+
   return (
     <Header pad="12px 16px" responsive={false} justify="between">
       <HorizontalCenter>
@@ -14,7 +17,14 @@ function AppBar({ title, hasBack, isLoggedIn, onBack, onNavToAccount }) {
           {title}
         </Text>
       </HorizontalCenter>
-      {isLoggedIn && !hasBack && <User onClick={onNavToAccount} />}
+      <HorizontalCenter>
+        {isLoggedIn && (
+          <Text margin={showUserIcon ? '0 1rem 0 0' : '0'}>
+            <ExpiredTag />
+          </Text>
+        )}
+        {showUserIcon && <User onClick={() => onNav('/account')} />}
+      </HorizontalCenter>
     </Header>
   );
 }

@@ -1,8 +1,7 @@
 import { all, call, put, select, takeLatest } from 'redux-saga/effects';
-import { errorCodes } from '../../lib/errorCodes';
 
+import { errorCodes } from '../../lib/errorCodes';
 import { LocalStorage, LocalStorageKeys } from '../../lib/LocalStorage';
-import { routeHelpers } from '../../lib/routeHelpers';
 import { appActionCreators } from '../app/appActions';
 import { toastTypes } from '../app/appReducer';
 import { authActionCreators, authActionTypes } from '../auth/authActions';
@@ -13,6 +12,7 @@ import {
   deleteAccount,
   fetchAccount,
   fetchSettings,
+  pay,
   tryApp,
   updateSettings,
 } from './accountNetwork';
@@ -67,17 +67,44 @@ function* handleUpdateSettingsRequested({ payload: { lastOpenTime } }) {
   yield put(accountActionCreators.isLoadingSettings(false));
 }
 
-function* handleTryRequested() {
+function* handleTryPressed() {
   yield put(accountActionCreators.isLoadingSettings(true));
 
   const { data, error } = yield call(tryApp);
 
   if (data) {
     yield put(accountActionCreators.setSettings(data));
+    yield put(
+      appActionCreators.setToast(
+        `Free start trial start! Your account is valid until ${data.expiresAt}.`
+      )
+    );
+  } else {
+    if (error?.errorCode === errorCodes.PAGE_WATCHER_TRIED) {
+      yield put(appActionCreators.setToast('You have already tried :)', toastTypes.critical));
+    }
   }
 
-  if (error?.errorCode === errorCodes.PAGE_WATCHER_TRIED) {
-    yield put(appActionCreators.setToast('You have already tried :)', toastTypes.critical));
+  yield put(accountActionCreators.isLoadingSettings(false));
+}
+
+function* handlePayPressed({ payload: { code } }) {
+  yield put(accountActionCreators.isLoadingSettings(true));
+  yield put(accountActionCreators.setPayError(null));
+
+  const { data, error } = yield call(pay, code);
+
+  if (data) {
+    yield put(accountActionCreators.setSettings(data));
+    yield put(appActionCreators.setToast(`Nice! Your account is valid until ${data.expiresAt}.`));
+  } else {
+    if (errorCodes.NOT_FOUND === error?.errorCode) {
+      yield put(accountActionCreators.setPayError('Invalid code.'));
+    } else if (error?.errorCode === errorCodes.PAGE_WATCHER_INVALID_TICKET) {
+      yield put(accountActionCreators.setPayError('This code is already used.'));
+    } else {
+      yield put(accountActionCreators.setPayError('Something went wrong, please try again.'));
+    }
   }
 
   yield put(accountActionCreators.isLoadingSettings(false));
@@ -123,10 +150,6 @@ function* handleAddTelegramIdPressed({ payload: { telegramId } }) {
   yield put(accountActionCreators.isLoading(false));
 }
 
-function* handleNavToAccountPressed() {
-  yield call(routeHelpers.navigate, '/account');
-}
-
 function* handleChangePasswordPressed({ payload: { currentPassword, newPassword } }) {
   yield put(accountActionCreators.isLoading(true));
 
@@ -155,10 +178,10 @@ export function* accountSagas() {
     takeLatest(accountActionTypes.FETCH_REQUESTED, handleFetchRequested),
     takeLatest(accountActionTypes.FETCH_SETTINGS_REQUESTED, handleFetchSettingsRequested),
     takeLatest(accountActionTypes.UPDATE_SETTINGS_REQUESTED, handleUpdateSettingsRequested),
-    takeLatest(accountActionTypes.TRY_PRESSED, handleTryRequested),
+    takeLatest(accountActionTypes.TRY_PRESSED, handleTryPressed),
+    takeLatest(accountActionTypes.PAY_PRESSED, handlePayPressed),
     takeLatest(accountActionTypes.DELETE_PRESSED, handleDeletePressed),
     takeLatest(accountActionTypes.ADD_TELEGRAM_ID_PRESSED, handleAddTelegramIdPressed),
-    takeLatest(accountActionTypes.NAV_TO_ACCOUNT_PRESSED, handleNavToAccountPressed),
     takeLatest(accountActionTypes.CHANGE_PASSWORD_PRESSED, handleChangePasswordPressed),
   ]);
 }

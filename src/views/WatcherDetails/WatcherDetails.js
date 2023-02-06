@@ -5,6 +5,7 @@ import React, { useEffect, useState } from 'react';
 import AppBar from '../../components/AppBar';
 import Confirm from '../../components/Confirm';
 import ContentWrapper from '../../components/ContentWrapper';
+import ExpiredBanner from '../../components/ExpiredBanner';
 import HorizontalCenter from '../../components/HorizontalCenter';
 import WatcherAccess from '../../components/WatcherAccess';
 import WatcherContent from '../../components/WatcherContent';
@@ -16,7 +17,7 @@ import WatcherTelegram from './components/WatcherTelegram';
 function WatcherDetails({
   params: { id },
   watcher,
-  isOwner,
+  canEdit,
   fetchError,
   isLoading,
   onFetchWatcher,
@@ -39,6 +40,8 @@ function WatcherDetails({
     <>
       <AppBar title="Watcher details" hasBack />
       <ContentWrapper>
+        <ExpiredBanner />
+
         {isLoading && <Spinner />}
         {!!fetchError && <Text size="large">{fetchError}</Text>}
         {!!watcher && (
@@ -47,7 +50,7 @@ function WatcherDetails({
               <Heading level="3" margin="0">
                 {watcher.title}
               </Heading>
-              {isOwner && (
+              {canEdit && (
                 <Menu
                   icon={<MoreVertical />}
                   items={[
@@ -122,9 +125,9 @@ function WatcherDetails({
 
             <WatcherContent content={watcher.content} contentLink={watcher.contentLink} />
 
-            <WatcherSchedule watcher={watcher} isOwner={isOwner} />
-            <WatcherTelegram watcher={watcher} isOwner={isOwner} />
-            <WatcherHistory watcher={watcher} isOwner={isOwner} />
+            <WatcherSchedule watcher={watcher} canEdit={canEdit} />
+            <WatcherTelegram watcher={watcher} canEdit={canEdit} />
+            <WatcherHistory watcher={watcher} canEdit={canEdit} />
           </>
         )}
 

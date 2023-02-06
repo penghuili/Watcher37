@@ -6,7 +6,7 @@ import HorizontalCenter from '../../../../components/HorizontalCenter';
 import { formatDateTime } from '../../../../lib/date';
 
 function WatcherHistory({
-  isOwner,
+  canEdit,
   watcher,
   history,
   hasMore,
@@ -25,16 +25,12 @@ function WatcherHistory({
         <Heading level="4" margin="0 1rem 0 0">
           History
         </Heading>
-        {isOwner && (
+        {canEdit && (
           <Box margin="0 1rem 0 0">
             {isChecking ? <Spinner /> : <Refresh onClick={() => onCheckWatcher(watcher.sid)} />}
           </Box>
         )}
-        {!!watcher.checkedAt && (
-          <Text size="xsmall">
-            {formatDateTime(watcher.checkedAt)}
-          </Text>
-        )}
+        {!!watcher.checkedAt && <Text size="xsmall">{formatDateTime(watcher.checkedAt)}</Text>}
       </HorizontalCenter>
 
       {(history || []).map((item, index) => (
@@ -44,7 +40,7 @@ function WatcherHistory({
             <Text size="xsmall" margin="0 1rem 0 0">
               {formatDateTime(item.createdAt)}
             </Text>
-            {isOwner &&
+            {canEdit &&
               (isDeleting && currentId === item.sortKey ? (
                 <Spinner size="small" />
               ) : (

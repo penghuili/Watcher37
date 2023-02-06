@@ -11,6 +11,7 @@ const initialState = {
   lastOpenTime: null,
   tried: true,
   expiresAt: null,
+  payError: null,
   botPublicKey: null,
 };
 
@@ -20,6 +21,10 @@ function handleSetUserData(state, { userId, username, createdAt, telegramId, bot
 
 function handleSetSettings(state, { lastOpenTime, expiresAt, tried }) {
   return { ...state, lastOpenTime, expiresAt, tried };
+}
+
+function handleSetPayError(state, { message }) {
+  return { ...state, payError: message };
 }
 
 function handleIsLoading(state, { loading }) {
@@ -41,6 +46,9 @@ export function accountReducer(state = initialState, action) {
 
     case accountActionTypes.SET_SETTINGS:
       return handleSetSettings(state, action.payload);
+
+    case accountActionTypes.SET_PAY_ERROR:
+      return handleSetPayError(state, action.payload);
 
     case accountActionTypes.IS_LOADING:
       return handleIsLoading(state, action.payload);

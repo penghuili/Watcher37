@@ -11,9 +11,11 @@ import HowToFindSelector from '../views/HowToFindSelector';
 import IntegrateTelegram from '../views/IntegrateTelegram';
 import IntegrateTelegramChannel from '../views/IntegrateTelegramChannel';
 import Limitations from '../views/Limitations';
+import Pricing from '../views/Pricing';
 import Security from '../views/Security';
 import SignIn from '../views/SignIn';
 import SignUp from '../views/SignUp';
+import Tickets from '../views/Tickets';
 import WatcherAdd from '../views/WatcherAdd';
 import WatcherDetails from '../views/WatcherDetails';
 import WatcherEdit from '../views/WatcherEdit';
@@ -40,10 +42,14 @@ function Router({ isCheckingRefreshToken, isLoggedIn }) {
         <Route path="/w/:id" component={WatcherDetails} />
         <Route path="/w/:id/edit" component={WatcherEdit} />
         <Route path="/w/:id/telegram" component={IntegrateTelegramChannel} />
+
         <Route path="/selector" component={HowToFindSelector} />
         <Route path="/limitations" component={Limitations} />
         <Route path="/how" component={HowItWorks} />
         <Route path="/encryption" component={Encryption} />
+        <Route path="/tickets" component={Tickets} />
+        <Route path="/pricing" component={Pricing} />
+
         <Route path="/" component={Watchers} />
         <Route>{() => <Redirect to="/" />}</Route>
       </Switch>
@@ -55,10 +61,14 @@ function Router({ isCheckingRefreshToken, isLoggedIn }) {
       <Route path="/sign-up" component={SignUp} />
       <Route path="/sign-in" component={SignIn} />
       <Route path="/w/:id" component={WatcherDetails} />
+
       <Route path="/selector" component={HowToFindSelector} />
       <Route path="/limitations" component={Limitations} />
       <Route path="/how" component={HowItWorks} />
       <Route path="/encryption" component={Encryption} />
+      <Route path="/tickets" component={Tickets} />
+      <Route path="/pricing" component={Pricing} />
+
       <Route path="/" component={Welcome} />
       <Route>{() => <Redirect to="/" />}</Route>
     </Switch>
