@@ -1,6 +1,6 @@
 import { connect } from 'react-redux';
-import { accountActionCreators } from '../../store/account/accountActions';
 
+import { accountActionCreators } from '../../store/account/accountActions';
 import { appActionCreators } from '../../store/app/appActions';
 import { authSelectors } from '../../store/auth/authSelectors';
 import AppBar from './AppBar';

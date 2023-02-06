@@ -1,5 +1,6 @@
 export const accountActionTypes = {
   IS_LOADING: 'account/IS_LOADING',
+  IS_LOADING_SETTINGS: 'account/IS_LOADING_SETTINGS',
   SET_USER_DATA: 'account/SET_USER_DATA',
   FETCH_REQUESTED: 'account/FETCH_REQUESTED',
   FETCH_SETTINGS_REQUESTED: 'account/FETCH_SETTINGS_REQUESTED',
@@ -9,11 +10,15 @@ export const accountActionTypes = {
   ADD_TELEGRAM_ID_PRESSED: 'account/ADD_TELEGRAM_ID_PRESSED',
   NAV_TO_ACCOUNT_PRESSED: 'account/NAV_TO_ACCOUNT_PRESSED',
   CHANGE_PASSWORD_PRESSED: 'account/CHANGE_PASSWORD_PRESSED',
+  TRY_PRESSED: 'account/TRY_PRESSED',
 };
 
 export const accountActionCreators = {
   isLoading(loading) {
     return { type: accountActionTypes.IS_LOADING, payload: { loading } };
+  },
+  isLoadingSettings(value) {
+    return { type: accountActionTypes.IS_LOADING_SETTINGS, payload: { value } };
   },
   setUserData({ userId, username, createdAt, telegramId, botPublicKey }) {
     return {
@@ -30,8 +35,8 @@ export const accountActionCreators = {
   updateSettingsRequested(lastOpenTime) {
     return { type: accountActionTypes.UPDATE_SETTINGS_REQUESTED, payload: { lastOpenTime } };
   },
-  setSettings({ lastOpenTime, expiresAt }) {
-    return { type: accountActionTypes.SET_SETTINGS, payload: { lastOpenTime, expiresAt } };
+  setSettings({ lastOpenTime, expiresAt, tried }) {
+    return { type: accountActionTypes.SET_SETTINGS, payload: { lastOpenTime, expiresAt, tried } };
   },
   deletePressed() {
     return { type: accountActionTypes.DELETE_PRESSED };
@@ -51,6 +56,11 @@ export const accountActionCreators = {
     return {
       type: accountActionTypes.CHANGE_PASSWORD_PRESSED,
       payload: { currentPassword, newPassword },
+    };
+  },
+  tryPressed() {
+    return {
+      type: accountActionTypes.TRY_PRESSED,
     };
   },
 };

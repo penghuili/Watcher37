@@ -4,11 +4,13 @@ import React from 'react';
 import AppBar from '../../components/AppBar';
 import ChangeTheme from '../../components/ChangeTheme';
 import ContentWrapper from '../../components/ContentWrapper';
+import Divider from '../../components/Divider';
 import RouteLink from '../../components/RouteLink';
 import Spacer from '../../components/Spacer';
-import { formatDate, formatDateTime } from '../../lib/date';
+import { formatDateTime } from '../../lib/date';
+import Payment from './components/Payment';
 
-function Home({ account, expiresAt, isLoadingAccount }) {
+function Home({ account, isLoadingAccount }) {
   return (
     <>
       <AppBar title="Account" hasBack />
@@ -19,9 +21,11 @@ function Home({ account, expiresAt, isLoadingAccount }) {
             <Text margin="0 0 1rem">Username: {account.username}</Text>
             <Text margin="0 0 1rem">User ID: {account.userId}</Text>
             <Text margin="0 0 1rem">Created at: {formatDateTime(account.createdAt)}</Text>
-            {!!expiresAt && (
-              <Text margin="0 0 1rem">Expires at: {formatDate(new Date(expiresAt))}</Text>
-            )}
+            <Payment />
+
+            <Divider />
+            <Spacer />
+
             {!!account.telegramId && (
               <Text margin="0 0 1rem">
                 Telegram ID: <RouteLink to="/account/telegram" label={account.telegramId} />
@@ -30,7 +34,9 @@ function Home({ account, expiresAt, isLoadingAccount }) {
 
             <ChangeTheme />
 
-            <Spacer size="3rem" />
+            <Divider />
+            <Spacer />
+
             <RouteLink label="Security" to="/security" />
             <Spacer />
             <RouteLink label="How it works?" to="/how" />

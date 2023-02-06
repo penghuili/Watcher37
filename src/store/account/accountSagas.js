@@ -1,4 +1,5 @@
 import { all, call, put, select, takeLatest } from 'redux-saga/effects';
+import { errorCodes } from '../../lib/errorCodes';
 
 import { LocalStorage, LocalStorageKeys } from '../../lib/LocalStorage';
 import { routeHelpers } from '../../lib/routeHelpers';
@@ -12,6 +13,7 @@ import {
   deleteAccount,
   fetchAccount,
   fetchSettings,
+  tryApp,
   updateSettings,
 } from './accountNetwork';
 import { accountSelectors } from './accountSelectors';
@@ -42,37 +44,43 @@ function* handleFetchRequested() {
 }
 
 function* handleFetchSettingsRequested() {
-  yield put(accountActionCreators.isLoading(true));
+  yield put(accountActionCreators.isLoadingSettings(true));
 
   const { data } = yield call(fetchSettings);
 
   if (data) {
-    yield put(
-      accountActionCreators.setSettings({
-        lastOpenTime: data.lastOpenTime,
-        expiresAt: data.expiresAt,
-      })
-    );
+    yield put(accountActionCreators.setSettings(data));
   }
 
-  yield put(accountActionCreators.isLoading(false));
+  yield put(accountActionCreators.isLoadingSettings(false));
 }
 
 function* handleUpdateSettingsRequested({ payload: { lastOpenTime } }) {
-  yield put(accountActionCreators.isLoading(true));
+  yield put(accountActionCreators.isLoadingSettings(true));
 
   const { data } = yield call(updateSettings, lastOpenTime);
 
   if (data) {
-    yield put(
-      accountActionCreators.setSettings({
-        lastOpenTime: data.lastOpenTime,
-        expiresAt: data.expiresAt,
-      })
-    );
+    yield put(accountActionCreators.setSettings(data));
   }
 
-  yield put(accountActionCreators.isLoading(false));
+  yield put(accountActionCreators.isLoadingSettings(false));
+}
+
+function* handleTryRequested() {
+  yield put(accountActionCreators.isLoadingSettings(true));
+
+  const { data, error } = yield call(tryApp);
+
+  if (data) {
+    yield put(accountActionCreators.setSettings(data));
+  }
+
+  if (error?.errorCode === errorCodes.PAGE_WATCHER_TRIED) {
+    yield put(appActionCreators.setToast('You have already tried :)', toastTypes.critical));
+  }
+
+  yield put(accountActionCreators.isLoadingSettings(false));
 }
 
 function* handleDeletePressed() {
@@ -147,6 +155,7 @@ export function* accountSagas() {
     takeLatest(accountActionTypes.FETCH_REQUESTED, handleFetchRequested),
     takeLatest(accountActionTypes.FETCH_SETTINGS_REQUESTED, handleFetchSettingsRequested),
     takeLatest(accountActionTypes.UPDATE_SETTINGS_REQUESTED, handleUpdateSettingsRequested),
+    takeLatest(accountActionTypes.TRY_PRESSED, handleTryRequested),
     takeLatest(accountActionTypes.DELETE_PRESSED, handleDeletePressed),
     takeLatest(accountActionTypes.ADD_TELEGRAM_ID_PRESSED, handleAddTelegramIdPressed),
     takeLatest(accountActionTypes.NAV_TO_ACCOUNT_PRESSED, handleNavToAccountPressed),

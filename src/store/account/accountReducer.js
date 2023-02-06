@@ -3,11 +3,13 @@ import { accountActionTypes } from './accountActions';
 
 const initialState = {
   isLoading: false,
+  isLoadingSettings: false,
   userId: null,
   username: null,
   createdAt: null,
   telegramId: null,
   lastOpenTime: null,
+  tried: true,
   expiresAt: null,
   botPublicKey: null,
 };
@@ -16,12 +18,16 @@ function handleSetUserData(state, { userId, username, createdAt, telegramId, bot
   return { ...state, userId, username, createdAt, telegramId, botPublicKey };
 }
 
-function handleSetSettings(state, { lastOpenTime, expiresAt }) {
-  return { ...state, lastOpenTime, expiresAt };
+function handleSetSettings(state, { lastOpenTime, expiresAt, tried }) {
+  return { ...state, lastOpenTime, expiresAt, tried };
 }
 
 function handleIsLoading(state, { loading }) {
   return { ...state, isLoading: loading };
+}
+
+function handleIsLoadingSettings(state, { value }) {
+  return { ...state, isLoadingSettings: value };
 }
 
 function handleReset() {
@@ -38,6 +44,9 @@ export function accountReducer(state = initialState, action) {
 
     case accountActionTypes.IS_LOADING:
       return handleIsLoading(state, action.payload);
+
+    case accountActionTypes.IS_LOADING_SETTINGS:
+      return handleIsLoadingSettings(state, action.payload);
 
     case appActionTypes.RESET:
       return handleReset();
