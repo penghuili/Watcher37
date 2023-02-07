@@ -5,6 +5,7 @@ import { Redirect, Route, Switch } from 'wouter';
 import HorizontalCenter from '../components/HorizontalCenter';
 import Account from '../views/Account';
 import ChangePassword from '../views/ChangePassword';
+import Contact from '../views/Contact';
 import Encryption from '../views/Encryption';
 import HowItWorks from '../views/HowItWorks';
 import HowToFindSelector from '../views/HowToFindSelector';
@@ -55,6 +56,7 @@ function Router({ isCheckingRefreshToken, isLoggedIn }) {
         <Route path="/motivation" component={Motivation} />
         <Route path="/privacy" component={Privacy} />
         <Route path="/terms" component={Terms} />
+        <Route path="/contact" component={Contact} />
 
         <Route path="/" component={Watchers} />
         <Route>{() => <Redirect to="/" />}</Route>
@@ -77,6 +79,7 @@ function Router({ isCheckingRefreshToken, isLoggedIn }) {
       <Route path="/motivation" component={Motivation} />
       <Route path="/privacy" component={Privacy} />
       <Route path="/terms" component={Terms} />
+      <Route path="/contact" component={Contact} />
 
       <Route path="/" component={Welcome} />
       <Route>{() => <Redirect to="/" />}</Route>

@@ -56,6 +56,8 @@ function Home({ account, isLoadingAccount }) {
             <RouteLink label="Privacy" to="/privacy" />
             <Spacer />
             <RouteLink label="Terms" to="/terms" />
+            <Spacer />
+            <RouteLink label="Contact" to="/contact" />
           </>
         )}
       </ContentWrapper>
