@@ -5,6 +5,7 @@ import encryption1 from '../../assets/images/encryption1.png';
 import encryption2 from '../../assets/images/encryption2.png';
 import AppBar from '../../components/AppBar';
 import ContentWrapper from '../../components/ContentWrapper';
+import ExampleWatchers from '../../components/ExampleWatchers';
 import Pitch from '../../components/Pitch';
 
 function Encryption() {
@@ -18,7 +19,7 @@ function Encryption() {
           PageWatcher uses the famous{' '}
           <Anchor label="openpgpjs" href="https://github.com/openpgpjs/openpgpjs" target="_blank" />{' '}
           algorithm (used by <Anchor label="Proton" href="https://proton.me/" target="_blank" />) to
-          do the encryption, end-to-end. See how it works{' '}
+          do the end-to-end encryption. See what is PGP{' '}
           <Anchor
             label="here"
             href="https://proton.me/blog/what-is-pgp-encryption"
@@ -30,14 +31,18 @@ function Encryption() {
         <Heading level="3" margin="3rem 0 0">
           When you signup:
         </Heading>
-        <Text margin="1rem 0 0">1. PageWatcher generates a public & private key pair.</Text>
-        <Text margin="1rem 0 0">2. Then it encrypts the private key with your password;</Text>
+        <Text margin="1rem 0 0">1. Your device generates a public & private key pair.</Text>
         <Text margin="1rem 0 0">
-          3. Then it sends your username, public key, encrypted private key to server;{' '}
+          2. Then your device encrypts the private key with your password;
+        </Text>
+        <Text margin="1rem 0 0">
+          3. Then your device sends your username, public key, encrypted private key to server;
+        </Text>
+        <Text margin="1rem 0 0">
           <Text weight="bold" color="status-ok">
             Your password never leaves your device!!!
           </Text>{' '}
-          Most websites send your password in plain text to their server.
+          Most websites send your password in plain text to their server, like Google, Facebook etc.
         </Text>
 
         <Heading level="3" margin="3rem 0 0">
@@ -45,7 +50,7 @@ function Encryption() {
         </Heading>
         <Text margin="1rem 0 0">
           1. Your device makes a request with your username to get your public key, encrypted
-          private key, and a challenge encrypted with your public;
+          private key, and a challenge encrypted with your public key;
         </Text>
         <Text margin="1rem 0 0">
           2. Your device decrypts the encrypted private key with your password;
@@ -55,7 +60,7 @@ function Encryption() {
           challenge to server;
         </Text>
         <Text margin="1rem 0 0">
-          4. Server checks is the challenge is solved, if yes, it will return an access token and a
+          4. Server checks if the challenge is solved, if yes, it will return an access token and a
           refresh token back to your device, and you are logged in. So again,{' '}
           <Text weight="bold" color="status-ok">
             your password never leaves your device!!!
@@ -74,8 +79,8 @@ function Encryption() {
           </Text>{' '}
           PageWatcher's server will check the web pages regularly, it needs to know the link and
           selector. So when you create a watcher, your device will also encrypt the link and
-          selector with the server's public key. But still, everything is encrypted before saving
-          into database.
+          selector with the server's public key. But still, everything is encrypted on your device
+          before sending to server.
         </Text>
         <Text margin="1rem 0 0">
           2. Your device sends the encrypted contents to server, which will be saved in database;
@@ -101,7 +106,7 @@ function Encryption() {
         </Heading>
         <Text margin="1rem 0 0">
           1. Your device decrypts the watcher's content, and send the plain text to server, which
-          will be safed in database;
+          will be saved in database;
         </Text>
         <Text margin="1rem 0 0">Note: it won't decrypt the content history.</Text>
         <Text margin="1rem 0 0">
@@ -123,6 +128,8 @@ function Encryption() {
         <Text margin="1rem 0 0">
           4. If you integrate a Telegram channel, they can also join the channel, and get notified;
         </Text>
+
+        <ExampleWatchers />
       </ContentWrapper>
     </>
   );
