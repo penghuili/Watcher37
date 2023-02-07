@@ -3,8 +3,10 @@ import React from 'react';
 
 import AppBar from '../../components/AppBar';
 import ContentWrapper from '../../components/ContentWrapper';
+import Divider from '../../components/Divider';
 import ExampleWatchers from '../../components/ExampleWatchers';
 import Pitch from '../../components/Pitch';
+import Spacer from '../../components/Spacer';
 
 function HowItWorks() {
   return (
@@ -45,6 +47,15 @@ function HowItWorks() {
         </Text>
 
         <ExampleWatchers />
+
+        <Spacer />
+        <Divider />
+        <Spacer />
+        <Text margin="1rem 0 0">
+          You can also check the limitations{' '}
+          <Anchor label="here" href="/limitations" target="_blank" />, and how encryption works{' '}
+          <Anchor label="here" href="/encryption" target="_blank" />.
+        </Text>
       </ContentWrapper>
     </>
   );

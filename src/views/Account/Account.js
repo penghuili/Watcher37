@@ -38,6 +38,12 @@ function Home({ account, isLoadingAccount }) {
             <Spacer />
 
             <RouteLink label="Security" to="/security" />
+
+            <Spacer />
+            <Divider />
+            <Spacer />
+
+            <RouteLink label="Motivation" to="/motivation" />
             <Spacer />
             <RouteLink label="How it works?" to="/how" />
             <Spacer />

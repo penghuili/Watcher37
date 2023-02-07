@@ -11,6 +11,7 @@ import HowToFindSelector from '../views/HowToFindSelector';
 import IntegrateTelegram from '../views/IntegrateTelegram';
 import IntegrateTelegramChannel from '../views/IntegrateTelegramChannel';
 import Limitations from '../views/Limitations';
+import Motivation from '../views/Motivation';
 import Pricing from '../views/Pricing';
 import Security from '../views/Security';
 import SignIn from '../views/SignIn';
@@ -49,6 +50,7 @@ function Router({ isCheckingRefreshToken, isLoggedIn }) {
         <Route path="/encryption" component={Encryption} />
         <Route path="/tickets" component={Tickets} />
         <Route path="/pricing" component={Pricing} />
+        <Route path="/motivation" component={Motivation} />
 
         <Route path="/" component={Watchers} />
         <Route>{() => <Redirect to="/" />}</Route>
@@ -68,6 +70,7 @@ function Router({ isCheckingRefreshToken, isLoggedIn }) {
       <Route path="/encryption" component={Encryption} />
       <Route path="/tickets" component={Tickets} />
       <Route path="/pricing" component={Pricing} />
+      <Route path="/motivation" component={Motivation} />
 
       <Route path="/" component={Welcome} />
       <Route>{() => <Redirect to="/" />}</Route>

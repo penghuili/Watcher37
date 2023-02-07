@@ -28,6 +28,8 @@ function Welcome() {
         <Spacer />
         <Divider />
         <Spacer />
+        <RouteLink label="Motivation" to="/motivation" />
+        <Spacer />
         <RouteLink label="How it works?" to="/how" />
         <Spacer />
         <RouteLink label="Limitations" to="/limitations" />
