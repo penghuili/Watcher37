@@ -13,6 +13,7 @@ import IntegrateTelegramChannel from '../views/IntegrateTelegramChannel';
 import Limitations from '../views/Limitations';
 import Motivation from '../views/Motivation';
 import Pricing from '../views/Pricing';
+import Privacy from '../views/Privacy';
 import Security from '../views/Security';
 import SignIn from '../views/SignIn';
 import SignUp from '../views/SignUp';
@@ -51,6 +52,7 @@ function Router({ isCheckingRefreshToken, isLoggedIn }) {
         <Route path="/tickets" component={Tickets} />
         <Route path="/pricing" component={Pricing} />
         <Route path="/motivation" component={Motivation} />
+        <Route path="/privacy" component={Privacy} />
 
         <Route path="/" component={Watchers} />
         <Route>{() => <Redirect to="/" />}</Route>
@@ -71,6 +73,7 @@ function Router({ isCheckingRefreshToken, isLoggedIn }) {
       <Route path="/tickets" component={Tickets} />
       <Route path="/pricing" component={Pricing} />
       <Route path="/motivation" component={Motivation} />
+      <Route path="/privacy" component={Privacy} />
 
       <Route path="/" component={Welcome} />
       <Route>{() => <Redirect to="/" />}</Route>
