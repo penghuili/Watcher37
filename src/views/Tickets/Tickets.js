@@ -28,6 +28,10 @@ function Tickets({ payError, isLoading, onPay }) {
           You can buy ticket at my{' '}
           <Anchor label="ko-fi" href="https://ko-fi.com/penghuili/shop" target="_blank" /> shop.
         </Text>
+        <Text>
+          (I only created 5 tickets for now,{' '}
+          <Anchor label="let me know" href="mailto:peng@duck.com" target="_blank" /> if sold out)
+        </Text>
 
         <Text margin="1rem 0 0">You will get a code in a txt file after payment.</Text>
         <Text margin="0 0 1rem">Apply the code below.</Text>

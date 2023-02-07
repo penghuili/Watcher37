@@ -74,7 +74,6 @@ function Router({ isCheckingRefreshToken, isLoggedIn }) {
       <Route path="/limitations" component={Limitations} />
       <Route path="/how" component={HowItWorks} />
       <Route path="/encryption" component={Encryption} />
-      <Route path="/tickets" component={Tickets} />
       <Route path="/pricing" component={Pricing} />
       <Route path="/motivation" component={Motivation} />
       <Route path="/privacy" component={Privacy} />
