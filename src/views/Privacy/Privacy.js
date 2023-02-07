@@ -21,8 +21,10 @@ function Privacy() {
           makes money through paid customers.
         </Text>
 
+        <Text margin="1rem 0 0">4. PageWatcher doesn't save your payment info;</Text>
+
         <Text margin="1rem 0 0">
-          4. If you integrate Telegram, for watchers that are decrypted, PageWatcher will send some
+          5. If you integrate Telegram, for watchers that are decrypted, PageWatcher will send some
           watcher info to Telegram. The{' '}
           <Anchor label="encryption" href="/encryption" target="_blank" /> page explains this very
           well.

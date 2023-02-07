@@ -24,7 +24,13 @@ function SignUp({ errorMessage, isLoading, onSignUp }) {
         <Spacer />
         <PasswordInput placeholder="Password" value={password} onChange={setPassword} />
 
-        {!!errorMessage && <Text color="error">{errorMessage}</Text>}
+        {!!errorMessage && <Text color="status-error">{errorMessage}</Text>}
+
+        <Text margin="0.5rem 0 0" size="small">
+          * By clicking Sign up, you have read and agreed to the{' '}
+          <Anchor label="Privacy" href="/privacy" target="_blank" /> and{' '}
+          <Anchor label="Terms" href="/terms" target="_blank" />.
+        </Text>
 
         <Button
           label={isLoading ? 'Loading...' : 'Sign up'}

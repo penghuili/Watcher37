@@ -17,6 +17,7 @@ import Privacy from '../views/Privacy';
 import Security from '../views/Security';
 import SignIn from '../views/SignIn';
 import SignUp from '../views/SignUp';
+import Terms from '../views/Terms';
 import Tickets from '../views/Tickets';
 import WatcherAdd from '../views/WatcherAdd';
 import WatcherDetails from '../views/WatcherDetails';
@@ -53,6 +54,7 @@ function Router({ isCheckingRefreshToken, isLoggedIn }) {
         <Route path="/pricing" component={Pricing} />
         <Route path="/motivation" component={Motivation} />
         <Route path="/privacy" component={Privacy} />
+        <Route path="/terms" component={Terms} />
 
         <Route path="/" component={Watchers} />
         <Route>{() => <Redirect to="/" />}</Route>
@@ -74,6 +76,7 @@ function Router({ isCheckingRefreshToken, isLoggedIn }) {
       <Route path="/pricing" component={Pricing} />
       <Route path="/motivation" component={Motivation} />
       <Route path="/privacy" component={Privacy} />
+      <Route path="/terms" component={Terms} />
 
       <Route path="/" component={Welcome} />
       <Route>{() => <Redirect to="/" />}</Route>
