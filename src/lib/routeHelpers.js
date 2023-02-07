@@ -2,12 +2,20 @@ import { getHook } from './hooksOutside';
 
 export const routeHelpers = {
   navigate: path => {
-    const location = getHook('location');
-    location[1](path, { replace: false });
+    const [location, setLocation] = getHook('location');
+    if (path === location) {
+      return;
+    }
+
+    setLocation(path, { replace: false });
   },
   replace: path => {
-    const location = getHook('location');
-    location[1](path, { replace: true });
+    const [location, setLocation] = getHook('location');
+    if (path === location) {
+      return;
+    }
+
+    setLocation(path, { replace: true });
   },
   goBack() {
     if (history.length > 1) {

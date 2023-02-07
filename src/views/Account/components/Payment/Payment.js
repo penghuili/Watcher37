@@ -5,7 +5,15 @@ import ExpiredTag from '../../../../components/ExpiredTag';
 import HorizontalCenter from '../../../../components/HorizontalCenter';
 import { formatDate } from '../../../../lib/date';
 
-function Payment({ isLoading, expiresAt, tried, isAccountValid, onTry, onNavigate }) {
+function Payment({
+  isLoading,
+  expiresAt,
+  tried,
+  isAccountValid,
+  showBuyButton,
+  onTry,
+  onNavigate,
+}) {
   if (expiresAt) {
     return (
       <HorizontalCenter margin="0 0 1rem">
@@ -13,12 +21,14 @@ function Payment({ isLoading, expiresAt, tried, isAccountValid, onTry, onNavigat
           Expires on: {formatDate(new Date(expiresAt))}
         </Text>
         <ExpiredTag />
-        <Button
-          label="Buy ticket"
-          onClick={() => onNavigate('/tickets')}
-          size="small"
-          margin="0 0 0 1rem"
-        />
+        {showBuyButton && (
+          <Button
+            label="Buy ticket"
+            onClick={() => onNavigate('/tickets')}
+            size="small"
+            margin="0 0 0 1rem"
+          />
+        )}
       </HorizontalCenter>
     );
   }

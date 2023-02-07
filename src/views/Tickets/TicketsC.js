@@ -5,9 +5,7 @@ import { accountSelectors } from '../../store/account/accountSelectors';
 import Tickets from './Tickets';
 
 const mapStateToProps = state => ({
-  expiresAt: accountSelectors.getExpiresAt(state),
   payError: accountSelectors.getPayError(state),
-  isAccountValid: accountSelectors.isAccountValid(state),
   isLoading: accountSelectors.isLoadingSettings(state),
 });
 

@@ -4,12 +4,11 @@ import React, { useState } from 'react';
 import AppBar from '../../components/AppBar';
 import ContentWrapper from '../../components/ContentWrapper';
 import Divider from '../../components/Divider';
-import ExpiredTag from '../../components/ExpiredTag';
-import HorizontalCenter from '../../components/HorizontalCenter';
 import InputField from '../../components/InputField';
-import { formatDate } from '../../lib/date';
+import Spacer from '../../components/Spacer';
+import Payment from '../Account/components/Payment';
 
-function Tickets({ payError, expiresAt, isAccountValid, isLoading, onPay }) {
+function Tickets({ payError, isLoading, onPay }) {
   const [code, setCode] = useState('');
 
   return (
@@ -21,17 +20,9 @@ function Tickets({ payError, expiresAt, isAccountValid, isLoading, onPay }) {
 
         <Divider />
 
-        {!!expiresAt && (
-          <>
-            <HorizontalCenter margin="1rem 0">
-              <Text color={isAccountValid ? 'status-ok' : 'status-warning'} margin="0 0.5rem 0 0">
-                You account expires on: {formatDate(new Date(expiresAt))}
-              </Text>
-              <ExpiredTag />
-            </HorizontalCenter>
-            <Divider />
-          </>
-        )}
+        <Spacer />
+        <Payment showBuyButton={false} />
+        <Divider />
 
         <Text margin="1rem 0 0">
           You can buy ticket at my{' '}

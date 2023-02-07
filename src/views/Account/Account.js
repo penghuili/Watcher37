@@ -21,7 +21,7 @@ function Home({ account, isLoadingAccount }) {
             <Text margin="0 0 1rem">Username: {account.username}</Text>
             <Text margin="0 0 1rem">User ID: {account.userId}</Text>
             <Text margin="0 0 1rem">Created at: {formatDateTime(account.createdAt)}</Text>
-            <Payment />
+            <Payment showBuyButton />
 
             <Divider />
             <Spacer />
@@ -44,6 +44,8 @@ function Home({ account, isLoadingAccount }) {
             <RouteLink label="Limitations" to="/limitations" />
             <Spacer />
             <RouteLink label="How encryption works?" to="/encryption" />
+            <Spacer />
+            <RouteLink label="Pricing" to="/pricing" />
           </>
         )}
       </ContentWrapper>

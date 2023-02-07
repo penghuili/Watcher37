@@ -33,6 +33,8 @@ function Welcome() {
         <RouteLink label="Limitations" to="/limitations" />
         <Spacer />
         <RouteLink label="How encryption works?" to="/encryption" />
+        <Spacer />
+        <RouteLink label="Pricing" to="/pricing" />
       </ContentWrapper>
     </>
   );
