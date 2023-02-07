@@ -22,7 +22,7 @@ function SignIn({ errorMessage, isLoading, onSignIn }) {
   }
   return (
     <>
-      <AppBar title="Page Watcher" />
+      <AppBar title="PageWatcher sign in" hasBack />
       <ContentWrapper>
         <PageHeader title="Sign in" />
         <TextInput
@@ -31,11 +31,7 @@ function SignIn({ errorMessage, isLoading, onSignIn }) {
           onChange={event => setUsername(event.target.value)}
         />
         <Spacer />
-        <PasswordInput
-          placeholder="Password"
-          value={password}
-          onChange={setPassword}
-        />
+        <PasswordInput placeholder="Password" value={password} onChange={setPassword} />
         {!!errorMessage && <Text color="status-error">{errorMessage}</Text>}
 
         <Button
@@ -49,9 +45,12 @@ function SignIn({ errorMessage, isLoading, onSignIn }) {
         <RouteLink to="/sign-up" label="No account? Sign up" />
         <Spacer />
         <Text>
-          Be careful, you can't reset your password. Check the{' '}
-          <Anchor label="How encryption works" href="/encryption" target="_blank" /> page to know
-          why. You will also see the unique way of authentication.
+          Be careful, PageWatcher uses end-to-end encryption for your personal data, so you can't
+          reset your password. (You can change password after sign in)
+        </Text>
+        <Text>
+          Check the <Anchor label="How encryption works" href="/encryption" target="_blank" /> page
+          to know details. You will also see the unique way of authentication.
         </Text>
       </ContentWrapper>
     </>
