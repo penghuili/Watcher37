@@ -45,7 +45,11 @@ function WatcherAdd({
           value={selector}
           onChange={setSelector}
         />
-        <Anchor label="How to find the selector of a content?" href="/selector" target="_blank" />
+        <Text>
+          You need a computer to find the selector, see{' '}
+          <Anchor label="How" href="/selector" target="_blank" />.
+        </Text>
+
         <Spacer />
         <Button
           label="Get content"
@@ -80,7 +84,9 @@ function WatcherAdd({
 
         {!!contentError && (
           <>
-            <Text color="status-warning" margin="1rem 0 0">{contentError}</Text>
+            <Text color="status-warning" margin="1rem 0 0">
+              {contentError}
+            </Text>
             <Text>
               Please also check the{' '}
               <Anchor label="limitations" href="/limitations" target="_blank" /> of PageWatcher.

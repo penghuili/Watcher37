@@ -4,6 +4,7 @@ import React from 'react';
 import AppBar from '../../components/AppBar';
 import ContentWrapper from '../../components/ContentWrapper';
 import Divider from '../../components/Divider';
+import ExampleWatchers from '../../components/ExampleWatchers';
 import Spacer from '../../components/Spacer';
 
 function Motivation() {
@@ -22,16 +23,24 @@ function Motivation() {
           On top of the ski website, there is a banner, giving updates about the status.
         </Text>
         <Text margin="0.5rem 0 0">
-          But there is no option to leave my email there, to subscribe to the updates.
+          But there is no option to subscribe to the updates, for example with email.
         </Text>
         <Text margin="0.5rem 0 0">So I checked the website everyday for several days.</Text>
         <Text margin="0.5rem 0 0">
-          Then an idea came to my mind, I can build a bot that checks the website everyday for me,
+          Then an idea came to my mind: I can build a bot that checks the website everyday for me,
           and send me an email whenever the status changes.
         </Text>
-        <Text margin="0.5rem 0 0">That's how PageWatcher starts.</Text>
         <Text margin="0.5rem 0 0">
-          And this is the watcher:{' '}
+          That's how PageWatcher starts. (In the end I used Telegram, not email, for notification.)
+        </Text>
+        <Text margin="0.5rem 0 0">
+          And this is the{' '}
+          <Anchor
+            label="website"
+            href="https://www.wurmberg-seilbahn.de/start-winter.html"
+            target="_blank"
+          />
+          , and the watcher:{' '}
           <Anchor label="Ski in Braunlage" href="/w/z6fb0huCWg2" target="_blank" />, you will see a
           history of the updates :)
         </Text>
@@ -53,6 +62,11 @@ function Motivation() {
         <Text margin="1rem 0 0">
           See how PageWatcher works <Anchor label="here" href="/how" target="_blank" />.
         </Text>
+
+        <Spacer />
+        <Divider />
+
+        <ExampleWatchers />
       </ContentWrapper>
     </>
   );

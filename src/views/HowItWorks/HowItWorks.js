@@ -20,10 +20,8 @@ function HowItWorks() {
         </Text>
 
         <Text margin="1rem 0 0">
-          2. Then it uses{' '}
-          <Anchor label="cheerio" href="https://github.com/cheeriojs/cheerio" target="_blank" /> to
-          search within this HTML, for the content you are interested in, with the CSS selector you
-          define.
+          2. Then it parses this HTML, and search for the content you are interested in, with the
+          CSS selector you define.
         </Text>
 
         <Text margin="1rem 0 0">

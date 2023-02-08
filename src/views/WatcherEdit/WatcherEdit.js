@@ -60,6 +60,10 @@ function WatcherEdit({
           onChange={event => setSelector(event.target.value)}
           resize="vertical"
         />
+        <Text>
+          You need a computer to find the selector, see{' '}
+          <Anchor label="How" href="/selector" target="_blank" />.
+        </Text>
 
         <HorizontalCenter margin="1rem 0">
           <Button
