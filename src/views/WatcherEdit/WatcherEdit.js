@@ -46,12 +46,14 @@ function WatcherEdit({
           placeholder="Title"
           value={title}
           onChange={event => setTitle(event.target.value)}
+          disabled={isLoading}
         />
         <Spacer />
         <TextInput
           placeholder="Link"
           value={link}
           onChange={event => setLink(event.target.value)}
+          disabled={isLoading}
         />
         <Spacer />
         <TextArea
@@ -59,6 +61,7 @@ function WatcherEdit({
           value={selector}
           onChange={event => setSelector(event.target.value)}
           resize="vertical"
+          disabled={isLoading}
         />
         <Text>
           You need a computer to find the selector, see{' '}
