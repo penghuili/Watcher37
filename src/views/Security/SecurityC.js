@@ -8,6 +8,7 @@ const mapStateToProps = () => ({});
 
 const mapDispatchToProps = {
   onLogOut: authActionCreators.logOutPressed,
+  onLogOutFromAllDevices: authActionCreators.logOutFromAllDevicesPressed,
   onDelete: accountActionCreators.deletePressed,
 };
 

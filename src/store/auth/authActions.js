@@ -6,6 +6,7 @@ export const authActionTypes = {
   SIGN_UP_PRESSED: 'auth/SIGN_UP_PRESSED',
   SIGN_IN_PRESSED: 'auth/SIGN_IN_PRESSED',
   LOG_OUT_PRESSED: 'auth/LOG_OUT_PRESSED',
+  LOG_OUT_FROM_ALL_DEVICES_PRESSED: 'auth/LOG_OUT_FROM_ALL_DEVICES_PRESSED',
 };
 
 export const authActionCreators = {
@@ -39,5 +40,8 @@ export const authActionCreators = {
   },
   logOutPressed() {
     return { type: authActionTypes.LOG_OUT_PRESSED };
+  },
+  logOutFromAllDevicesPressed() {
+    return { type: authActionTypes.LOG_OUT_FROM_ALL_DEVICES_PRESSED };
   },
 };

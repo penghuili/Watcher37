@@ -62,3 +62,15 @@ export async function signIn(username, password) {
     return { data: null, error };
   }
 }
+
+export async function logoutFromAllDevices() {
+  try {
+    await HTTP.post(`/v1/log-out-all`);
+
+    LocalStorage.resetTokens();
+
+    return { data: { success: true }, error: null };
+  } catch (error) {
+    return { data: null, error };
+  }
+}

@@ -82,6 +82,7 @@ const HTTP = {
     } = error;
     if (status === 401) {
       LocalStorage.resetTokens();
+      window.location.reload();
     }
 
     return { status, errorCode };

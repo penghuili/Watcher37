@@ -7,7 +7,7 @@ import ContentWrapper from '../../components/ContentWrapper';
 import RouteLink from '../../components/RouteLink';
 import Spacer from '../../components/Spacer';
 
-function Security({ onLogOut, onDelete }) {
+function Security({ onLogOut, onLogOutFromAllDevices, onDelete }) {
   const [showConfirm, setShowConfirm] = useState(false);
 
   return (
@@ -17,6 +17,8 @@ function Security({ onLogOut, onDelete }) {
         <RouteLink label="Change password" to="/security/password" />
         <Spacer />
         <Anchor label="Log out" onClick={onLogOut} />
+        <Spacer />
+        <Anchor label="Log out from all devices" onClick={onLogOutFromAllDevices} />
         <Spacer />
         <Anchor
           label="Delete account"

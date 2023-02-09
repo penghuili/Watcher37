@@ -5,7 +5,7 @@ import { LocalStorage } from '../../lib/LocalStorage';
 import { routeHelpers } from '../../lib/routeHelpers';
 import { appActionCreators } from '../app/appActions';
 import { authActionCreators, authActionTypes } from './authActions';
-import { checkRefreshToken, signIn, signUp } from './authNetwork';
+import { checkRefreshToken, logoutFromAllDevices, signIn, signUp } from './authNetwork';
 
 function* init() {
   yield put(authActionCreators.isCheckingRefreshToken(true));
@@ -53,6 +53,14 @@ function* hanldeLogOutPressed() {
   yield put(appActionCreators.reset());
 }
 
+function* hanldeLogOutFromAllDevicesPressed() {
+  yield put(authActionCreators.isLoading(true));
+  const { data } = yield call(logoutFromAllDevices);
+  if (data) {
+    yield put(appActionCreators.reset());
+  }
+}
+
 export function* authSagas() {
   yield fork(init);
 
@@ -60,5 +68,6 @@ export function* authSagas() {
     takeLatest(authActionTypes.SIGN_UP_PRESSED, hanldeSignUpPressed),
     takeLatest(authActionTypes.SIGN_IN_PRESSED, hanldeSignInPressed),
     takeLatest(authActionTypes.LOG_OUT_PRESSED, hanldeLogOutPressed),
+    takeLatest(authActionTypes.LOG_OUT_FROM_ALL_DEVICES_PRESSED, hanldeLogOutFromAllDevicesPressed),
   ]);
 }
