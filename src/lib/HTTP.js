@@ -1,4 +1,7 @@
 import axios from 'axios';
+
+import { appActionCreators } from '../store/app/appActions';
+import { getHook } from './hooksOutside';
 import { LocalStorage, LocalStorageKeys } from './LocalStorage';
 
 function getFullUrl(path) {
@@ -82,7 +85,8 @@ const HTTP = {
     } = error;
     if (status === 401) {
       LocalStorage.resetTokens();
-      window.location.reload();
+      const dispatch = getHook('dispatch');
+      dispatch(appActionCreators.reset());
     }
 
     return { status, errorCode };
