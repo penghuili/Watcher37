@@ -97,7 +97,11 @@ function TelegramChannel({ canEdit, telegram, watcherId, onNavigate }) {
           {telegram.username ? (
             <Text>
               This is a public channel.{' '}
-              <Anchor label="Join" href={`https://t.me/${telegram.username}`} target="_blank" />
+              <Anchor
+                label={canEdit ? 'Open' : 'Join'}
+                href={`https://t.me/${telegram.username}`}
+                target="_blank"
+              />
             </Text>
           ) : (
             <Text>This is a private channel.</Text>
@@ -112,6 +116,7 @@ function TelegramChannel({ canEdit, telegram, watcherId, onNavigate }) {
       )}
       {!integrated && !canEdit && <Text>This watcher does not notify any Telegram channel.</Text>}
       {(integrated || canEdit) && <Text>Anyone in the channel will get notified.</Text>}
+      {(integrated && canEdit) && <Text>Invite friends to the channel!</Text>}
     </>
   );
 }

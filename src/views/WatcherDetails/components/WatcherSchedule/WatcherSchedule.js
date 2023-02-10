@@ -29,7 +29,7 @@ function CurrentSchedule({ sid, schedule, link, isEditing }) {
 
   return (
     <Text>
-      This watcher will check <Anchor href={link} label="the page" target="_blank" /> every{' '}
+      This watcher checks <Anchor href={link} label="the page" target="_blank" /> every{' '}
       {+num === 1 ? '' : `${num} `}
       {unit}.
     </Text>
