@@ -310,7 +310,7 @@ function* handleDecryptPressed({ payload: { id } }) {
 
 function* handlePublicPressed({ payload: { id } }) {
   yield put(watcherActionCreators.isLoading(true));
-  const watcher = yield select(watcherSelectors.getDetails);
+  let watcher = yield select(watcherSelectors.getDetails);
   if (watcher.encrypted) {
     const { data: decrypted } = yield call(decryptWatcher, id, watcher);
 
@@ -321,23 +321,25 @@ function* handlePublicPressed({ payload: { id } }) {
       return;
     }
 
-    const { data } = yield call(updateWatcher, id, {
-      encrypted: decrypted.encrypted,
-      isPublic: true,
-    });
+    watcher = decrypted
+  }
 
-    if (data) {
-      yield call(afterNewWatcher, data);
-      yield put(
-        appActionCreators.setToast(
-          'This watcher is now public, anyone can check it. (They cannot update it though.)'
-        )
-      );
-    } else {
-      yield put(
-        appActionCreators.setToast('Something went wrong, please try again.', toastTypes.critical)
-      );
-    }
+  const { data } = yield call(updateWatcher, id, {
+    encrypted: watcher.encrypted,
+    isPublic: true,
+  });
+
+  if (data) {
+    yield call(afterNewWatcher, data);
+    yield put(
+      appActionCreators.setToast(
+        'This watcher is now public, anyone can check it. (They cannot update it though.)'
+      )
+    );
+  } else {
+    yield put(
+      appActionCreators.setToast('Something went wrong, please try again.', toastTypes.critical)
+    );
   }
 
   yield put(watcherActionCreators.isLoading(false));
