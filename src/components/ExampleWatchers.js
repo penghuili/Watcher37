@@ -9,12 +9,6 @@ function ExampleWatchers() {
       </Heading>
       <Box direction="row" wrap>
         <Anchor
-          label="Berlin Weather"
-          href="/w/8U3nmNJWxBl"
-          target="_blank"
-          margin="0 1.5rem 0.25rem 0"
-        />
-        <Anchor
           label="ETH Price"
           href="/w/l10wKJvjs89"
           target="_blank"
@@ -23,6 +17,13 @@ function ExampleWatchers() {
         <Anchor
           label="Ski in Braunlage"
           href="/w/z6fb0huCWg2"
+          target="_blank"
+          margin="0 1.5rem 0.25rem 0"
+        />
+        <Anchor label="My Blog" href="/w/LrzSD8oJfAl" target="_blank" margin="0 1.5rem 0.25rem 0" />
+        <Anchor
+          label="Berlin Weather"
+          href="/w/8U3nmNJWxBl"
           target="_blank"
           margin="0 1.5rem 0.25rem 0"
         />
