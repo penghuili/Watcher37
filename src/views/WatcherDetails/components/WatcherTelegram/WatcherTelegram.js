@@ -1,5 +1,5 @@
 import { Anchor, Heading, Menu, Text } from 'grommet';
-import { Checkmark, MoreVertical } from 'grommet-icons';
+import { Checkmark, Group, MoreVertical } from 'grommet-icons';
 import React from 'react';
 
 import Bot from '../../../../components/Bot';
@@ -45,11 +45,11 @@ function OwnTelegram({ canEdit, watcherId, telegramId, skipped, onNavigate, onEd
       {telegramId ? (
         skipped ? (
           <Text>
-            <Bot /> will NOT notify you. It is muted.
+            <Bot /> does NOT notify you. It is muted.
           </Text>
         ) : (
           <Text>
-            <Bot /> will notify you.
+            <Bot /> notifies you.
           </Text>
         )
       ) : (
@@ -92,7 +92,7 @@ function TelegramChannel({ canEdit, telegram, watcherId, onNavigate }) {
       {integrated && (
         <>
           <Text>
-            <Bot /> will notify the <Text weight="bold">{telegram.title}</Text> channel.
+            <Bot /> notifies the <Text weight="bold">{telegram.title}</Text> channel.
           </Text>
           {telegram.username ? (
             <Text>
@@ -115,8 +115,13 @@ function TelegramChannel({ canEdit, telegram, watcherId, onNavigate }) {
         </Text>
       )}
       {!integrated && !canEdit && <Text>This watcher does not notify any Telegram channel.</Text>}
+      {integrated && canEdit && (
+        <HorizontalCenter>
+          <Group color="status-ok" />
+          <Text weight="bold" margin="0 0 0 0.5rem">Invite friends to the channel!</Text>
+        </HorizontalCenter>
+      )}
       {(integrated || canEdit) && <Text>Anyone in the channel will get notified.</Text>}
-      {(integrated && canEdit) && <Text>Invite friends to the channel!</Text>}
     </>
   );
 }
