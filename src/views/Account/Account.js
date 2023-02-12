@@ -22,27 +22,20 @@ function Home({ account, isLoadingAccount }) {
             <Text margin="0 0 1rem">User ID: {account.userId}</Text>
             <Text margin="0 0 1rem">Created at: {formatDateTime(account.createdAt)}</Text>
             <Payment showBuyButton />
-
             <Divider />
             <Spacer />
-
             {!!account.telegramId && (
               <Text margin="0 0 1rem">
                 Telegram ID: <RouteLink to="/account/telegram" label={account.telegramId} />
               </Text>
             )}
-
             <ChangeTheme />
-
             <Divider />
             <Spacer />
-
             <RouteLink label="Security" to="/security" />
-
             <Spacer />
             <Divider />
             <Spacer />
-
             <RouteLink label="Motivation" to="/motivation" />
             <Spacer />
             <RouteLink label="How it works?" to="/how" />
@@ -50,6 +43,8 @@ function Home({ account, isLoadingAccount }) {
             <RouteLink label="Limitations" to="/limitations" />
             <Spacer />
             <RouteLink label="How encryption works?" to="/encryption" />
+            <Spacer />
+            <RouteLink label="How to find selector?" to="/selector" />
             <Spacer />
             <RouteLink label="Pricing" to="/pricing" />
             <Spacer />

@@ -63,15 +63,7 @@ function WatcherEdit({
           resize="vertical"
           disabled={isLoading}
         />
-        <Text size="small">
-          You need a computer to find the selector, see{' '}
-          <Anchor label="How" href="/selector" target="_blank" />.
-        </Text>
-        <Text size="small">
-          Or if you are on Android, you can use the{' '}
-          <Anchor label="Kiwi Browser" href="https://kiwibrowser.com/" target="_blank" />, it has
-          developer tools on the phone, fancy.
-        </Text>
+        <Anchor label="How to find selector?" href="/selector" target="_blank" />
 
         <HorizontalCenter margin="1rem 0">
           <Button

@@ -19,8 +19,8 @@ function HowToFindSelector() {
           is a very good summary.
         </Text>
         <Text>
-          But no worries if you don't know CSS selector, you can use the following ways to find the
-          selector.
+          But no worries if you don't know CSS selector, you can use the following{' '}
+          <Text weight="bold">3 ways</Text> to find the selector.
         </Text>
         <Text margin="0 0 3rem">
           If you still have troubles, contact me at{' '}
@@ -29,14 +29,14 @@ function HowToFindSelector() {
         </Text>
 
         <Heading level="3" margin="0 0 1rem">
-          一. With a Chrome extension
+          1. With a Chrome extension on your computer
         </Heading>
         <Text>
-          1. Open Chrome on your <Text weight="bold">computer</Text>. Phones can't find selector.
+          (1). Open Chrome on your <Text weight="bold">computer</Text>.
         </Text>
 
         <Text margin="1rem 0 0">
-          2. Install the <Text weight="bold">"Copy Css Selector"</Text> Chrome extension,{' '}
+          (2). Install the <Text weight="bold">"Copy Css Selector"</Text> Chrome extension,{' '}
           <Anchor
             label="here"
             href="https://chrome.google.com/webstore/detail/copy-css-selector/kemkenbgbgodoglfkkejbdcpojnodnkg/"
@@ -45,47 +45,60 @@ function HowToFindSelector() {
         </Text>
 
         <Text margin="1rem 0 0">
-          3. Open the web page you want to watch, and find the content you are interested, then
+          (3). Open the web page you want to watch, and find the content you are interested, then
           right click on it.
         </Text>
 
         <Text margin="1rem 0 0">
-          4. Then click <Text weight="bold">"Copy CSS Selector"</Text>, now you copied the selector!
+          (4). Then click <Text weight="bold">"Copy CSS Selector"</Text>, now you copied the
+          selector!
         </Text>
         <Image src={selector4} fill="horizontal" />
 
         <Text margin="1rem 0 0">
-          5. Go back to the watcher creation form, and paste this selector.
+          (5). Go back to the watcher creation form, and paste this selector.
         </Text>
 
         <Heading level="3" margin="3rem 0 1rem">
-          二. With Chrome's developer tool
+          2. With Chrome's developer tool on your computer
         </Heading>
         <Text>
-          1. Open the link with Chrome on your <Text weight="bold">computer</Text>. Phones cannot
-          find the selector, and it's recommanded to use Chrome.
+          (1). Open the link with Chrome on your <Text weight="bold">computer</Text>.
         </Text>
 
         <Text margin="1rem 0 0">
-          2. Find the content you want to watch, right click it. You will see something like:
+          (2). Find the content you want to watch, right click it. You will see something like:
         </Text>
         <Image src={selector1} fill="horizontal" />
 
         <Text margin="1rem 0 0">
-          3. Click <Text weight="bold">"Inspect"</Text>, you will open the develper's tool, and the
-          element you selected will be highlighted.
+          (3). Click <Text weight="bold">"Inspect"</Text>, you will open the develper's tool, and
+          the element you selected will be highlighted.
         </Text>
         <Image src={selector2} fill="horizontal" />
 
         <Text margin="1rem 0 0">
-          3. Right click the hightlighted element (You can also choose a different element) -&gt;
+          (3). Right click the hightlighted element (You can also choose a different element) -&gt;
           Hover on <Text weight="bold">"Copy"</Text> -&gt; Click{' '}
           <Text weight="bold">"Copy selector"</Text>. Now you copied the selector!
         </Text>
         <Image src={selector3} fill="horizontal" />
 
         <Text margin="1rem 0 0">
-          4. Go back to the watcher creation form, and paste this selector.
+          (4). Go back to the watcher creation form, and paste this selector.
+        </Text>
+
+        <Heading level="3" margin="3rem 0 1rem">
+          3. With Kiwi browser on your Android phone
+        </Heading>
+        <Text>
+          I wrote a blog post on this:{' '}
+          <Anchor
+            label="Debug with browser developer tools on Android"
+            href="https://blog.peng.kiwi/2023/02/debug-with-browser-developer-tools-on.html"
+            target="
+          "
+          />
         </Text>
       </ContentWrapper>
     </>

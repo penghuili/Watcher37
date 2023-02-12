@@ -36,6 +36,8 @@ function Welcome() {
         <Spacer />
         <RouteLink label="How encryption works?" to="/encryption" />
         <Spacer />
+        <RouteLink label="How to find selector?" to="/selector" />
+        <Spacer />
         <RouteLink label="Pricing" to="/pricing" />
         <Spacer />
         <RouteLink label="Privacy" to="/privacy" />
