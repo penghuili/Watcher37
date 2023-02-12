@@ -22,6 +22,12 @@ function ExampleWatchers() {
         />
         <Anchor label="My Blog" href="/w/LrzSD8oJfAl" target="_blank" margin="0 1.5rem 0.25rem 0" />
         <Anchor
+          label="Hacker News"
+          href="/w/osSaqppygsf"
+          target="_blank"
+          margin="0 1.5rem 0.25rem 0"
+        />
+        <Anchor
           label="Berlin Weather"
           href="/w/8U3nmNJWxBl"
           target="_blank"
