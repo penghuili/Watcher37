@@ -11,12 +11,12 @@ import Pitch from '../../components/Pitch';
 function Encryption() {
   return (
     <>
-      <AppBar title="How encryption works in PageWatcher?" hasBack />
+      <AppBar title="How encryption works in Watcher37?" hasBack />
       <ContentWrapper>
         <Pitch />
 
         <Text margin="3rem 0 0">
-          PageWatcher uses the famous{' '}
+          Watcher37 uses the famous{' '}
           <Anchor label="openpgpjs" href="https://github.com/openpgpjs/openpgpjs" target="_blank" />{' '}
           algorithm (used by <Anchor label="Proton" href="https://proton.me/" target="_blank" />) to
           do the end-to-end encryption. See what is PGP{' '}
@@ -77,7 +77,7 @@ function Encryption() {
           <Text weight="bold" color="status-critical">
             NOTE!!
           </Text>{' '}
-          PageWatcher's server will check the web pages regularly, it needs to know the link and
+          Watcher37's server will check the web pages regularly, it needs to know the link and
           selector. So when you create a watcher, your device will also encrypt the link and
           selector with the server's public key. But still, everything is encrypted on your device
           before sending to server.
@@ -87,7 +87,7 @@ function Encryption() {
         </Text>
 
         <Heading level="3" margin="3rem 0 0">
-          When PageWatcher's server finds new content:
+          When Watcher37's server finds new content:
         </Heading>
         <Text margin="1rem 0 0">
           1. Server encrypts the content with your public key, and save the encrypted version into

@@ -16,7 +16,7 @@ function HowItWorks() {
         <Pitch />
 
         <Text margin="3rem 0 0">
-          1. PageWatcher makes a request to the link you define, and gets the HTML response.
+          1. Watcher37 makes a request to the link you define, and gets the HTML response.
         </Text>
 
         <Text margin="1rem 0 0">
@@ -31,7 +31,7 @@ function HowItWorks() {
 
         <Text margin="1rem 0 0">
           4. If you setup a checking schedule, for example, "check the website every hour", then
-          PageWatcher will do step 1 - 3 every hour for you in the background.
+          Watcher37 will do step 1 - 3 every hour for you in the background.
         </Text>
 
         <Text margin="1rem 0 0">

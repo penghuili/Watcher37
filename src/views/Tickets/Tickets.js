@@ -15,8 +15,8 @@ function Tickets({ payError, isLoading, onPay }) {
     <>
       <AppBar title="Buy tickets" hasBack />
       <ContentWrapper>
-        <Text>You can try PageWatcher for free for 14 days.</Text>
-        <Text margin="0 0 1rem">After that, it's $29 / year.</Text>
+        <Text>You can try Watcher37 for free for 14 days.</Text>
+        <Text margin="0 0 1rem">After that, it's only $29 / year.</Text>
 
         <Divider />
 

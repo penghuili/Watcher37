@@ -86,7 +86,7 @@ function WatcherEdit({
             <Text color="status-warning">{contentError}</Text>
             <Text>
               Please also check the{' '}
-              <Anchor label="limitations" href="/limitations" target="_blank" /> of PageWatcher.
+              <Anchor label="limitations" href="/limitations" target="_blank" /> of Watcher37.
             </Text>
           </>
         )}

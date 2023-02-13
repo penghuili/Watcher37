@@ -60,16 +60,16 @@ function IntegrateTelegramChannel({ id, watcher, isLoading, onFetch, onEdit }) {
           bot will send your Telegram ID, you can ignore this for now);
         </Text>
         <Text margin="0 0 0.5rem">
-          4. Add <Text weight="bold">PageWatcherBot</Text> to your channel: Go to the{' '}
+          4. Add <Text weight="bold">Watcher37Bot</Text> to your channel: Go to the{' '}
           <Text weight="bold">Info</Text> page of your channel, then add{' '}
-          <Text weight="bold">PageWatcherBot</Text> as an <Text weight="bold">Administrator</Text>.
+          <Text weight="bold">Watcher37Bot</Text> as an <Text weight="bold">Administrator</Text>.
           Make sure to give it the <Text weight="bold">Post Messages</Text> permission, so the bot
           can send messages to this channel. (The bot will not do anything else.)
         </Text>
         <Text margin="0 0 0.5rem">
           5. Get the Telegram ID of your channel: Send a random message to{' '}
           <Text weight="bold">your channel</Text>, then forward it to{' '}
-          <Text weight="bold">PageWatcherBot</Text>. The bot will send you the ID of your channel.
+          <Text weight="bold">Watcher37Bot</Text>. The bot will send you the ID of your channel.
         </Text>
         <Text margin="0 0 0.5rem">
           6. Add your channel&lsquo;s Telegram ID below (It may have a leading{' '}

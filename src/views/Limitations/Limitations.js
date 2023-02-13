@@ -8,9 +8,9 @@ import RouteLink from '../../components/RouteLink';
 function Limitations() {
   return (
     <>
-      <AppBar title="Limitations of PageWatcher" hasBack />
+      <AppBar title="Limitations of Watcher37" hasBack />
       <ContentWrapper>
-        <Text>PageWatcher can fetch content from a lot of websites, but not all. Including:</Text>
+        <Text>Watcher37 can fetch content from a lot of websites, but not all. Including:</Text>
 
         <Text margin="1rem 0 0">
           1. Websites that don't return the full HTML. Like Youtube, Twitter, Medium etc.

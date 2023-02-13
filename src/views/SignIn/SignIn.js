@@ -22,7 +22,7 @@ function SignIn({ errorMessage, isLoading, onSignIn }) {
   }
   return (
     <>
-      <AppBar title="PageWatcher sign in" hasBack />
+      <AppBar title="Watcher37 sign in" hasBack />
       <ContentWrapper>
         <PageHeader title="Sign in" />
         <TextInput
@@ -45,7 +45,7 @@ function SignIn({ errorMessage, isLoading, onSignIn }) {
         <RouteLink to="/sign-up" label="No account? Sign up" />
         <Spacer />
         <Text>
-          Be careful, PageWatcher uses end-to-end encryption for your personal data, so you can't
+          Be careful, Watcher37 uses end-to-end encryption for your personal data, so you can't
           reset your password. (You can change password after sign in)
         </Text>
         <Text>

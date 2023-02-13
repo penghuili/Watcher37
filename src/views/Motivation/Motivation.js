@@ -31,7 +31,7 @@ function Motivation() {
           and send me an email whenever the status changes.
         </Text>
         <Text margin="0.5rem 0 0">
-          That's how PageWatcher starts. (In the end I used Telegram, not email, for notification.)
+          That's how Watcher37 starts. (In the end I used Telegram, not email, for notification.)
         </Text>
         <Text margin="0.5rem 0 0">
           And this is the{' '}
@@ -57,10 +57,10 @@ function Motivation() {
           But a lot more websites don't. If you want to know if there is something new, you need to
           open the site and check it yourself.
         </Text>
-        <Text margin="0.5rem 0 0">PageWatcher can help.</Text>
+        <Text margin="0.5rem 0 0">Watcher37 can help.</Text>
 
         <Text margin="1rem 0 0">
-          See how PageWatcher works <Anchor label="here" href="/how" target="_blank" />.
+          See how Watcher37 works <Anchor label="here" href="/how" target="_blank" />.
         </Text>
 
         <Spacer />

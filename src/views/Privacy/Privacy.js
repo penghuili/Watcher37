@@ -10,21 +10,21 @@ function Privacy() {
       <AppBar title="Privacy" hasBack />
       <ContentWrapper>
         <Text>
-          1. PageWatcher encrypts your data by default. You can check how encryption works{' '}
+          1. Watcher37 encrypts your data by default. You can check how encryption works{' '}
           <Anchor label="here" href="/encryption" target="_blank" />.
         </Text>
 
-        <Text margin="1rem 0 0">2. PageWatcher has no tracking;</Text>
+        <Text margin="1rem 0 0">2. Watcher37 has no tracking;</Text>
 
         <Text margin="1rem 0 0">
-          3. PageWatcher doesn't sell third party ads, and it never sells your data. PageWatcher
-          makes money through paid customers.
+          3. Watcher37 doesn't sell third party ads, and it never sells your data. Watcher37 makes
+          money through paid customers.
         </Text>
 
-        <Text margin="1rem 0 0">4. PageWatcher doesn't save your payment info;</Text>
+        <Text margin="1rem 0 0">4. Watcher37 doesn't save your payment info;</Text>
 
         <Text margin="1rem 0 0">
-          5. If you integrate Telegram, for watchers that are decrypted, PageWatcher will send some
+          5. If you integrate Telegram, for watchers that are decrypted, Watcher37 will send some
           watcher info to Telegram. The{' '}
           <Anchor label="encryption" href="/encryption" target="_blank" /> page explains this very
           well.

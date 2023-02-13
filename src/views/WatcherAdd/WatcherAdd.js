@@ -83,7 +83,7 @@ function WatcherAdd({
             </Text>
             <Text>
               Please also check the{' '}
-              <Anchor label="limitations" href="/limitations" target="_blank" /> of PageWatcher.
+              <Anchor label="limitations" href="/limitations" target="_blank" /> of Watcher37.
             </Text>
           </>
         )}
