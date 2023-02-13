@@ -74,7 +74,7 @@ export async function changePassword(username, currentPassword, newPassword) {
 
 export async function fetchSettings() {
   try {
-    const { lastOpenTime, expiresAt, tried } = await HTTP.get(`/v1/page-watcher/settings`);
+    const { lastOpenTime, expiresAt, tried } = await HTTP.get(`/v1/watcher37/settings`);
 
     return { data: { lastOpenTime, expiresAt, tried }, error: null };
   } catch (error) {
@@ -88,7 +88,7 @@ export async function updateSettings(lastOpenTime) {
       lastOpenTime: updated,
       expiresAt,
       tried,
-    } = await HTTP.put(`/v1/page-watcher/settings`, {
+    } = await HTTP.put(`/v1/watcher37/settings`, {
       lastOpenTime,
     });
 
@@ -100,7 +100,7 @@ export async function updateSettings(lastOpenTime) {
 
 export async function tryApp() {
   try {
-    const { lastOpenTime: updated, expiresAt, tried } = await HTTP.post(`/v1/page-watcher/try`, {});
+    const { lastOpenTime: updated, expiresAt, tried } = await HTTP.post(`/v1/watcher37/try`, {});
 
     return { data: { lastOpenTime: updated, expiresAt, tried }, error: null };
   } catch (error) {
@@ -114,7 +114,7 @@ export async function pay(code) {
       lastOpenTime: updated,
       expiresAt,
       tried,
-    } = await HTTP.post(`/v1/page-watcher/pay`, { code });
+    } = await HTTP.post(`/v1/watcher37/pay`, { code });
 
     return { data: { lastOpenTime: updated, expiresAt, tried }, error: null };
   } catch (error) {
