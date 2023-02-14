@@ -75,7 +75,10 @@ export const watcherActionCreators = {
   navToEditPressed(id) {
     return { type: watcherActionTypes.NAV_TO_EDIT_PRESSED, payload: { id } };
   },
-  editPressed(id, { title, selector, link, skipPersonalTelegram, telegramId, isPublic }) {
+  editPressed(
+    id,
+    { title, selector, link, skipPersonalTelegram, telegramId, isPublic, noDuplication }
+  ) {
     return {
       type: watcherActionTypes.EDIT_PRESSED,
       payload: {
@@ -86,6 +89,7 @@ export const watcherActionCreators = {
         skipPersonalTelegram,
         telegramId,
         isPublic,
+        noDuplication,
       },
     };
   },

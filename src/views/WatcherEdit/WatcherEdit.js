@@ -1,4 +1,4 @@
-import { Anchor, Button, Text, TextArea, TextInput } from 'grommet';
+import { Anchor, Box, Button, RadioButton, Text, TextArea, TextInput } from 'grommet';
 import React, { useEffect, useState } from 'react';
 
 import AppBar from '../../components/AppBar';
@@ -27,6 +27,8 @@ function WatcherEdit({
   useListener(watcher?.link, value => setLink(value || ''));
   const [selector, setSelector] = useState(watcher?.selector || '');
   useListener(watcher?.selector, value => setSelector(value || ''));
+  const [allowDuplication, setAllowDuplication] = useState(!watcher?.noDuplication);
+  useListener(watcher?.noDuplication, value => setAllowDuplication(!value));
 
   useEffectOnce(() => {
     onFetch(id);
@@ -65,6 +67,25 @@ function WatcherEdit({
         />
         <Anchor label="How to find selector?" href="/selector" target="_blank" />
 
+        <Text margin="1rem 0 0">Allow duplication for the content?</Text>
+        <HorizontalCenter margin="0 0 1rem">
+          <RadioButton
+            name="dark"
+            checked={allowDuplication}
+            label="Yes"
+            onChange={() => setAllowDuplication(true)}
+            disabled={isLoading}
+          />
+          <Box width="1rem" />
+          <RadioButton
+            name="light"
+            checked={!allowDuplication}
+            label="No"
+            onChange={() => setAllowDuplication(false)}
+            disabled={isLoading}
+          />
+        </HorizontalCenter>
+
         <HorizontalCenter margin="1rem 0">
           <Button
             label="Get content"
@@ -74,7 +95,7 @@ function WatcherEdit({
           />
           <Button
             label="Update watcher"
-            onClick={() => onEdit(id, { title, selector, link })}
+            onClick={() => onEdit(id, { title, selector, link, noDuplication: !allowDuplication })}
             disabled={!title || isLoading}
           />
         </HorizontalCenter>

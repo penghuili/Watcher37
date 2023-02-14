@@ -136,7 +136,7 @@ export async function createWatcher({ title, link, selector }, botPublicKey) {
 
 export async function updateWatcher(
   id,
-  { encrypted, title, selector, link, skipPersonalTelegram, telegramId, isPublic },
+  { encrypted, title, selector, link, skipPersonalTelegram, telegramId, isPublic, noDuplication },
   botPublicKey
 ) {
   try {
@@ -161,6 +161,7 @@ export async function updateWatcher(
       skipPersonalTelegram,
       telegramId,
       isPublic,
+      noDuplication,
     });
     const decrypted = await decryptWatcherContent(watcher);
 

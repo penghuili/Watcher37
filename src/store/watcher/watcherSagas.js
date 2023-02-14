@@ -137,7 +137,7 @@ function* afterNewWatcher(newWatcher, newItem) {
 }
 
 function* handleEditPressed({
-  payload: { id, title, selector, link, skipPersonalTelegram, telegramId, isPublic },
+  payload: { id, title, selector, link, skipPersonalTelegram, telegramId, isPublic, noDuplication },
 }) {
   yield put(watcherActionCreators.isLoading(true));
 
@@ -155,6 +155,7 @@ function* handleEditPressed({
       skipPersonalTelegram,
       telegramId,
       isPublic,
+      noDuplication,
     },
     botPublicKey
   );
@@ -321,7 +322,7 @@ function* handlePublicPressed({ payload: { id } }) {
       return;
     }
 
-    watcher = decrypted
+    watcher = decrypted;
   }
 
   const { data } = yield call(updateWatcher, id, {
