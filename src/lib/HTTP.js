@@ -1,5 +1,4 @@
 import axios from 'axios';
-import EventEmitter3 from 'eventemitter3';
 
 import { appActionCreators } from '../store/app/appActions';
 import { getHook } from './hooksOutside';
@@ -8,9 +7,6 @@ import { LocalStorage, LocalStorageKeys } from './LocalStorage';
 function getFullUrl(path) {
   return `${process.env.REACT_APP_API_URL}${path}`;
 }
-
-let isRefreshing = false;
-const eventemitter = new EventEmitter3();
 
 const HTTP = {
   async publicGet(path) {
@@ -95,13 +91,7 @@ const HTTP = {
 
     return { status, errorCode };
   },
-
   async refreshTokenIfNecessary() {
-    if (isRefreshing) {
-      await HTTP.waitForRefresh();
-      return;
-    }
-
     const expiresAt = LocalStorage.get(LocalStorageKeys.accessTokenExpiresAt);
     const refreshToken = LocalStorage.get(LocalStorageKeys.refreshToken);
     const accessToken = LocalStorage.get(LocalStorageKeys.accessToken);
@@ -113,18 +103,10 @@ const HTTP = {
       return;
     }
 
-    isRefreshing = true;
     const data = await HTTP.publicPost(`/v1/sign-in/refresh`, {
       refreshToken,
     });
     LocalStorage.saveTokens(data);
-    isRefreshing = false;
-  },
-
-  async waitForRefresh() {
-    return new Promise(resolve => {
-      eventemitter.once('refreshed', resolve(true));
-    });
   },
 };
 
