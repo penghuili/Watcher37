@@ -123,7 +123,9 @@ const HTTP = {
 
   async waitForRefresh() {
     return new Promise(resolve => {
-      eventemitter.once('refreshed', resolve(true));
+      eventemitter.once('refreshed', () => {
+        resolve(true);
+      });
     });
   },
 };
