@@ -119,6 +119,7 @@ const HTTP = {
     });
     LocalStorage.saveTokens(data);
     isRefreshing = false;
+    eventemitter.emit('refreshed');
   },
 
   async waitForRefresh() {
