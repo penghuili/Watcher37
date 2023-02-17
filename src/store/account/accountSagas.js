@@ -7,7 +7,6 @@ import { toastTypes } from '../app/appReducer';
 import { authActionCreators, authActionTypes } from '../auth/authActions';
 import { accountActionCreators, accountActionTypes } from './accountActions';
 import {
-  addTelegramId,
   changePassword,
   deleteAccount,
   fetchAccount,
@@ -58,7 +57,7 @@ function* handleFetchSettingsRequested() {
 function* handleUpdateSettingsRequested({ payload: { lastOpenTime } }) {
   yield put(accountActionCreators.isLoadingSettings(true));
 
-  const { data } = yield call(updateSettings, lastOpenTime);
+  const { data } = yield call(updateSettings, { lastOpenTime });
 
   if (data) {
     yield put(accountActionCreators.setSettings(data));
@@ -130,10 +129,10 @@ function* handleDeletePressed() {
 function* handleAddTelegramIdPressed({ payload: { telegramId } }) {
   yield put(accountActionCreators.isLoading(true));
 
-  const { data } = yield call(addTelegramId, telegramId);
+  const { data } = yield call(updateSettings, { telegramId });
 
   if (data) {
-    yield put(accountActionCreators.setUserData(data));
+    yield put(accountActionCreators.setSettings(data));
     yield put(
       appActionCreators.setToast(
         telegramId

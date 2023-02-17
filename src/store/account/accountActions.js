@@ -21,10 +21,10 @@ export const accountActionCreators = {
   isLoadingSettings(value) {
     return { type: accountActionTypes.IS_LOADING_SETTINGS, payload: { value } };
   },
-  setUserData({ userId, username, createdAt, telegramId, botPublicKey }) {
+  setUserData({ userId, username, createdAt, botPublicKey }) {
     return {
       type: accountActionTypes.SET_USER_DATA,
-      payload: { userId, username, createdAt, telegramId, botPublicKey },
+      payload: { userId, username, createdAt, botPublicKey },
     };
   },
   fetchRequested() {
@@ -34,10 +34,16 @@ export const accountActionCreators = {
     return { type: accountActionTypes.FETCH_SETTINGS_REQUESTED };
   },
   updateSettingsRequested(lastOpenTime) {
-    return { type: accountActionTypes.UPDATE_SETTINGS_REQUESTED, payload: { lastOpenTime } };
+    return {
+      type: accountActionTypes.UPDATE_SETTINGS_REQUESTED,
+      payload: { lastOpenTime },
+    };
   },
-  setSettings({ lastOpenTime, expiresAt, tried }) {
-    return { type: accountActionTypes.SET_SETTINGS, payload: { lastOpenTime, expiresAt, tried } };
+  setSettings({ lastOpenTime, expiresAt, tried, telegramId }) {
+    return {
+      type: accountActionTypes.SET_SETTINGS,
+      payload: { lastOpenTime, expiresAt, tried, telegramId },
+    };
   },
   setPayError(message) {
     return { type: accountActionTypes.SET_PAY_ERROR, payload: { message } };

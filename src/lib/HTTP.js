@@ -5,37 +5,46 @@ import { appActionCreators } from '../store/app/appActions';
 import { getHook } from './hooksOutside';
 import { LocalStorage, LocalStorageKeys } from './LocalStorage';
 
-function getFullUrl(path) {
-  return `${process.env.REACT_APP_API_URL}${path}`;
+export const servers = {
+  auth: 'auth',
+  watcher37: 'watcher37',
+};
+const serverToUrl = {
+  [servers.auth]: process.env.REACT_APP_AUTH_URL,
+  [servers.watcher37]: process.env.REACT_APP_API_URL,
+};
+
+function getFullUrl(server, path) {
+  return `${serverToUrl[server]}${path}`;
 }
 
 let isRefreshing = false;
 const eventemitter = new EventEmitter3();
 
 const HTTP = {
-  async publicGet(path) {
+  async publicGet(server, path) {
     try {
-      const { data } = await axios.get(getFullUrl(path));
+      const { data } = await axios.get(getFullUrl(server, path));
       return data;
     } catch (error) {
       throw HTTP.handleError(error);
     }
   },
-  async publicPost(path, body) {
+  async publicPost(server, path, body) {
     try {
-      const { data } = await axios.post(getFullUrl(path), body);
+      const { data } = await axios.post(getFullUrl(server, path), body);
       return data;
     } catch (error) {
       throw HTTP.handleError(error);
     }
   },
 
-  async post(path, body) {
+  async post(server, path, body) {
     try {
       await HTTP.refreshTokenIfNecessary();
 
       const accessToken = LocalStorage.get(LocalStorageKeys.accessToken);
-      const { data } = await axios.post(getFullUrl(path), body, {
+      const { data } = await axios.post(getFullUrl(server, path), body, {
         headers: { authorization: `Bearer ${accessToken}` },
       });
       return data;
@@ -43,12 +52,12 @@ const HTTP = {
       throw HTTP.handleError(error);
     }
   },
-  async get(path) {
+  async get(server, path) {
     try {
       await HTTP.refreshTokenIfNecessary();
 
       const accessToken = LocalStorage.get(LocalStorageKeys.accessToken);
-      const { data } = await axios.get(getFullUrl(path), {
+      const { data } = await axios.get(getFullUrl(server, path), {
         headers: { authorization: `Bearer ${accessToken}` },
       });
       return data;
@@ -56,12 +65,12 @@ const HTTP = {
       throw HTTP.handleError(error);
     }
   },
-  async put(path, body) {
+  async put(server, path, body) {
     try {
       await HTTP.refreshTokenIfNecessary();
 
       const accessToken = LocalStorage.get(LocalStorageKeys.accessToken);
-      const { data } = await axios.put(getFullUrl(path), body, {
+      const { data } = await axios.put(getFullUrl(server, path), body, {
         headers: { authorization: `Bearer ${accessToken}` },
       });
       return data;
@@ -69,12 +78,12 @@ const HTTP = {
       throw HTTP.handleError(error);
     }
   },
-  async delete(path) {
+  async delete(server, path) {
     try {
       await HTTP.refreshTokenIfNecessary();
 
       const accessToken = LocalStorage.get(LocalStorageKeys.accessToken);
-      const { data } = await axios.delete(getFullUrl(path), {
+      const { data } = await axios.delete(getFullUrl(server, path), {
         headers: { authorization: `Bearer ${accessToken}` },
       });
       return data;
@@ -114,7 +123,7 @@ const HTTP = {
     }
 
     isRefreshing = true;
-    const data = await HTTP.publicPost(`/v1/sign-in/refresh`, {
+    const data = await HTTP.publicPost(servers.auth, `/v1/sign-in/refresh`, {
       refreshToken,
     });
     LocalStorage.saveTokens(data);

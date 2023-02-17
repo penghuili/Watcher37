@@ -4,7 +4,7 @@ import {
   encryptMessageSymmetric,
   generateKeypair,
 } from '../../lib/encryption';
-import HTTP from '../../lib/HTTP';
+import HTTP, { servers } from '../../lib/HTTP';
 import { LocalStorage, LocalStorageKeys } from '../../lib/LocalStorage';
 
 export async function checkRefreshToken() {
@@ -17,6 +17,7 @@ export async function checkRefreshToken() {
 
   try {
     const { id, accessToken, refreshToken, expiresIn } = await HTTP.publicPost(
+      servers.auth,
       `/v1/sign-in/refresh`,
       {
         refreshToken: refreshTokenInStore,
@@ -33,7 +34,7 @@ export async function signUp(username, password) {
     const { publicKey, privateKey } = await generateKeypair(username);
     const encryptedPrivateKey = await encryptMessageSymmetric(password, privateKey);
 
-    const { id: userId } = await HTTP.publicPost(`/v1/sign-up`, {
+    const { id: userId } = await HTTP.publicPost(servers.auth, `/v1/sign-up`, {
       username,
       publicKey,
       encryptedPrivateKey,
@@ -48,11 +49,15 @@ export async function signUp(username, password) {
 export async function signIn(username, password) {
   try {
     const { publicKey, encryptedPrivateKey, encryptedChallenge } = await HTTP.publicGet(
+      servers.auth,
       `/v1/me-public/${username}`
     );
     const privateKey = await decryptMessageSymmetric(password, encryptedPrivateKey);
     const challenge = await decryptMessage(privateKey, encryptedChallenge);
-    const tokens = await HTTP.publicPost(`/v1/sign-in`, { username, signinChallenge: challenge });
+    const tokens = await HTTP.publicPost(servers.auth, `/v1/sign-in`, {
+      username,
+      signinChallenge: challenge,
+    });
 
     LocalStorage.saveTokens({ ...tokens, publicKey, privateKey });
 
@@ -65,7 +70,7 @@ export async function signIn(username, password) {
 
 export async function logoutFromAllDevices() {
   try {
-    await HTTP.post(`/v1/log-out-all`);
+    await HTTP.post(servers.auth, `/v1/log-out-all`);
 
     LocalStorage.resetTokens();
 

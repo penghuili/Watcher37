@@ -7,20 +7,20 @@ const initialState = {
   userId: null,
   username: null,
   createdAt: null,
-  telegramId: null,
   lastOpenTime: null,
   tried: true,
+  telegramId: null,
   expiresAt: null,
   payError: null,
   botPublicKey: null,
 };
 
-function handleSetUserData(state, { userId, username, createdAt, telegramId, botPublicKey }) {
-  return { ...state, userId, username, createdAt, telegramId, botPublicKey };
+function handleSetUserData(state, { userId, username, createdAt, botPublicKey }) {
+  return { ...state, userId, username, createdAt, botPublicKey };
 }
 
-function handleSetSettings(state, { lastOpenTime, expiresAt, tried }) {
-  return { ...state, lastOpenTime, expiresAt, tried };
+function handleSetSettings(state, { lastOpenTime, expiresAt, tried, telegramId }) {
+  return { ...state, lastOpenTime, expiresAt, tried, telegramId };
 }
 
 function handleSetPayError(state, { message }) {

@@ -3,11 +3,12 @@ import {
   decryptMessageSymmetric,
   encryptMessageSymmetric,
 } from '../../lib/encryption';
-import HTTP from '../../lib/HTTP';
+import HTTP, { servers } from '../../lib/HTTP';
 
 export async function fetchAccount() {
   try {
-    const { id, username, createdAt, updatedAt, telegramId, backendPublicKey } = await HTTP.get(
+    const { id, username, createdAt, updatedAt, backendPublicKey } = await HTTP.get(
+      servers.auth,
       `/v1/me`
     );
 
@@ -17,7 +18,6 @@ export async function fetchAccount() {
         username,
         createdAt,
         updatedAt,
-        telegramId,
         botPublicKey: JSON.parse(`"${backendPublicKey}"`),
       },
       error: null,
@@ -29,23 +29,9 @@ export async function fetchAccount() {
 
 export async function deleteAccount() {
   try {
-    await HTTP.delete(`/v1/me`);
+    await HTTP.delete(servers.auth, `/v1/me`);
 
     return { data: { success: true }, error: null };
-  } catch (error) {
-    console.log(error);
-    return { data: null, error };
-  }
-}
-
-export async function addTelegramId(chatId) {
-  try {
-    const { id, username, createdAt, updatedAt, telegramId } = await HTTP.put(
-      `/v1/me/telegram-id`,
-      { telegramId: chatId }
-    );
-
-    return { data: { userId: id, username, createdAt, updatedAt, telegramId }, error: null };
   } catch (error) {
     console.log(error);
     return { data: null, error };
@@ -55,12 +41,13 @@ export async function addTelegramId(chatId) {
 export async function changePassword(username, currentPassword, newPassword) {
   try {
     const { encryptedPrivateKey, encryptedChallenge } = await HTTP.publicGet(
+      servers.auth,
       `/v1/me-public/${username}`
     );
     const privateKey = await decryptMessageSymmetric(currentPassword, encryptedPrivateKey);
     const challenge = await decryptMessage(privateKey, encryptedChallenge);
     const updatedEncryptedPrivateKey = await encryptMessageSymmetric(newPassword, privateKey);
-    const updatedUser = await HTTP.post(`/v1/me/password`, {
+    const updatedUser = await HTTP.post(servers.auth, `/v1/me/password`, {
       encryptedPrivateKey: updatedEncryptedPrivateKey,
       signinChallenge: challenge,
     });
@@ -74,25 +61,33 @@ export async function changePassword(username, currentPassword, newPassword) {
 
 export async function fetchSettings() {
   try {
-    const { lastOpenTime, expiresAt, tried } = await HTTP.get(`/v1/watcher37/settings`);
+    const { lastOpenTime, expiresAt, tried, telegramId } = await HTTP.get(
+      servers.watcher37,
+      `/v1/settings`
+    );
 
-    return { data: { lastOpenTime, expiresAt, tried }, error: null };
+    return { data: { lastOpenTime, expiresAt, tried, telegramId }, error: null };
   } catch (error) {
     return { data: null, error };
   }
 }
 
-export async function updateSettings(lastOpenTime) {
+export async function updateSettings({ lastOpenTime, telegramId }) {
   try {
     const {
-      lastOpenTime: updated,
+      lastOpenTime: updatedLastOpenTime,
       expiresAt,
       tried,
-    } = await HTTP.put(`/v1/watcher37/settings`, {
+      telegramId: updatedTelegramId,
+    } = await HTTP.put(servers.watcher37, `/v1/settings`, {
       lastOpenTime,
+      telegramId,
     });
 
-    return { data: { lastOpenTime: updated, expiresAt, tried }, error: null };
+    return {
+      data: { lastOpenTime: updatedLastOpenTime, expiresAt, tried, telegramId: updatedTelegramId },
+      error: null,
+    };
   } catch (error) {
     return { data: null, error };
   }
@@ -100,7 +95,11 @@ export async function updateSettings(lastOpenTime) {
 
 export async function tryApp() {
   try {
-    const { lastOpenTime: updated, expiresAt, tried } = await HTTP.post(`/v1/watcher37/try`, {});
+    const {
+      lastOpenTime: updated,
+      expiresAt,
+      tried,
+    } = await HTTP.post(servers.watcher37, `/v1/try`, {});
 
     return { data: { lastOpenTime: updated, expiresAt, tried }, error: null };
   } catch (error) {
@@ -114,7 +113,7 @@ export async function pay(code) {
       lastOpenTime: updated,
       expiresAt,
       tried,
-    } = await HTTP.post(`/v1/watcher37/pay`, { code });
+    } = await HTTP.post(servers.watcher37, `/v1/pay`, { code });
 
     return { data: { lastOpenTime: updated, expiresAt, tried }, error: null };
   } catch (error) {

@@ -1,6 +1,6 @@
 import { asyncForEach } from '../../lib/asyncForEach';
 import { decryptMessage, encryptMessage } from '../../lib/encryption';
-import HTTP from '../../lib/HTTP';
+import HTTP, { servers } from '../../lib/HTTP';
 import { LocalStorage, LocalStorageKeys } from '../../lib/LocalStorage';
 
 async function encryptWatcherContent(watcher, needToEncrypt, botPublicKey) {
@@ -77,7 +77,7 @@ async function decryptWatcherItemContent(item) {
 
 export async function fetchPageContent(link, selector) {
   try {
-    const { content, contentLink } = await HTTP.post(`/v1/watcher37/content`, {
+    const { content, contentLink } = await HTTP.post(servers.watcher37, `/v1/content`, {
       link,
       selector,
     });
@@ -90,7 +90,7 @@ export async function fetchPageContent(link, selector) {
 
 export async function fetchWatchers() {
   try {
-    const watchers = await HTTP.get(`/v1/watcher37/watchers`);
+    const watchers = await HTTP.get(servers.watcher37, `/v1/watchers`);
 
     const decryptedWatchers = [];
     await asyncForEach(watchers, async watcher => {
@@ -118,7 +118,7 @@ export async function createWatcher({ title, link, selector }, botPublicKey) {
       selectorForBot: encryptedSelectorForBot,
     } = await encryptWatcherContent({ title, link, selector }, true, botPublicKey);
 
-    const watcher = await HTTP.post(`/v1/watcher37/watchers`, {
+    const watcher = await HTTP.post(servers.watcher37, `/v1/watchers`, {
       title: encryptedTitle,
       link: encryptedLink,
       linkForBot: encryptedLinkForBot,
@@ -152,7 +152,7 @@ export async function updateWatcher(
       selectorForBot: encryptedSelectorForBot,
     } = await encryptWatcherContent({ title, link, selector }, encrypted, botPublicKey);
 
-    const watcher = await HTTP.put(`/v1/watcher37/watchers/${id}`, {
+    const watcher = await HTTP.put(servers.watcher37, `/v1/watchers/${id}`, {
       title: encryptedTitle,
       selector: encryptedSelector,
       selectorForBot: encryptedSelectorForBot,
@@ -192,7 +192,7 @@ export async function encryptWatcher(
       botPublicKey
     );
 
-    const watcher = await HTTP.put(`/v1/watcher37/watchers/${id}`, {
+    const watcher = await HTTP.put(servers.watcher37, `/v1/watchers/${id}`, {
       encrypted: true,
       isPublic: false,
       encryptedAt: Date.now(),
@@ -223,7 +223,7 @@ export async function decryptWatcher(id, { title, selector, link, content, conte
       contentLink: decryptedContentLink,
     } = await decryptWatcherContent({ title, selector, link, content, contentLink });
 
-    const watcher = await HTTP.put(`/v1/watcher37/watchers/${id}`, {
+    const watcher = await HTTP.put(servers.watcher37, `/v1/watchers/${id}`, {
       encrypted: false,
       decryptedAt: Date.now(),
       title: decryptedTitle,
@@ -243,7 +243,7 @@ export async function decryptWatcher(id, { title, selector, link, content, conte
 
 export async function deleteWatcher(id) {
   try {
-    await HTTP.delete(`/v1/watcher37/watchers/${id}`);
+    await HTTP.delete(servers.watcher37, `/v1/watchers/${id}`);
 
     return { data: { id }, error: null };
   } catch (error) {
@@ -258,8 +258,8 @@ export async function fetchWatcher(id) {
       LocalStorage.get(LocalStorageKeys.accessToken);
 
     const watcher = hasToken
-      ? await HTTP.get(`/v1/watcher37/watchers/${id}`)
-      : await HTTP.publicGet(`/v1/watcher37/watchers/${id}`);
+      ? await HTTP.get(servers.watcher37, `/v1/watchers/${id}`)
+      : await HTTP.publicGet(servers.watcher37, `/v1/watchers/${id}`);
 
     const decrypted = await decryptWatcherContent(watcher);
 
@@ -281,8 +281,8 @@ export async function fetchWatcherHistory(id, startKey) {
       startKey: newStartKey,
       limit,
     } = hasToken
-      ? await HTTP.get(`/v1/watcher37/watchers/${id}/history${query}`)
-      : await HTTP.publicGet(`/v1/watcher37/watchers/${id}/history${query}`);
+      ? await HTTP.get(servers.watcher37, `/v1/watchers/${id}/history${query}`)
+      : await HTTP.publicGet(servers.watcher37, `/v1/watchers/${id}/history${query}`);
 
     const decryptedItems = [];
     if (items?.length) {
@@ -310,7 +310,7 @@ export async function fetchWatcherHistory(id, startKey) {
 
 export async function checkWatcher(id) {
   try {
-    const { watcher, item } = await HTTP.get(`/v1/watcher37/watchers/${id}/check`);
+    const { watcher, item } = await HTTP.get(servers.watcher37, `/v1/watchers/${id}/check`);
     const decrypted = await decryptWatcherContent(watcher);
     const decryptedItem = item ? await decryptWatcherItemContent(item) : null;
 
@@ -322,7 +322,9 @@ export async function checkWatcher(id) {
 
 export async function scheduleTrigger(id, rate) {
   try {
-    const watcher = await HTTP.post(`/v1/watcher37/watchers/${id}/trigger`, { rate });
+    const watcher = await HTTP.post(servers.watcher37, `/v1/watchers/${id}/trigger`, {
+      rate,
+    });
     const decrypted = await decryptWatcherContent(watcher);
 
     return { data: decrypted, error: null };
@@ -333,7 +335,7 @@ export async function scheduleTrigger(id, rate) {
 
 export async function deleteTrigger(id) {
   try {
-    const watcher = await HTTP.delete(`/v1/watcher37/watchers/${id}/trigger`);
+    const watcher = await HTTP.delete(servers.watcher37, `/v1/watchers/${id}/trigger`);
     const decrypted = await decryptWatcherContent(watcher);
 
     return { data: decrypted, error: null };
@@ -344,7 +346,7 @@ export async function deleteTrigger(id) {
 
 export async function deleteItem(id, sortKey) {
   try {
-    await HTTP.delete(`/v1/watcher37/watchers/${id}/items/${sortKey}`);
+    await HTTP.delete(servers.watcher37, `/v1/watchers/${id}/items/${sortKey}`);
 
     return { data: { success: true }, error: null };
   } catch (error) {

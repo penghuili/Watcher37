@@ -20,7 +20,7 @@ function* hanldeSignUpPressed({ payload: { username, password } }) {
   const { error } = yield call(signUp, username, password);
 
   if (error) {
-    if (error.errorCode === errorCodes.USER_EXISTS) {
+    if (error.errorCode === errorCodes.ALREADY_EXISTS) {
       yield put(authActionCreators.setError('This username is used.'));
     } else {
       yield put(authActionCreators.setError('Sign up failed.'));
@@ -37,7 +37,7 @@ function* hanldeSignInPressed({ payload: { username, password } }) {
 
   const { data, error } = yield call(signIn, username, password);
   if (error) {
-    if (error.errorCode === errorCodes.USER_NOT_FOUND) {
+    if (error.errorCode === errorCodes.NOT_FOUND) {
       yield put(authActionCreators.setError('This username does not exist.'));
     } else {
       yield put(authActionCreators.setError('Sign in failed.'));
