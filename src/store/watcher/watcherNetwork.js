@@ -200,6 +200,12 @@ export async function fetchWatchers() {
   }
 }
 
+function addSelectorForBotForSelectors(selectors) {
+  return selectors
+    ? selectors.map(s => ({ ...s, selectorForBot: s.selectorForBot || s.selector }))
+    : selectors;
+}
+
 export async function createWatcher({ title, link, selectors }, botPublicKey) {
   try {
     const {
@@ -213,7 +219,7 @@ export async function createWatcher({ title, link, selectors }, botPublicKey) {
       title: encryptedTitle,
       link: encryptedLink,
       linkForBot: encryptedLinkForBot,
-      selectors: encryptedSelectors,
+      selectors: addSelectorForBotForSelectors(encryptedSelectors),
     });
 
     const decrypted = await decryptWatcherContent(watcher);
@@ -245,7 +251,7 @@ export async function updateWatcher(
       title: encryptedTitle,
       link: encryptedLink,
       linkForBot: encryptedLinkForBot,
-      selectors: encryptedSelectors,
+      selectors: addSelectorForBotForSelectors(encryptedSelectors),
       skipPersonalTelegram,
       telegramId,
       isPublic,
