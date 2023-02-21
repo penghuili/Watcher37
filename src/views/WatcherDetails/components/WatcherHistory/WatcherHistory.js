@@ -1,8 +1,9 @@
-import { Anchor, Box, Button, Heading, Spinner, Text } from 'grommet';
+import { Box, Button, Heading, Spinner, Text } from 'grommet';
 import { LinkUp, Refresh, Trash } from 'grommet-icons';
 import React, { useState } from 'react';
 
 import HorizontalCenter from '../../../../components/HorizontalCenter';
+import { WatcherContentsInner } from '../../../../components/WatcherContents';
 import { formatDateTime } from '../../../../lib/date';
 
 function WatcherHistory({
@@ -54,16 +55,7 @@ function WatcherHistory({
               ))}
           </HorizontalCenter>
 
-          {item.contentLink ? (
-            <Anchor
-              label={item.content}
-              href={item.contentLink}
-              target="_blank"
-              margin="0 1rem 0 0"
-            />
-          ) : (
-            <Text margin="0 1rem 0 0">{item.content}</Text>
-          )}
+          <WatcherContentsInner contents={item.contents} />
         </Box>
       ))}
 

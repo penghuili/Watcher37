@@ -1,4 +1,4 @@
-import { Anchor, Box, Button, Heading, Spinner, Text } from 'grommet';
+import { Box, Button, Heading, Spinner, Text } from 'grommet';
 import { Refresh } from 'grommet-icons';
 import React, { useState } from 'react';
 
@@ -10,6 +10,7 @@ import ExpiredBanner from '../../components/ExpiredBanner';
 import HorizontalCenter from '../../components/HorizontalCenter';
 import RouteLink from '../../components/RouteLink';
 import WatcherAccess from '../../components/WatcherAccess';
+import { WatcherContentsInner } from '../../components/WatcherContents';
 import { useEffectOnce } from '../../hooks/useEffectOnce';
 import { formatDateTime } from '../../lib/date';
 
@@ -67,11 +68,7 @@ function Watchers({
               <WatcherAccess watcher={watcher} />
             </HorizontalCenter>
 
-            {watcher.contentLink ? (
-              <Anchor label={watcher.content} href={watcher.contentLink} target="_blank" />
-            ) : (
-              <Text>{watcher.content}</Text>
-            )}
+            <WatcherContentsInner contents={watcher.contents} />
 
             {isChecking && checkId === watcher.sid ? (
               <Spinner size="xsmall" />

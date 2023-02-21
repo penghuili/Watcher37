@@ -64,11 +64,11 @@ function* handleFetchWatchersRequested({ payload: { isHardRefresh } }) {
   yield put(watcherActionCreators.isLoading(false));
 }
 
-function* handleCreatePressed({ payload: { title, link, selector } }) {
+function* handleCreatePressed({ payload: { title, link, selectors } }) {
   yield put(watcherActionCreators.isLoading(true));
 
   const botPublicKey = yield select(accountSelectors.getBotPublicKey);
-  const { data } = yield call(createWatcher, { title, link, selector }, botPublicKey);
+  const { data } = yield call(createWatcher, { title, link, selectors }, botPublicKey);
 
   if (data) {
     const watchers = yield select(watcherSelectors.getWatchers);
@@ -106,11 +106,7 @@ function* handleDeletePressed({ payload: { id } }) {
   yield put(watcherActionCreators.isLoading(false));
 }
 
-function* handleNavToEditPressed({ payload: { id } }) {
-  yield call(routeHelpers.navigate, `/w/${id}/edit`);
-}
-
-function* afterNewWatcher(newWatcher, newItem) {
+function* afterUpdateWatcher(newWatcher, newItem) {
   if (!newWatcher) {
     return;
   }
@@ -137,7 +133,16 @@ function* afterNewWatcher(newWatcher, newItem) {
 }
 
 function* handleEditPressed({
-  payload: { id, title, selector, link, skipPersonalTelegram, telegramId, isPublic, noDuplication },
+  payload: {
+    id,
+    title,
+    selectors,
+    link,
+    skipPersonalTelegram,
+    telegramId,
+    isPublic,
+    noDuplication,
+  },
 }) {
   yield put(watcherActionCreators.isLoading(true));
 
@@ -150,7 +155,7 @@ function* handleEditPressed({
     {
       encrypted: !!encrypted,
       title,
-      selector,
+      selectors,
       link,
       skipPersonalTelegram,
       telegramId,
@@ -161,7 +166,7 @@ function* handleEditPressed({
   );
 
   if (data) {
-    yield call(afterNewWatcher, data);
+    yield call(afterUpdateWatcher, data);
     let message;
     if (telegramId) {
       message = 'Telegram channel is integrated!';
@@ -186,16 +191,14 @@ function* handleEditPressed({
 }
 
 function* handleFetchWatcherRequested({ payload: { id } }) {
-  yield put(watcherActionCreators.setFetchError(''));
   yield put(watcherActionCreators.isLoading(true));
-  yield put(watcherActionCreators.setDetails(null));
-  yield put(watcherActionCreators.setHistory([], null, true));
-  yield put(watcherActionCreators.fetchHistoryRequested(id));
+  yield put(watcherActionCreators.setFetchError(''));
 
   const { data, error } = yield call(fetchWatcher, id);
 
   if (data) {
     yield put(watcherActionCreators.setDetails(data));
+    yield put(watcherActionCreators.fetchHistoryRequested(id));
   }
 
   if (error) {
@@ -213,9 +216,11 @@ function* handleFetchWatcherRequested({ payload: { id } }) {
 
 function* handleFetchHistoryRequested({ payload: { id } }) {
   yield put(watcherActionCreators.isLoadingHistory(true));
-  const startKey = yield select(watcherSelectors.getStartKey);
+  yield put(watcherActionCreators.setHistory([], null, true));
 
-  const { data, error } = yield call(fetchWatcherHistory, id, startKey);
+  const startKey = yield select(watcherSelectors.getStartKey);
+  const watcher = yield select(watcherSelectors.getDetails)
+  const { data, error } = yield call(fetchWatcherHistory, id, startKey, watcher);
 
   if (data) {
     const history = yield select(watcherSelectors.getHistory);
@@ -243,7 +248,7 @@ function* handleCheckWatcherRequested({ payload: { id } }) {
   const { data } = yield call(checkWatcher, id);
 
   if (data?.watcher) {
-    yield call(afterNewWatcher, data.watcher, data?.item);
+    yield call(afterUpdateWatcher, data.watcher, data?.item);
 
     if (data?.item) {
       yield put(appActionCreators.setToast('New content!'));
@@ -261,7 +266,7 @@ function* handleScheduleTriggerPressed({ payload: { id, rate } }) {
   const { data } = yield call(scheduleTrigger, id, rate);
 
   if (data) {
-    yield call(afterNewWatcher, data);
+    yield call(afterUpdateWatcher, data);
     yield put(appActionCreators.setToast('Trigger is scheduled!'));
   } else {
     yield put(
@@ -277,10 +282,11 @@ function* handleEncryptPressed({ payload: { id } }) {
   yield put(watcherActionCreators.isLoading(true));
   const watcher = yield select(watcherSelectors.getDetails);
   const botPublicKey = yield select(accountSelectors.getBotPublicKey);
+
   const { data } = yield call(encryptWatcher, id, watcher, botPublicKey);
 
   if (data) {
-    yield call(afterNewWatcher, data);
+    yield call(afterUpdateWatcher, data);
     yield put(appActionCreators.setToast('Your watcher is now end-to-end encrypted!'));
   } else {
     yield put(
@@ -298,7 +304,7 @@ function* handleDecryptPressed({ payload: { id } }) {
   const { data } = yield call(decryptWatcher, id, watcher);
 
   if (data) {
-    yield call(afterNewWatcher, data);
+    yield call(afterUpdateWatcher, data);
     yield put(appActionCreators.setToast('Your watcher is now decrypted.'));
   } else {
     yield put(
@@ -331,7 +337,7 @@ function* handlePublicPressed({ payload: { id } }) {
   });
 
   if (data) {
-    yield call(afterNewWatcher, data);
+    yield call(afterUpdateWatcher, data);
     yield put(
       appActionCreators.setToast(
         'This watcher is now public, anyone can check it. (They cannot update it though.)'
@@ -356,7 +362,7 @@ function* handlePrivatePressed({ payload: { id } }) {
   });
 
   if (data) {
-    yield call(afterNewWatcher, data);
+    yield call(afterUpdateWatcher, data);
     yield put(appActionCreators.setToast('This watcher is now private, only you can check it.'));
   } else {
     yield put(
@@ -373,7 +379,7 @@ function* handleDeleteTriggerPressed({ payload: { id } }) {
   const { data } = yield call(deleteTrigger, id);
 
   if (data) {
-    yield call(afterNewWatcher, data);
+    yield call(afterUpdateWatcher, data);
     yield put(appActionCreators.setToast('Trigger is deleted!'));
   } else {
     yield put(
@@ -407,7 +413,6 @@ export function* watcherSagas() {
     takeLatest(watcherActionTypes.FETCH_CONTENT_PRESSED, handleFetchContentPressed),
     takeLeading(watcherActionTypes.FETCH_WATCHERS_REQUESTED, handleFetchWatchersRequested),
     takeLatest(watcherActionTypes.CREATE_PRESSED, handleCreatePressed),
-    takeLatest(watcherActionTypes.NAV_TO_EDIT_PRESSED, handleNavToEditPressed),
     takeLatest(watcherActionTypes.EDIT_PRESSED, handleEditPressed),
     takeLatest(watcherActionTypes.DELETE_PRESSED, handleDeletePressed),
     takeLatest(watcherActionTypes.FETCH_WATCHER_REQUESTED, handleFetchWatcherRequested),

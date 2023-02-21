@@ -54,8 +54,8 @@ function handleSetFetchError(state, { error }) {
   return { ...state, fetchError: error };
 }
 
-function handleIsLoading(state, { loading }) {
-  return { ...state, isLoading: loading };
+function handleIsLoading(state, { value }) {
+  return { ...state, isLoading: value };
 }
 
 function handleIsLoadingHistory(state, { value }) {

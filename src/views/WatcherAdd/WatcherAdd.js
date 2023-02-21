@@ -1,32 +1,24 @@
-import { Anchor, Button, Heading, Text } from 'grommet';
-import React, { useEffect, useState } from 'react';
+import { Button, Heading } from 'grommet';
+import React, { useState } from 'react';
 
 import AppBar from '../../components/AppBar';
-import AreaField from '../../components/AreaField';
 import ContentWrapper from '../../components/ContentWrapper';
+import Divider from '../../components/Divider';
 import InputField from '../../components/InputField';
 import Spacer from '../../components/Spacer';
-import WatcherContent from '../../components/WatcherContent';
+import WatcherSelectors from '../../components/WatcherSelectors';
+import { useEffectOnce } from '../../hooks/useEffectOnce';
 
-function WatcherAdd({
-  content,
-  contentLink,
-  contentError,
-  isLoading,
-  onFetchContent,
-  onClearContent,
-  onCreate,
-}) {
+function WatcherAdd({ content, isLoading, onClearContent, onCreate }) {
   const [title, setTitle] = useState('');
   const [link, setLink] = useState('');
-  const [selector, setSelector] = useState('');
+  const [selectors, setSelectors] = useState([{ id: Date.now(), title: '', selector: '' }]);
 
-  useEffect(() => {
+  useEffectOnce(() => {
     return () => {
       onClearContent();
     };
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  });
 
   return (
     <>
@@ -38,28 +30,21 @@ function WatcherAdd({
           value={link}
           onChange={setLink}
         />
-        <Spacer />
-        <AreaField
-          label="Selector of the content:"
-          placeholder="Selector"
-          value={selector}
-          onChange={setSelector}
-        />
-        <Anchor label="How to find selector?" href="/selector" target="_blank" />
-        <Spacer />
-        <Button
-          label="Get content"
-          onClick={() => onFetchContent(link, selector)}
-          disabled={!link || !selector || isLoading}
-        />
+
+        <Spacer size="2rem" />
+        <Divider />
+        <Spacer size="2rem" />
+
+        <WatcherSelectors link={link} selectors={selectors} onChange={setSelectors} />
+
         {!!content && (
           <>
-            <Spacer />
-            <WatcherContent content={content} contentLink={contentLink} />
+            <Spacer size="2rem" />
+            <Divider />
             <Spacer size="2rem" />
 
             <Heading level="3" margin="0">
-              Happy with the selector?
+              Happy with the selectors?
             </Heading>
             <Spacer />
             <InputField
@@ -70,21 +55,10 @@ function WatcherAdd({
             />
             <Spacer />
             <Button
-              label="Create watcher"
-              onClick={() => onCreate({ title, link, selector })}
-              disabled={!title || !link || !selector || isLoading}
+              label="Create"
+              onClick={() => onCreate({ title, link, selectors })}
+              disabled={!title || !link || !selectors.filter(s => s.selector).length || isLoading}
             />
-          </>
-        )}
-        {!!contentError && (
-          <>
-            <Text color="status-warning" margin="1rem 0 0">
-              {contentError}
-            </Text>
-            <Text>
-              Please also check the{' '}
-              <Anchor label="limitations" href="/limitations" target="_blank" /> of Watcher37.
-            </Text>
           </>
         )}
       </ContentWrapper>

@@ -2,16 +2,17 @@ import { connect } from 'react-redux';
 
 import { watcherActionCreators } from '../../store/watcher/watcherActions';
 import { watcherSelectors } from '../../store/watcher/watcherSelectors';
-import WatcherAdd from './WatcherAdd';
+import WatcherSelectors from './WatcherSelectors';
 
 const mapStateToProps = state => ({
   content: watcherSelectors.getContent(state),
+  contentLink: watcherSelectors.getContentLink(state),
+  contentError: watcherSelectors.getContentError(state),
   isLoading: watcherSelectors.isLoading(state),
 });
 
 const mapDispatchToProps = {
-  onClearContent: () => watcherActionCreators.setContent(null, null),
-  onCreate: watcherActionCreators.createPressed,
+  onFetchContent: watcherActionCreators.fetchContentPressed,
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(WatcherAdd);
+export default connect(mapStateToProps, mapDispatchToProps)(WatcherSelectors);

@@ -1,74 +1,58 @@
-import { Anchor, Box, Button, RadioButton, Text, TextArea, TextInput } from 'grommet';
-import React, { useEffect, useState } from 'react';
+import { Box, Button, RadioButton, Text } from 'grommet';
+import React, { useState } from 'react';
 
 import AppBar from '../../components/AppBar';
 import ContentWrapper from '../../components/ContentWrapper';
+import Divider from '../../components/Divider';
 import HorizontalCenter from '../../components/HorizontalCenter';
+import InputField from '../../components/InputField';
 import Spacer from '../../components/Spacer';
-import WatcherContent from '../../components/WatcherContent';
+import WatcherSelectors from '../../components/WatcherSelectors';
 import { useEffectOnce } from '../../hooks/useEffectOnce';
 import { useListener } from '../../hooks/useListener';
 
-function WatcherEdit({
-  id,
-  watcher,
-  content,
-  contentLink,
-  contentError,
-  isLoading,
-  onFetch,
-  onEdit,
-  onFetchContent,
-  onClearContent,
-}) {
+function WatcherEdit({ id, watcher, isLoading, onFetch, onEdit, onClearContent }) {
   const [title, setTitle] = useState(watcher?.title || '');
   useListener(watcher?.title, value => setTitle(value || ''));
   const [link, setLink] = useState(watcher?.link || '');
   useListener(watcher?.link, value => setLink(value || ''));
-  const [selector, setSelector] = useState(watcher?.selector || '');
-  useListener(watcher?.selector, value => setSelector(value || ''));
+  const [selectors, setSelectors] = useState([{ id: Date.now(), title: '', selector: '' }]);
+  useListener(watcher?.selectors, value => {
+    if (value) {
+      setSelectors(value);
+    }
+  });
   const [allowDuplication, setAllowDuplication] = useState(!watcher?.noDuplication);
   useListener(watcher?.noDuplication, value => setAllowDuplication(!value));
 
   useEffectOnce(() => {
     onFetch(id);
-  });
-  useEffect(() => {
+
     return () => {
       onClearContent();
     };
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  });
 
   return (
     <>
       <AppBar title="Edit watcher" hasBack />
       <ContentWrapper>
-        <TextInput
-          placeholder="Title"
-          value={title}
-          onChange={event => setTitle(event.target.value)}
-          disabled={isLoading}
-        />
+        <InputField label="Title" value={title} onChange={setTitle} disabled={isLoading} />
         <Spacer />
-        <TextInput
-          placeholder="Link"
-          value={link}
-          onChange={event => setLink(event.target.value)}
-          disabled={isLoading}
-        />
-        <Spacer />
-        <TextArea
-          placeholder="Selector"
-          value={selector}
-          onChange={event => setSelector(event.target.value)}
-          resize="vertical"
-          disabled={isLoading}
-        />
-        <Anchor label="How to find selector?" href="/selector" target="_blank" />
+        <InputField label="Link" value={link} onChange={setLink} disabled={isLoading} />
 
-        <Text margin="1rem 0 0">Allow duplication for the content?</Text>
-        <HorizontalCenter margin="0 0 1rem">
+        <Spacer size="2rem" />
+        <Divider />
+        <Spacer size="2rem" />
+
+        <WatcherSelectors link={link} selectors={selectors} onChange={setSelectors} />
+
+        <Spacer size="2rem" />
+        <Divider />
+        <Spacer size="2rem" />
+
+        <Text>Allow duplication for the content?</Text>
+        <HorizontalCenter>
           <RadioButton
             name="dark"
             checked={allowDuplication}
@@ -86,31 +70,23 @@ function WatcherEdit({
           />
         </HorizontalCenter>
 
-        <HorizontalCenter margin="1rem 0">
-          <Button
-            label="Get content"
-            onClick={() => onFetchContent(link, selector)}
-            disabled={!link || !selector || isLoading}
-            margin=" 0 1rem 0 0"
-          />
-          <Button
-            label="Update watcher"
-            onClick={() => onEdit(id, { title, selector, link, noDuplication: !allowDuplication })}
-            disabled={!title || isLoading}
-          />
-        </HorizontalCenter>
+        <Spacer size="2rem" />
+        <Divider />
+        <Spacer size="2rem" />
 
-        {!!content && <WatcherContent content={content} contentLink={contentLink} />}
-
-        {!!contentError && (
-          <>
-            <Text color="status-warning">{contentError}</Text>
-            <Text>
-              Please also check the{' '}
-              <Anchor label="limitations" href="/limitations" target="_blank" /> of Watcher37.
-            </Text>
-          </>
-        )}
+        <Button
+          label="Update"
+          onClick={() =>
+            onEdit(id, {
+              title,
+              selectors: selectors.filter(s => s.title && s.selector),
+              link,
+              noDuplication: !allowDuplication,
+            })
+          }
+          disabled={!title || !selectors.filter(s => s.selector).length || isLoading}
+          primary
+        />
       </ContentWrapper>
     </>
   );

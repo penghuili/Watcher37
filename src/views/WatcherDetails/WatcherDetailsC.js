@@ -1,6 +1,7 @@
 import { connect } from 'react-redux';
 
 import { accountSelectors } from '../../store/account/accountSelectors';
+import { appActionCreators } from '../../store/app/appActions';
 import { watcherActionCreators } from '../../store/watcher/watcherActions';
 import { watcherSelectors } from '../../store/watcher/watcherSelectors';
 import WatcherDetails from './WatcherDetails';
@@ -15,7 +16,7 @@ const mapStateToProps = state => ({
 const mapDispatchToProps = {
   onFetchWatcher: watcherActionCreators.fetchWatcherRequested,
   onDelete: watcherActionCreators.deletePressed,
-  onNavToEdit: watcherActionCreators.navToEditPressed,
+  onNav: appActionCreators.navigate,
   onEncrypt: watcherActionCreators.encryptPressed,
   onDecrypt: watcherActionCreators.decryptPressed,
   onPublic: watcherActionCreators.publicPressed,

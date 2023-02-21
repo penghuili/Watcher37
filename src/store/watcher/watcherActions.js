@@ -14,7 +14,6 @@ export const watcherActionTypes = {
 
   FETCH_WATCHERS_REQUESTED: 'watcher/FETCH_WATCHERS_REQUESTED',
   CREATE_PRESSED: 'watcher/CREATE_PRESSED',
-  NAV_TO_EDIT_PRESSED: 'watcher/NAV_TO_EDIT_PRESSED',
   EDIT_PRESSED: 'watcher/EDIT_PRESSED',
   DELETE_PRESSED: 'watcher/DELETE_PRESSED',
   FETCH_WATCHER_REQUESTED: 'watcher/FETCH_WATCHER_REQUESTED',
@@ -39,8 +38,8 @@ export const watcherActionCreators = {
   setContentError(contentError) {
     return { type: watcherActionTypes.SET_CONTENT_ERROR, payload: { contentError } };
   },
-  isLoading(loading) {
-    return { type: watcherActionTypes.IS_LOADING, payload: { loading } };
+  isLoading(value) {
+    return { type: watcherActionTypes.IS_LOADING, payload: { value } };
   },
   isLoadingHistory(value) {
     return { type: watcherActionTypes.IS_LOADING_HISTORY, payload: { value } };
@@ -69,22 +68,19 @@ export const watcherActionCreators = {
   fetchWatchersRequested(isHardRefresh) {
     return { type: watcherActionTypes.FETCH_WATCHERS_REQUESTED, payload: { isHardRefresh } };
   },
-  createPressed({ title, link, selector }) {
-    return { type: watcherActionTypes.CREATE_PRESSED, payload: { title, link, selector } };
-  },
-  navToEditPressed(id) {
-    return { type: watcherActionTypes.NAV_TO_EDIT_PRESSED, payload: { id } };
+  createPressed({ title, link, selectors }) {
+    return { type: watcherActionTypes.CREATE_PRESSED, payload: { title, link, selectors } };
   },
   editPressed(
     id,
-    { title, selector, link, skipPersonalTelegram, telegramId, isPublic, noDuplication }
+    { title, selectors, link, skipPersonalTelegram, telegramId, isPublic, noDuplication }
   ) {
     return {
       type: watcherActionTypes.EDIT_PRESSED,
       payload: {
         id,
         title,
-        selector,
+        selectors,
         link,
         skipPersonalTelegram,
         telegramId,

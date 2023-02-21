@@ -1,4 +1,4 @@
-import { Anchor, Heading, Menu, Spinner, Text } from 'grommet';
+import { Anchor, Heading, Menu, Text } from 'grommet';
 import { MoreVertical } from 'grommet-icons';
 import React, { useEffect, useState } from 'react';
 
@@ -8,7 +8,7 @@ import ContentWrapper from '../../components/ContentWrapper';
 import ExpiredBanner from '../../components/ExpiredBanner';
 import HorizontalCenter from '../../components/HorizontalCenter';
 import WatcherAccess from '../../components/WatcherAccess';
-import WatcherContent from '../../components/WatcherContent';
+import { WatcherContents } from '../../components/WatcherContents';
 import { formatDateTime } from '../../lib/date';
 import WatcherHistory from './components/WatcherHistory';
 import WatcherSchedule from './components/WatcherSchedule';
@@ -22,7 +22,7 @@ function WatcherDetails({
   isLoading,
   onFetchWatcher,
   onDelete,
-  onNavToEdit,
+  onNav,
   onEncrypt,
   onDecrypt,
   onPublic,
@@ -38,11 +38,10 @@ function WatcherDetails({
 
   return (
     <>
-      <AppBar title="Watcher details" hasBack />
+      <AppBar title="Watcher details" isLoading={isLoading} hasBack />
       <ContentWrapper>
         <ExpiredBanner />
 
-        {isLoading && <Spinner />}
         {!!fetchError && <Text size="large">{fetchError}</Text>}
         {!!watcher && (
           <>
@@ -56,7 +55,7 @@ function WatcherDetails({
                   items={[
                     {
                       label: 'Edit',
-                      onClick: () => onNavToEdit(id),
+                      onClick: () => onNav(`/w/${id}/edit`),
                       margin: '0.25rem 0',
                     },
                     watcher.encrypted
@@ -118,12 +117,10 @@ function WatcherDetails({
               href={watcher.link}
               target="_blank"
               size="small"
+              margin="0 0 0.5rem"
             />
-            <Text size="xsmall" wordBreak="break-word" margin="0 0 0.5rem">
-              Selector: {watcher.selector}
-            </Text>
 
-            <WatcherContent content={watcher.content} contentLink={watcher.contentLink} />
+            <WatcherContents contents={watcher.contents} />
 
             <WatcherSchedule watcher={watcher} canEdit={canEdit} />
             <WatcherTelegram watcher={watcher} canEdit={canEdit} />

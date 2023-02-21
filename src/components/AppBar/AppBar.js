@@ -1,4 +1,4 @@
-import { Avatar, Header, Text } from 'grommet';
+import { Avatar, Header, Spinner, Text } from 'grommet';
 import { Previous, User } from 'grommet-icons';
 import React from 'react';
 
@@ -6,7 +6,7 @@ import logo from '../../assets/logo.png';
 import ExpiredTag from '../ExpiredTag';
 import HorizontalCenter from '../HorizontalCenter';
 
-function AppBar({ title, hasBack, isLoggedIn, onBack, onNav }) {
+function AppBar({ title, isLoading, hasBack, isLoggedIn, onBack, onNav }) {
   const showUserIcon = isLoggedIn && !hasBack;
 
   return (
@@ -16,6 +16,7 @@ function AppBar({ title, hasBack, isLoggedIn, onBack, onNav }) {
         <Text size="large" margin="0 0 0 1rem">
           {title}
         </Text>
+        {!!isLoading && <Spinner margin="0 0 0 1rem" />}
       </HorizontalCenter>
       <HorizontalCenter>
         {isLoggedIn && (

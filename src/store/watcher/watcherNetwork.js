@@ -8,71 +8,161 @@ async function encryptWatcherContent(watcher, needToEncrypt, botPublicKey) {
     return watcher;
   }
 
-  const { title, selector, link, content, contentLink } = watcher;
+  const { title, selectors, link } = watcher;
 
   const publicKey = LocalStorage.get(LocalStorageKeys.publicKey);
   const encryptedTitle = title ? await encryptMessage(publicKey, title) : title;
   const encryptedLink = link ? await encryptMessage(publicKey, link) : link;
   const encryptedLinkForBot = link ? await encryptMessage(botPublicKey, link) : link;
-  const encryptedSelector = selector ? await encryptMessage(publicKey, selector) : selector;
-  const encryptedSelectorForBot = selector
-    ? await encryptMessage(botPublicKey, selector)
-    : selector;
-  const encryptedContent = content ? await encryptMessage(publicKey, content) : null;
-  const encryptedContentLink = contentLink ? await encryptMessage(publicKey, contentLink) : null;
+
+  const encryptedSelectors = [];
+  await asyncForEach(selectors, async selector => {
+    const encryptedSelectorTitle = await encryptMessage(publicKey, selector.title);
+    const encryptedSelectorSelector = await encryptMessage(publicKey, selector.selector);
+    const encryptedSelectorForBot = await encryptMessage(botPublicKey, selector.selector);
+
+    encryptedSelectors.push({
+      title: encryptedSelectorTitle,
+      selector: encryptedSelectorSelector,
+      selectorForBot: encryptedSelectorForBot,
+    });
+  });
 
   return {
     ...watcher,
     title: encryptedTitle,
     link: encryptedLink,
     linkForBot: encryptedLinkForBot,
-    selector: encryptedSelector,
-    selectorForBot: encryptedSelectorForBot,
-    content: encryptedContent,
-    contentLink: encryptedContentLink,
+    selectors: selectors ? encryptedSelectors : selectors,
   };
+}
+
+async function encryptContents(publicKey, contents) {
+  const encryptedContents = [];
+
+  await asyncForEach(contents, async item => {
+    const encryptedSelector = await encryptMessage(publicKey, item.selector);
+    const encryptedContent = item.content ? await encryptMessage(publicKey, item.content) : null;
+    const encryptedContentLink = item.contentLink
+      ? await encryptMessage(publicKey, item.contentLink)
+      : null;
+
+    encryptedContents.push({
+      selector: encryptedSelector,
+      content: encryptedContent,
+      contentLink: encryptedContentLink,
+    });
+  });
+
+  return contents ? encryptedContents : contents;
+}
+
+async function decryptContents(privateKey, contents) {
+  const decryptedContents = [];
+
+  await asyncForEach(contents, async item => {
+    const decryptedSelector = await decryptMessage(privateKey, item.selector);
+    const decryptedSelectorTitle = item.selectorTitle
+      ? await decryptMessage(privateKey, item.selectorTitle)
+      : null;
+    const decryptedContent = item.content ? await decryptMessage(privateKey, item.content) : null;
+    const decryptedContentLink = item.contentLink
+      ? await decryptMessage(privateKey, item.contentLink)
+      : null;
+
+    decryptedContents.push({
+      selector: decryptedSelector,
+      selectorTitle: decryptedSelectorTitle,
+      content: decryptedContent,
+      contentLink: decryptedContentLink,
+    });
+  });
+
+  return decryptedContents;
+}
+
+function addSelectorTitleToContents(contents, selectors) {
+  if (!selectors?.length || !contents?.length) {
+    return contents;
+  }
+
+  const selectorsObj = {};
+  selectors.forEach(s => {
+    selectorsObj[s.selector] = s;
+  });
+
+  const updatedContents = contents.map(c => {
+    const selector = selectorsObj[c.selector];
+    return selector ? { ...c, selectorTitle: selector.title } : c;
+  });
+
+  return updatedContents;
+}
+
+function mapWatcher(watcher) {
+  return { ...watcher, contents: addSelectorTitleToContents(watcher.contents, watcher.selectors) };
 }
 
 async function decryptWatcherContent(watcher) {
   if (!watcher.encrypted) {
-    return watcher;
+    return mapWatcher(watcher);
   }
 
-  const { title, selector, link, content, contentLink } = watcher;
+  const { title, link, selectors, contents } = watcher;
 
   const privateKey = LocalStorage.get(LocalStorageKeys.privateKey);
   const decryptedTitle = await decryptMessage(privateKey, title);
   const decryptedLink = await decryptMessage(privateKey, link);
-  const decryptedSelector = await decryptMessage(privateKey, selector);
-  const decryptedContent = content ? await decryptMessage(privateKey, content) : null;
-  const decryptedContentLink = contentLink ? await decryptMessage(privateKey, contentLink) : null;
 
-  return {
+  const decryptedSelectors = [];
+  await asyncForEach(selectors, async selector => {
+    const decryptedSelectorTitle = selector.title
+      ? await decryptMessage(privateKey, selector.title)
+      : selector.title;
+    const decryptedSelectorSelector = await decryptMessage(privateKey, selector.selector);
+
+    decryptedSelectors.push({
+      title: decryptedSelectorTitle,
+      selector: decryptedSelectorSelector,
+    });
+  });
+
+  const decryptedContents = await decryptContents(privateKey, contents);
+  const decryptedWatcher = {
     ...watcher,
     title: decryptedTitle,
     link: decryptedLink,
-    selector: decryptedSelector,
-    content: decryptedContent,
-    contentLink: decryptedContentLink,
+    selectors: decryptedSelectors,
+    contents: decryptedContents,
   };
+
+  return mapWatcher(decryptedWatcher);
 }
 
-async function decryptWatcherItemContent(item) {
+function mapItem(item, selectors) {
+  const updatedItem = {
+    ...item,
+    contents: addSelectorTitleToContents(item.contents, selectors),
+  };
+
+  return updatedItem;
+}
+
+async function decryptWatcherItemContent(item, selectors) {
   if (!item.encrypted) {
-    return item;
+    return mapItem(item, selectors);
   }
 
-  const { content, contentLink } = item;
+  const { contents } = item;
 
   const privateKey = LocalStorage.get(LocalStorageKeys.privateKey);
-  const decryptedContent = content ? await decryptMessage(privateKey, content) : null;
-  const decryptedContentLink = contentLink ? await decryptMessage(privateKey, contentLink) : null;
-
-  return {
+  const decryptedContents = await decryptContents(privateKey, contents);
+  const decryptedItem = {
     ...item,
-    content: decryptedContent,
-    contentLink: decryptedContentLink,
+    contents: decryptedContents,
   };
+
+  return mapItem(decryptedItem, selectors);
 }
 
 export async function fetchPageContent(link, selector) {
@@ -98,7 +188,9 @@ export async function fetchWatchers() {
         const decrypted = await decryptWatcherContent(watcher);
         decryptedWatchers.push(decrypted);
         // eslint-disable-next-line no-empty
-      } catch (e) {}
+      } catch (e) {
+        console.log(e, watcher);
+      }
     });
 
     return { data: decryptedWatchers, error: null };
@@ -108,22 +200,20 @@ export async function fetchWatchers() {
   }
 }
 
-export async function createWatcher({ title, link, selector }, botPublicKey) {
+export async function createWatcher({ title, link, selectors }, botPublicKey) {
   try {
     const {
       title: encryptedTitle,
       link: encryptedLink,
       linkForBot: encryptedLinkForBot,
-      selector: encryptedSelector,
-      selectorForBot: encryptedSelectorForBot,
-    } = await encryptWatcherContent({ title, link, selector }, true, botPublicKey);
+      selectors: encryptedSelectors,
+    } = await encryptWatcherContent({ title, link, selectors }, true, botPublicKey);
 
     const watcher = await HTTP.post(servers.watcher37, `/v1/watchers`, {
       title: encryptedTitle,
       link: encryptedLink,
       linkForBot: encryptedLinkForBot,
-      selector: encryptedSelector,
-      selectorForBot: encryptedSelectorForBot,
+      selectors: encryptedSelectors,
     });
 
     const decrypted = await decryptWatcherContent(watcher);
@@ -136,7 +226,7 @@ export async function createWatcher({ title, link, selector }, botPublicKey) {
 
 export async function updateWatcher(
   id,
-  { encrypted, title, selector, link, skipPersonalTelegram, telegramId, isPublic, noDuplication },
+  { encrypted, title, selectors, link, skipPersonalTelegram, telegramId, isPublic, noDuplication },
   botPublicKey
 ) {
   try {
@@ -148,16 +238,14 @@ export async function updateWatcher(
       title: encryptedTitle,
       link: encryptedLink,
       linkForBot: encryptedLinkForBot,
-      selector: encryptedSelector,
-      selectorForBot: encryptedSelectorForBot,
-    } = await encryptWatcherContent({ title, link, selector }, encrypted, botPublicKey);
+      selectors: encryptedSelectors,
+    } = await encryptWatcherContent({ title, link, selectors }, encrypted, botPublicKey);
 
     const watcher = await HTTP.put(servers.watcher37, `/v1/watchers/${id}`, {
       title: encryptedTitle,
-      selector: encryptedSelector,
-      selectorForBot: encryptedSelectorForBot,
       link: encryptedLink,
       linkForBot: encryptedLinkForBot,
+      selectors: encryptedSelectors,
       skipPersonalTelegram,
       telegramId,
       isPublic,
@@ -172,25 +260,16 @@ export async function updateWatcher(
   }
 }
 
-export async function encryptWatcher(
-  id,
-  { title, selector, link, content, contentLink },
-  botPublicKey
-) {
+export async function encryptWatcher(id, { title, selectors, link, contents }, botPublicKey) {
   try {
     const {
       title: encryptedTitle,
       link: encryptedLink,
       linkForBot: encryptedLinkForBot,
-      selector: encryptedSelector,
-      selectorForBot: encryptedSelectorForBot,
-      content: encryptedContent,
-      contentLink: encryptedContentLink,
-    } = await encryptWatcherContent(
-      { title, selector, link, content, contentLink },
-      true,
-      botPublicKey
-    );
+      selectors: encryptedSelectors,
+    } = await encryptWatcherContent({ title, selectors, link }, true, botPublicKey);
+    const publicKey = LocalStorage.get(LocalStorageKeys.publicKey);
+    const encryptedContents = await encryptContents(publicKey, contents);
 
     const watcher = await HTTP.put(servers.watcher37, `/v1/watchers/${id}`, {
       encrypted: true,
@@ -199,10 +278,8 @@ export async function encryptWatcher(
       title: encryptedTitle,
       link: encryptedLink,
       linkForBot: encryptedLinkForBot,
-      selector: encryptedSelector,
-      selectorForBot: encryptedSelectorForBot,
-      content: encryptedContent,
-      contentLink: encryptedContentLink,
+      selectors: encryptedSelectors,
+      contents: encryptedContents,
     });
 
     const decrypted = await decryptWatcherContent(watcher);
@@ -213,15 +290,14 @@ export async function encryptWatcher(
   }
 }
 
-export async function decryptWatcher(id, { title, selector, link, content, contentLink }) {
+export async function decryptWatcher(id, { title, link, selectors, contents }) {
   try {
     const {
       title: decryptedTitle,
       link: decryptedLink,
-      selector: decryptedSelector,
-      content: decryptedContent,
-      contentLink: decryptedContentLink,
-    } = await decryptWatcherContent({ title, selector, link, content, contentLink });
+      selectors: decryptedSelectors,
+      contents: decryptedContents,
+    } = await decryptWatcherContent({ title, link, selectors, contents });
 
     const watcher = await HTTP.put(servers.watcher37, `/v1/watchers/${id}`, {
       encrypted: false,
@@ -229,10 +305,8 @@ export async function decryptWatcher(id, { title, selector, link, content, conte
       title: decryptedTitle,
       link: decryptedLink,
       linkForBot: decryptedLink,
-      selector: decryptedSelector,
-      selectorForBot: decryptedSelector,
-      content: decryptedContent,
-      contentLink: decryptedContentLink,
+      selectors: decryptedSelectors,
+      contents: decryptedContents,
     });
 
     return { data: watcher, error: null };
@@ -269,7 +343,7 @@ export async function fetchWatcher(id) {
   }
 }
 
-export async function fetchWatcherHistory(id, startKey) {
+export async function fetchWatcherHistory(id, startKey, watcher) {
   try {
     const hasToken =
       LocalStorage.get(LocalStorageKeys.refreshToken) &&
@@ -288,7 +362,7 @@ export async function fetchWatcherHistory(id, startKey) {
     if (items?.length) {
       await asyncForEach(items, async item => {
         try {
-          const decryptedItem = await decryptWatcherItemContent(item);
+          const decryptedItem = await decryptWatcherItemContent(item, watcher?.selectors);
           decryptedItems.push(decryptedItem);
           // eslint-disable-next-line no-empty
         } catch (e) {}
@@ -312,7 +386,7 @@ export async function checkWatcher(id) {
   try {
     const { watcher, item } = await HTTP.get(servers.watcher37, `/v1/watchers/${id}/check`);
     const decrypted = await decryptWatcherContent(watcher);
-    const decryptedItem = item ? await decryptWatcherItemContent(item) : null;
+    const decryptedItem = item ? await decryptWatcherItemContent(item, watcher?.selectors) : null;
 
     return { data: { watcher: decrypted, item: decryptedItem }, error: null };
   } catch (error) {
