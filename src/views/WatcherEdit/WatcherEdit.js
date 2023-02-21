@@ -11,15 +11,21 @@ import WatcherSelectors from '../../components/WatcherSelectors';
 import { useEffectOnce } from '../../hooks/useEffectOnce';
 import { useListener } from '../../hooks/useListener';
 
+function getEmptySelector() {
+  return { id: Date.now(), title: '', selector: '' };
+}
+
 function WatcherEdit({ id, watcher, isLoading, onFetch, onEdit, onClearContent }) {
   const [title, setTitle] = useState(watcher?.title || '');
   useListener(watcher?.title, value => setTitle(value || ''));
   const [link, setLink] = useState(watcher?.link || '');
   useListener(watcher?.link, value => setLink(value || ''));
-  const [selectors, setSelectors] = useState([{ id: Date.now(), title: '', selector: '' }]);
+  const [selectors, setSelectors] = useState([getEmptySelector()]);
   useListener(watcher?.selectors, value => {
-    if (value) {
+    if (value?.length) {
       setSelectors(value);
+    } else {
+      setSelectors([getEmptySelector()]);
     }
   });
   const [allowDuplication, setAllowDuplication] = useState(!watcher?.noDuplication);
@@ -79,7 +85,7 @@ function WatcherEdit({ id, watcher, isLoading, onFetch, onEdit, onClearContent }
           onClick={() =>
             onEdit(id, {
               title,
-              selectors: selectors.filter(s => s.title && s.selector),
+              selectors: selectors.filter(s => s.selector),
               link,
               noDuplication: !allowDuplication,
             })

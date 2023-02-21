@@ -193,6 +193,8 @@ function* handleEditPressed({
 function* handleFetchWatcherRequested({ payload: { id } }) {
   yield put(watcherActionCreators.isLoading(true));
   yield put(watcherActionCreators.setFetchError(''));
+  yield put(watcherActionCreators.setDetails(null));
+  yield put(watcherActionCreators.setHistory([], null, true));
 
   const { data, error } = yield call(fetchWatcher, id);
 
@@ -216,7 +218,6 @@ function* handleFetchWatcherRequested({ payload: { id } }) {
 
 function* handleFetchHistoryRequested({ payload: { id } }) {
   yield put(watcherActionCreators.isLoadingHistory(true));
-  yield put(watcherActionCreators.setHistory([], null, true));
 
   const startKey = yield select(watcherSelectors.getStartKey);
   const watcher = yield select(watcherSelectors.getDetails)

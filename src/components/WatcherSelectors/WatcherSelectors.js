@@ -26,7 +26,7 @@ function WatcherSelectors({
         Selectors
       </Heading>
       {selectors.map((item, index) => (
-        <Box key={item.id} direction="row" align="start" width="100%" margin="0 0 0.5rem">
+        <Box key={item.id || item.selector} direction="row" align="start" width="100%" margin="0 0 0.5rem">
           <Box flex="grow">
             <InputField
               label={`Selector ${index + 1}`}
@@ -79,7 +79,7 @@ function WatcherSelectors({
                       { id: Date.now(), title: '', selector: '', selectorForBot: '' },
                     ])
                   }
-                  disabled={!link || !item.selector || !item.title || isLoading}
+                  disabled={!link || !item.selector || isLoading}
                 />
               )}
             </HorizontalCenter>
