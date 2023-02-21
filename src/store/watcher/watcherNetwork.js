@@ -61,7 +61,9 @@ async function decryptContents(privateKey, contents) {
   const decryptedContents = [];
 
   await asyncForEach(contents, async item => {
-    const decryptedSelector = await decryptMessage(privateKey, item.selector);
+    const decryptedSelector = item.selector
+      ? await decryptMessage(privateKey, item.selector)
+      : null;
     const decryptedSelectorTitle = item.selectorTitle
       ? await decryptMessage(privateKey, item.selectorTitle)
       : null;
