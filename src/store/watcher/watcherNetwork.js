@@ -64,9 +64,6 @@ async function decryptContents(privateKey, contents) {
     const decryptedSelector = item.selector
       ? await decryptMessage(privateKey, item.selector)
       : null;
-    const decryptedSelectorTitle = item.selectorTitle
-      ? await decryptMessage(privateKey, item.selectorTitle)
-      : null;
     const decryptedContent = item.content ? await decryptMessage(privateKey, item.content) : null;
     const decryptedContentLink = item.contentLink
       ? await decryptMessage(privateKey, item.contentLink)
@@ -74,7 +71,6 @@ async function decryptContents(privateKey, contents) {
 
     decryptedContents.push({
       selector: decryptedSelector,
-      selectorTitle: decryptedSelectorTitle,
       content: decryptedContent,
       contentLink: decryptedContentLink,
     });
@@ -126,6 +122,7 @@ async function decryptWatcherContent(watcher) {
     decryptedSelectors.push({
       title: decryptedSelectorTitle,
       selector: decryptedSelectorSelector,
+      selectorForBot: decryptedSelectorSelector,
     });
   });
 
