@@ -29,6 +29,7 @@ export async function fetchAccount() {
 
 export async function deleteAccount() {
   try {
+    await HTTP.delete(servers.watcher37, `/v1/me`);
     await HTTP.delete(servers.auth, `/v1/me`);
 
     return { data: { success: true }, error: null };
