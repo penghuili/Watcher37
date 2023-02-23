@@ -26,20 +26,16 @@ function WatcherSelectors({
         Selectors
       </Heading>
       {selectors.map((item, index) => (
-        <Box key={item.id || item.selector} direction="row" align="start" width="100%" margin="0 0 0.5rem">
+        <Box
+          key={item.id || item.selector}
+          direction="row"
+          align="start"
+          width="100%"
+          margin="0 0 0.5rem"
+        >
           <Box flex="grow">
-            <InputField
-              label={`Selector ${index + 1}`}
-              placeholder="Selector name"
-              value={item.title}
-              onChange={value =>
-                onChange(selectors.map(s => (s.id === item.id ? { ...s, title: value } : s)))
-              }
-              disabled={isLoading}
-            />
-            <Spacer size="0.5rem" />
             <AreaField
-              label="Selector"
+              label={`Selector ${index + 1}`}
               placeholder="CSS selector"
               value={item.selector}
               onChange={value =>
@@ -57,6 +53,16 @@ function WatcherSelectors({
                 <Anchor label="How to find selector?" href="/selector" target="_blank" />
               </Box>
             )}
+            <Spacer size="0.25rem" />
+            <InputField
+              label="Give it a name (optional)"
+              placeholder="Selector name"
+              value={item.title}
+              onChange={value =>
+                onChange(selectors.map(s => (s.id === item.id ? { ...s, title: value } : s)))
+              }
+              disabled={isLoading}
+            />
 
             <HorizontalCenter margin="0.5rem 0">
               <Button
