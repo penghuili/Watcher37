@@ -34,9 +34,7 @@ function WatcherEdit({ id, watcher, isLoading, onFetch, onEdit, onClearContent }
   useEffectOnce(() => {
     onFetch(id);
 
-    return () => {
-      onClearContent();
-    };
+    return onClearContent;
   });
 
   return (

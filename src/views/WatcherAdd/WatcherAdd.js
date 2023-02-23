@@ -15,9 +15,7 @@ function WatcherAdd({ content, isLoading, onClearContent, onCreate }) {
   const [selectors, setSelectors] = useState([{ id: Date.now(), title: '', selector: '' }]);
 
   useEffectOnce(() => {
-    return () => {
-      onClearContent();
-    };
+    return onClearContent;
   });
 
   return (
