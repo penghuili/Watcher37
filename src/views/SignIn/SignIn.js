@@ -1,11 +1,14 @@
-import { Anchor, Button, PageHeader, Text, TextInput } from 'grommet';
+import { Button, PageHeader, Text, TextInput } from 'grommet';
 import React, { useState } from 'react';
 
 import AppBar from '../../components/AppBar';
+import CannotResetPassword from '../../components/CannotResetPassword';
 import ContentWrapper from '../../components/ContentWrapper';
+import OneAccountFor from '../../components/OneAccountFor';
 import PasswordInput from '../../components/PasswordInput';
 import RouteLink from '../../components/RouteLink';
 import Spacer from '../../components/Spacer';
+import apps from '../../lib/apps';
 
 function SignIn({ errorMessage, isLoading, onSignIn }) {
   const [username, setUsername] = useState('');
@@ -24,6 +27,8 @@ function SignIn({ errorMessage, isLoading, onSignIn }) {
     <>
       <AppBar title="Watcher37 sign in" hasBack />
       <ContentWrapper>
+        <OneAccountFor app={apps.watcher37.name} />
+
         <PageHeader title="Sign in" />
         <TextInput
           placeholder="Username"
@@ -44,14 +49,7 @@ function SignIn({ errorMessage, isLoading, onSignIn }) {
 
         <RouteLink to="/sign-up" label="No account? Sign up" />
         <Spacer />
-        <Text>
-          Be careful, Watcher37 uses end-to-end encryption for your personal data, so you can't
-          reset your password. (You can change password after sign in)
-        </Text>
-        <Text>
-          Check the <Anchor label="How encryption works" href="/encryption" target="_blank" /> page
-          to know details. You will also see the unique way of authentication.
-        </Text>
+        <CannotResetPassword app={apps.watcher37.name} />
       </ContentWrapper>
     </>
   );
