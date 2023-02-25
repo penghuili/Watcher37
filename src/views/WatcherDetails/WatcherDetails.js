@@ -3,13 +3,13 @@ import { MoreVertical } from 'grommet-icons';
 import React, { useEffect, useState } from 'react';
 
 import AppBar from '../../components/AppBar';
-import Confirm from '../../components/Confirm';
-import ContentWrapper from '../../components/ContentWrapper';
 import ExpiredBanner from '../../components/ExpiredBanner';
-import HorizontalCenter from '../../components/HorizontalCenter';
 import WatcherAccess from '../../components/WatcherAccess';
 import { WatcherContents } from '../../components/WatcherContents';
-import { formatDateTime } from '../../lib/date';
+import { formatDateTime } from '../../shared/js/date';
+import Confirm from '../../shared/react/Confirm';
+import ContentWrapper from '../../shared/react/ContentWrapper';
+import HorizontalCenter from '../../shared/react/HorizontalCenter';
 import WatcherHistory from './components/WatcherHistory';
 import WatcherSchedule from './components/WatcherSchedule';
 import WatcherTelegram from './components/WatcherTelegram';

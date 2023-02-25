@@ -2,7 +2,7 @@ import { Box } from 'grommet';
 import { FormView, FormViewHide, Insecure, Secure } from 'grommet-icons';
 import React, { useState } from 'react';
 
-import Modal from './Modal';
+import Modal from '../shared/react/Modal';
 
 function WatcherAccess({ watcher }) {
   const [modalMessage, setModalMessage] = useState('');

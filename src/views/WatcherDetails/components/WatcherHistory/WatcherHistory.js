@@ -2,9 +2,9 @@ import { Box, Button, Heading, Spinner, Text } from 'grommet';
 import { LinkUp, Refresh, Trash } from 'grommet-icons';
 import React, { useState } from 'react';
 
-import HorizontalCenter from '../../../../components/HorizontalCenter';
 import { WatcherContentsInner } from '../../../../components/WatcherContents';
-import { formatDateTime } from '../../../../lib/date';
+import { formatDateTime } from '../../../../shared/js/date';
+import HorizontalCenter from '../../../../shared/react/HorizontalCenter';
 
 function WatcherHistory({
   canEdit,

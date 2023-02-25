@@ -1,2 +1,4 @@
-// 20 sec
-export const accessTokenThreshold = 20;
+export const LocalStorageKeys = {
+  openTime: 'openTime',
+  lastOpenTime: 'lastOpenTime',
+};

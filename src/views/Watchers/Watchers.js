@@ -3,16 +3,16 @@ import { Refresh } from 'grommet-icons';
 import React, { useState } from 'react';
 
 import AppBar from '../../components/AppBar';
-import ContentWrapper from '../../components/ContentWrapper';
 import Divider from '../../components/Divider';
 import ExampleWatchers from '../../components/ExampleWatchers';
 import ExpiredBanner from '../../components/ExpiredBanner';
-import HorizontalCenter from '../../components/HorizontalCenter';
 import RouteLink from '../../components/RouteLink';
 import WatcherAccess from '../../components/WatcherAccess';
 import { WatcherContentsInner } from '../../components/WatcherContents';
 import { useEffectOnce } from '../../hooks/useEffectOnce';
-import { formatDateTime } from '../../lib/date';
+import { formatDateTime } from '../../shared/js/date';
+import ContentWrapper from '../../shared/react/ContentWrapper';
+import HorizontalCenter from '../../shared/react/HorizontalCenter';
 
 function Watchers({
   watchers,

@@ -3,9 +3,9 @@ import React, { useState } from 'react';
 
 import AppBar from '../../components/AppBar';
 import Bot from '../../components/Bot';
-import ContentWrapper from '../../components/ContentWrapper';
 import { useEffectOnce } from '../../hooks/useEffectOnce';
 import { useListener } from '../../hooks/useListener';
+import ContentWrapper from '../../shared/react/ContentWrapper';
 
 function IntegrateTelegramChannel({ id, watcher, isLoading, onFetch, onEdit }) {
   const [telegramId, setTelegramId] = useState('');

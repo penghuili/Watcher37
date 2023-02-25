@@ -1,7 +1,8 @@
 import { all, call, put, select, takeLatest } from 'redux-saga/effects';
 
-import { errorCodes } from '../../lib/errorCodes';
-import { LocalStorage, LocalStorageKeys } from '../../lib/LocalStorage';
+import { LocalStorageKeys } from '../../lib/constants';
+import httpErrorCodes from '../../shared/js/httpErrorCodes';
+import { LocalStorage } from '../../shared/js/LocalStorage';
 import { appActionCreators } from '../app/appActions';
 import { toastTypes } from '../app/appReducer';
 import { authActionCreators, authActionTypes } from '../auth/authActions';
@@ -79,7 +80,7 @@ function* handleTryPressed() {
       )
     );
   } else {
-    if (error?.errorCode === errorCodes.PAGE_WATCHER_TRIED) {
+    if (error?.errorCode === httpErrorCodes.WATCHER37_TRIED) {
       yield put(appActionCreators.setToast('You have already tried :)', toastTypes.critical));
     }
   }
@@ -97,9 +98,9 @@ function* handlePayPressed({ payload: { code } }) {
     yield put(accountActionCreators.setSettings(data));
     yield put(appActionCreators.setToast(`Nice! Your account is valid until ${data.expiresAt}.`));
   } else {
-    if (errorCodes.NOT_FOUND === error?.errorCode) {
+    if (httpErrorCodes.NOT_FOUND === error?.errorCode) {
       yield put(accountActionCreators.setPayError('Invalid code.'));
-    } else if (error?.errorCode === errorCodes.PAGE_WATCHER_INVALID_TICKET) {
+    } else if (error?.errorCode === httpErrorCodes.WATCHER37_INVALID_TICKET) {
       yield put(accountActionCreators.setPayError('This code is already used.'));
     } else {
       yield put(accountActionCreators.setPayError('Something went wrong, please try again.'));

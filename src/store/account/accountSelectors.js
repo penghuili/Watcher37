@@ -1,4 +1,4 @@
-import { formatDate } from '../../lib/date';
+import { formatDate } from '../../shared/js/date';
 
 export const accountSelectors = {
   getAccount: state => ({

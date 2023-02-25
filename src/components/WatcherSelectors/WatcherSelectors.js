@@ -2,8 +2,8 @@ import { Anchor, Box, Button, Heading } from 'grommet';
 import { Add, Close } from 'grommet-icons';
 import React, { useState } from 'react';
 
-import AreaField from '../AreaField';
-import HorizontalCenter from '../HorizontalCenter';
+import AreaField from '../../shared/react/AreaField';
+import HorizontalCenter from '../../shared/react/HorizontalCenter';
 import InputField from '../InputField';
 import Spacer from '../Spacer';
 import { WatcherContents } from '../WatcherContents';

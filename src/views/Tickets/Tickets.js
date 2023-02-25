@@ -2,10 +2,10 @@ import { Anchor, Button, Text } from 'grommet';
 import React, { useState } from 'react';
 
 import AppBar from '../../components/AppBar';
-import ContentWrapper from '../../components/ContentWrapper';
 import Divider from '../../components/Divider';
 import InputField from '../../components/InputField';
 import Spacer from '../../components/Spacer';
+import ContentWrapper from '../../shared/react/ContentWrapper';
 import Payment from '../Account/components/Payment';
 
 function Tickets({ payError, isLoading, onPay }) {

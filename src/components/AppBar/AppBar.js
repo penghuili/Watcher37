@@ -3,8 +3,8 @@ import { Previous, User } from 'grommet-icons';
 import React from 'react';
 
 import logo from '../../assets/logo.png';
+import HorizontalCenter from '../../shared/react/HorizontalCenter';
 import ExpiredTag from '../ExpiredTag';
-import HorizontalCenter from '../HorizontalCenter';
 
 function AppBar({ title, isLoading, hasBack, isLoggedIn, onBack, onNav }) {
   const showUserIcon = isLoggedIn && !hasBack;

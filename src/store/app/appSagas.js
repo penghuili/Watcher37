@@ -1,7 +1,8 @@
 import { all, call, fork, put, takeLatest } from 'redux-saga/effects';
-import { LocalStorage, LocalStorageKeys } from '../../lib/LocalStorage';
 
-import { routeHelpers } from '../../lib/routeHelpers';
+import { LocalStorageKeys } from '../../lib/constants';
+import { LocalStorage, sharedLocalStorageKeys } from '../../shared/js/LocalStorage';
+import { routeHelpers } from '../../shared/react/routeHelpers';
 import { appActionCreators, appActionTypes } from './appActions';
 
 function* init() {
@@ -22,7 +23,7 @@ function* handleNavigate({ payload: { path } }) {
 }
 
 function* handleChangeThemeModePressed({ payload: { themeMode } }) {
-  yield call(LocalStorage.set, LocalStorageKeys.themeMode, themeMode);
+  yield call(LocalStorage.set, sharedLocalStorageKeys.themeMode, themeMode);
   yield put(appActionCreators.setThemeMode(themeMode));
 }
 

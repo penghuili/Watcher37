@@ -6,7 +6,7 @@ import selector2 from '../../assets/images/selector2.png';
 import selector3 from '../../assets/images/selector3.png';
 import selector4 from '../../assets/images/selector4.png';
 import AppBar from '../../components/AppBar';
-import ContentWrapper from '../../components/ContentWrapper';
+import ContentWrapper from '../../shared/react/ContentWrapper';
 
 function HowToFindSelector() {
   return (

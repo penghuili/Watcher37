@@ -2,8 +2,8 @@ import { Button, Text } from 'grommet';
 import React from 'react';
 
 import ExpiredTag from '../../../../components/ExpiredTag';
-import HorizontalCenter from '../../../../components/HorizontalCenter';
-import { formatDate } from '../../../../lib/date';
+import { formatDate } from '../../../../shared/js/date';
+import HorizontalCenter from '../../../../shared/react/HorizontalCenter';
 
 function Payment({
   isLoading,

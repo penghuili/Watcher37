@@ -1,7 +1,8 @@
-import { asyncForEach } from '../../lib/asyncForEach';
-import { decryptMessage, encryptMessage } from '../../lib/encryption';
-import HTTP, { servers } from '../../lib/HTTP';
-import { LocalStorage, LocalStorageKeys } from '../../lib/LocalStorage';
+import apps from '../../shared/js/apps';
+import asyncForEach from '../../shared/js/asyncForEach';
+import { decryptMessage, encryptMessage } from '../../shared/js/encryption';
+import { LocalStorage, sharedLocalStorageKeys } from '../../shared/js/LocalStorage';
+import HTTP from '../../shared/react/HTTP';
 
 async function encryptWatcherContent(watcher, needToEncrypt, botPublicKey) {
   if (!needToEncrypt) {
@@ -10,7 +11,7 @@ async function encryptWatcherContent(watcher, needToEncrypt, botPublicKey) {
 
   const { title, selectors, link } = watcher;
 
-  const publicKey = LocalStorage.get(LocalStorageKeys.publicKey);
+  const publicKey = LocalStorage.get(sharedLocalStorageKeys.publicKey);
   const encryptedTitle = title ? await encryptMessage(publicKey, title) : title;
   const encryptedLink = link ? await encryptMessage(publicKey, link) : link;
   const encryptedLinkForBot = link ? await encryptMessage(botPublicKey, link) : link;
@@ -108,7 +109,7 @@ async function decryptWatcherContent(watcher) {
 
   const { title, link, selectors, contents } = watcher;
 
-  const privateKey = LocalStorage.get(LocalStorageKeys.privateKey);
+  const privateKey = LocalStorage.get(sharedLocalStorageKeys.privateKey);
   const decryptedTitle = await decryptMessage(privateKey, title);
   const decryptedLink = await decryptMessage(privateKey, link);
 
@@ -154,7 +155,7 @@ async function decryptWatcherItemContent(item, selectors) {
 
   const { contents } = item;
 
-  const privateKey = LocalStorage.get(LocalStorageKeys.privateKey);
+  const privateKey = LocalStorage.get(sharedLocalStorageKeys.privateKey);
   const decryptedContents = await decryptContents(privateKey, contents);
   const decryptedItem = {
     ...item,
@@ -166,7 +167,7 @@ async function decryptWatcherItemContent(item, selectors) {
 
 export async function fetchPageContent(link, selector) {
   try {
-    const { content, contentLink } = await HTTP.post(servers.watcher37, `/v1/content`, {
+    const { content, contentLink } = await HTTP.post(apps.watcher37.name, `/v1/content`, {
       link,
       selector,
     });
@@ -179,7 +180,7 @@ export async function fetchPageContent(link, selector) {
 
 export async function fetchWatchers() {
   try {
-    const watchers = await HTTP.get(servers.watcher37, `/v1/watchers`);
+    const watchers = await HTTP.get(apps.watcher37.name, `/v1/watchers`);
 
     const decryptedWatchers = [];
     await asyncForEach(watchers, async watcher => {
@@ -214,7 +215,7 @@ export async function createWatcher({ title, link, selectors }, botPublicKey) {
       selectors: encryptedSelectors,
     } = await encryptWatcherContent({ title, link, selectors }, true, botPublicKey);
 
-    const watcher = await HTTP.post(servers.watcher37, `/v1/watchers`, {
+    const watcher = await HTTP.post(apps.watcher37.name, `/v1/watchers`, {
       title: encryptedTitle,
       link: encryptedLink,
       linkForBot: encryptedLinkForBot,
@@ -246,7 +247,7 @@ export async function updateWatcher(
       selectors: encryptedSelectors,
     } = await encryptWatcherContent({ title, link, selectors }, encrypted, botPublicKey);
 
-    const watcher = await HTTP.put(servers.watcher37, `/v1/watchers/${id}`, {
+    const watcher = await HTTP.put(apps.watcher37.name, `/v1/watchers/${id}`, {
       title: encryptedTitle,
       link: encryptedLink,
       linkForBot: encryptedLinkForBot,
@@ -273,10 +274,10 @@ export async function encryptWatcher(id, { title, selectors, link, contents }, b
       linkForBot: encryptedLinkForBot,
       selectors: encryptedSelectors,
     } = await encryptWatcherContent({ title, selectors, link }, true, botPublicKey);
-    const publicKey = LocalStorage.get(LocalStorageKeys.publicKey);
+    const publicKey = LocalStorage.get(sharedLocalStorageKeys.publicKey);
     const encryptedContents = await encryptContents(publicKey, contents);
 
-    const watcher = await HTTP.put(servers.watcher37, `/v1/watchers/${id}`, {
+    const watcher = await HTTP.put(apps.watcher37.name, `/v1/watchers/${id}`, {
       encrypted: true,
       isPublic: false,
       encryptedAt: Date.now(),
@@ -304,7 +305,7 @@ export async function decryptWatcher(id, { title, link, selectors, contents }) {
       contents: decryptedContents,
     } = await decryptWatcherContent({ title, link, selectors, contents });
 
-    const watcher = await HTTP.put(servers.watcher37, `/v1/watchers/${id}`, {
+    const watcher = await HTTP.put(apps.watcher37.name, `/v1/watchers/${id}`, {
       encrypted: false,
       decryptedAt: Date.now(),
       title: decryptedTitle,
@@ -322,7 +323,7 @@ export async function decryptWatcher(id, { title, link, selectors, contents }) {
 
 export async function deleteWatcher(id) {
   try {
-    await HTTP.delete(servers.watcher37, `/v1/watchers/${id}`);
+    await HTTP.delete(apps.watcher37.name, `/v1/watchers/${id}`);
 
     return { data: { id }, error: null };
   } catch (error) {
@@ -333,12 +334,12 @@ export async function deleteWatcher(id) {
 export async function fetchWatcher(id) {
   try {
     const hasToken =
-      LocalStorage.get(LocalStorageKeys.refreshToken) &&
-      LocalStorage.get(LocalStorageKeys.accessToken);
+      LocalStorage.get(sharedLocalStorageKeys.refreshToken) &&
+      LocalStorage.get(sharedLocalStorageKeys.accessToken);
 
     const watcher = hasToken
-      ? await HTTP.get(servers.watcher37, `/v1/watchers/${id}`)
-      : await HTTP.publicGet(servers.watcher37, `/v1/watchers/${id}`);
+      ? await HTTP.get(apps.watcher37.name, `/v1/watchers/${id}`)
+      : await HTTP.publicGet(apps.watcher37.name, `/v1/watchers/${id}`);
 
     const decrypted = await decryptWatcherContent(watcher);
 
@@ -351,8 +352,8 @@ export async function fetchWatcher(id) {
 export async function fetchWatcherHistory(id, startKey, watcher) {
   try {
     const hasToken =
-      LocalStorage.get(LocalStorageKeys.refreshToken) &&
-      LocalStorage.get(LocalStorageKeys.accessToken);
+      LocalStorage.get(sharedLocalStorageKeys.refreshToken) &&
+      LocalStorage.get(sharedLocalStorageKeys.accessToken);
 
     const query = startKey ? `?startKey=${startKey}` : '';
     const {
@@ -360,8 +361,8 @@ export async function fetchWatcherHistory(id, startKey, watcher) {
       startKey: newStartKey,
       limit,
     } = hasToken
-      ? await HTTP.get(servers.watcher37, `/v1/watchers/${id}/history${query}`)
-      : await HTTP.publicGet(servers.watcher37, `/v1/watchers/${id}/history${query}`);
+      ? await HTTP.get(apps.watcher37.name, `/v1/watchers/${id}/history${query}`)
+      : await HTTP.publicGet(apps.watcher37.name, `/v1/watchers/${id}/history${query}`);
 
     const decryptedItems = [];
     if (items?.length) {
@@ -389,7 +390,7 @@ export async function fetchWatcherHistory(id, startKey, watcher) {
 
 export async function checkWatcher(id) {
   try {
-    const { watcher, item } = await HTTP.get(servers.watcher37, `/v1/watchers/${id}/check`);
+    const { watcher, item } = await HTTP.get(apps.watcher37.name, `/v1/watchers/${id}/check`);
     const decrypted = await decryptWatcherContent(watcher);
     const decryptedItem = item ? await decryptWatcherItemContent(item, watcher?.selectors) : null;
 
@@ -401,7 +402,7 @@ export async function checkWatcher(id) {
 
 export async function scheduleTrigger(id, rate) {
   try {
-    const watcher = await HTTP.post(servers.watcher37, `/v1/watchers/${id}/trigger`, {
+    const watcher = await HTTP.post(apps.watcher37.name, `/v1/watchers/${id}/trigger`, {
       rate,
     });
     const decrypted = await decryptWatcherContent(watcher);
@@ -414,7 +415,7 @@ export async function scheduleTrigger(id, rate) {
 
 export async function deleteTrigger(id) {
   try {
-    const watcher = await HTTP.delete(servers.watcher37, `/v1/watchers/${id}/trigger`);
+    const watcher = await HTTP.delete(apps.watcher37.name, `/v1/watchers/${id}/trigger`);
     const decrypted = await decryptWatcherContent(watcher);
 
     return { data: decrypted, error: null };
@@ -425,7 +426,7 @@ export async function deleteTrigger(id) {
 
 export async function deleteItem(id, sortKey) {
   try {
-    await HTTP.delete(servers.watcher37, `/v1/watchers/${id}/items/${sortKey}`);
+    await HTTP.delete(apps.watcher37.name, `/v1/watchers/${id}/items/${sortKey}`);
 
     return { data: { success: true }, error: null };
   } catch (error) {

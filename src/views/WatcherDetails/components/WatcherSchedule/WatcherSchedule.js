@@ -2,7 +2,7 @@ import { Anchor, Heading, Menu, Text } from 'grommet';
 import { Checkmark, MoreVertical } from 'grommet-icons';
 import React from 'react';
 
-import HorizontalCenter from '../../../../components/HorizontalCenter';
+import HorizontalCenter from '../../../../shared/react/HorizontalCenter';
 import ScheduleSelector from '../ScheduleSelector';
 
 function CurrentSchedule({ sid, schedule, link, isEditing }) {
