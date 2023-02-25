@@ -1,7 +1,7 @@
 import { Anchor, Button, Text } from 'grommet';
 import React, { useState } from 'react';
 
-import AppBar from '../../shared/react/AppBar';
+import AppBar from '../../components/AppBar';
 import ContentWrapper from '../../shared/react/ContentWrapper';
 import Divider from '../../shared/react/Divider';
 import InputField from '../../shared/react/InputField';

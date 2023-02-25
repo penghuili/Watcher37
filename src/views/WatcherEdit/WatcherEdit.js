@@ -1,8 +1,8 @@
 import { Box, Button, RadioButton, Text } from 'grommet';
 import React, { useState } from 'react';
 
+import AppBar from '../../components/AppBar';
 import WatcherSelectors from '../../components/WatcherSelectors';
-import AppBar from '../../shared/react/AppBar';
 import ContentWrapper from '../../shared/react/ContentWrapper';
 import Divider from '../../shared/react/Divider';
 import { useEffectOnce } from '../../shared/react/hooks/useEffectOnce';

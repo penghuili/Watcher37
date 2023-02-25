@@ -1,9 +1,9 @@
 import { Anchor, Text } from 'grommet';
 import React from 'react';
 
+import AppBar from '../../components/AppBar';
 import ExampleWatchers from '../../components/ExampleWatchers';
 import Pitch from '../../components/Pitch';
-import AppBar from '../../shared/react/AppBar';
 import ContentWrapper from '../../shared/react/ContentWrapper';
 import Divider from '../../shared/react/Divider';
 import Spacer from '../../shared/react/Spacer';
