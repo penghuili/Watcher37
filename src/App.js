@@ -11,7 +11,7 @@ import store from './store';
 setHook('location', useLocation);
 setHook('dispatch', useDispatch);
 
-const theme = createTheme('#D2356E');
+const theme = createTheme('#e8751a');
 
 function App() {
   return (
