@@ -1,13 +1,9 @@
 import { combineReducers } from 'redux';
 
-import { accountReducer } from './account/accountReducer';
-import { appReducer } from './app/appReducer';
-import { authReducer } from './auth/authReducer';
+import { sharedReducer } from '../shared/react/store/sharedReducer';
 import { watcherReducer } from './watcher/watcherReducer';
 
 export const reducers = combineReducers({
-  app: appReducer,
-  auth: authReducer,
-  account: accountReducer,
+  shared: sharedReducer,
   watcher: watcherReducer,
 });

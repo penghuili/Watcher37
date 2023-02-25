@@ -3,9 +3,9 @@ import React from 'react';
 
 import encryption1 from '../../assets/images/encryption1.png';
 import encryption2 from '../../assets/images/encryption2.png';
-import AppBar from '../../components/AppBar';
 import ExampleWatchers from '../../components/ExampleWatchers';
 import Pitch from '../../components/Pitch';
+import AppBar from '../../shared/react/AppBar';
 import ContentWrapper from '../../shared/react/ContentWrapper';
 
 function Encryption() {

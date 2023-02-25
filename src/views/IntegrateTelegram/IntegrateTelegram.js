@@ -1,10 +1,10 @@
 import { Box, Button, Heading, Spinner, Text, TextInput } from 'grommet';
 import React, { useState } from 'react';
 
-import AppBar from '../../components/AppBar';
 import Bot from '../../components/Bot';
-import { useListener } from '../../hooks/useListener';
+import AppBar from '../../shared/react/AppBar';
 import ContentWrapper from '../../shared/react/ContentWrapper';
+import { useListener } from '../../shared/react/hooks/useListener';
 
 function IntegrateTelegram({ isLoading, telegramId, onAddTelegramId }) {
   const [newTelegramId, setNewTelegramId] = useState(telegramId || '');

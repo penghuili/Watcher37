@@ -1,4 +1,5 @@
-import { accountSelectors } from '../account/accountSelectors';
+import { formatDate } from '../../shared/js/date';
+import sharedSelectors from '../../shared/react/store/sharedSelectors';
 
 export const watcherSelectors = {
   getContent: state => state.watcher.content,
@@ -18,7 +19,18 @@ export const watcherSelectors = {
   getFetchError: state => state.watcher.fetchError,
   isOwner: state => {
     const watcherOwner = watcherSelectors.getDetails(state)?.id;
-    const userId = accountSelectors.getAccount(state).userId;
+    const userId = sharedSelectors.getAccount(state).userId;
     return !!watcherOwner && watcherOwner === userId;
   },
+  isLoadingSettings: state => state.watcher.isLoadingSettings,
+  getLastOpenTime: state => state.watcher.lastOpenTime,
+  isAccountValid: state => {
+    const expiresAt = watcherSelectors.getExpiresAt(state);
+    const today = formatDate(new Date());
+    return !!expiresAt && expiresAt >= today;
+  },
+  getExpiresAt: state => state.watcher.expiresAt,
+  tried: state => state.watcher.tried,
+  getPayError: state => state.watcher.payError,
+  getTelegramId: state => state.watcher.telegramId,
 };

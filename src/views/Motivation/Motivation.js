@@ -1,11 +1,11 @@
 import { Anchor, Heading, Text } from 'grommet';
 import React from 'react';
 
-import AppBar from '../../components/AppBar';
-import Divider from '../../components/Divider';
 import ExampleWatchers from '../../components/ExampleWatchers';
-import Spacer from '../../components/Spacer';
+import AppBar from '../../shared/react/AppBar';
 import ContentWrapper from '../../shared/react/ContentWrapper';
+import Divider from '../../shared/react/Divider';
+import Spacer from '../../shared/react/Spacer';
 
 function Motivation() {
   return (

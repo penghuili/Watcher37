@@ -1,15 +1,15 @@
 import { Box, Button, RadioButton, Text } from 'grommet';
 import React, { useState } from 'react';
 
-import AppBar from '../../components/AppBar';
-import Divider from '../../components/Divider';
-import InputField from '../../components/InputField';
-import Spacer from '../../components/Spacer';
 import WatcherSelectors from '../../components/WatcherSelectors';
-import { useEffectOnce } from '../../hooks/useEffectOnce';
-import { useListener } from '../../hooks/useListener';
+import AppBar from '../../shared/react/AppBar';
 import ContentWrapper from '../../shared/react/ContentWrapper';
+import Divider from '../../shared/react/Divider';
+import { useEffectOnce } from '../../shared/react/hooks/useEffectOnce';
+import { useListener } from '../../shared/react/hooks/useListener';
 import HorizontalCenter from '../../shared/react/HorizontalCenter';
+import InputField from '../../shared/react/InputField';
+import Spacer from '../../shared/react/Spacer';
 
 function getEmptySelector() {
   return { id: Date.now(), title: '', selector: '' };

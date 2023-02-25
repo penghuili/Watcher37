@@ -1,11 +1,11 @@
 import { Anchor, Button, Text } from 'grommet';
 import React, { useState } from 'react';
 
-import AppBar from '../../components/AppBar';
-import Divider from '../../components/Divider';
-import InputField from '../../components/InputField';
-import Spacer from '../../components/Spacer';
+import AppBar from '../../shared/react/AppBar';
 import ContentWrapper from '../../shared/react/ContentWrapper';
+import Divider from '../../shared/react/Divider';
+import InputField from '../../shared/react/InputField';
+import Spacer from '../../shared/react/Spacer';
 import Payment from '../Account/components/Payment';
 
 function Tickets({ payError, isLoading, onPay }) {

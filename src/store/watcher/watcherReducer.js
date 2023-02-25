@@ -1,4 +1,4 @@
-import { appActionTypes } from '../app/appActions';
+import { sharedActionTypes } from '../../shared/react/store/sharedActions';
 import { watcherActionTypes } from './watcherActions';
 
 const initialState = {
@@ -16,7 +16,22 @@ const initialState = {
   history: [],
   startKey: null,
   hasMore: true,
+
+  isLoadingSettings: false,
+  lastOpenTime: null,
+  tried: true,
+  telegramId: null,
+  expiresAt: null,
+  payError: null,
 };
+
+function handleSetSettings(state, { lastOpenTime, expiresAt, tried, telegramId }) {
+  return { ...state, lastOpenTime, expiresAt, tried, telegramId };
+}
+
+function handleSetPayError(state, { message }) {
+  return { ...state, payError: message };
+}
 
 function handleSetContent(state, { content, contentLink }) {
   return { ...state, content, contentLink };
@@ -54,6 +69,10 @@ function handleSetFetchError(state, { error }) {
   return { ...state, fetchError: error };
 }
 
+function handleIsLoadingSettings(state, { value }) {
+  return { ...state, isLoadingSettings: value };
+}
+
 function handleIsLoading(state, { value }) {
   return { ...state, isLoading: value };
 }
@@ -80,6 +99,12 @@ function handleReset() {
 
 export function watcherReducer(state = initialState, action) {
   switch (action.type) {
+    case watcherActionTypes.SET_SETTINGS:
+      return handleSetSettings(state, action.payload);
+
+    case watcherActionTypes.SET_PAY_ERROR:
+      return handleSetPayError(state, action.payload);
+
     case watcherActionTypes.SET_CONTENT:
       return handleSetContent(state, action.payload);
 
@@ -98,6 +123,9 @@ export function watcherReducer(state = initialState, action) {
     case watcherActionTypes.SET_FETCH_ERROR:
       return handleSetFetchError(state, action.payload);
 
+    case watcherActionTypes.IS_LOADING_SETTINGS:
+      return handleIsLoadingSettings(state, action.payload);
+
     case watcherActionTypes.IS_LOADING:
       return handleIsLoading(state, action.payload);
 
@@ -113,7 +141,7 @@ export function watcherReducer(state = initialState, action) {
     case watcherActionTypes.IS_EDITING_SCHEDULE:
       return handleIsEditingSchedule(state, action.payload);
 
-    case appActionTypes.RESET:
+    case sharedActionTypes.RESET:
       return handleReset();
 
     default:

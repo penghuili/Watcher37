@@ -1,20 +1,20 @@
 import { connect } from 'react-redux';
-import { accountActionCreators } from '../../../../store/account/accountActions';
 
-import { accountSelectors } from '../../../../store/account/accountSelectors';
-import { appActionCreators } from '../../../../store/app/appActions';
+import { sharedActionCreators } from '../../../../shared/react/store/sharedActions';
+import { watcherActionCreators } from '../../../../store/watcher/watcherActions';
+import { watcherSelectors } from '../../../../store/watcher/watcherSelectors';
 import Payment from './Payment';
 
 const mapStateToProps = state => ({
-  expiresAt: accountSelectors.getExpiresAt(state),
-  tried: accountSelectors.tried(state),
-  isAccountValid: accountSelectors.isAccountValid(state),
-  isLoading: accountSelectors.isLoadingSettings(state),
+  expiresAt: watcherSelectors.getExpiresAt(state),
+  tried: watcherSelectors.tried(state),
+  isAccountValid: watcherSelectors.isAccountValid(state),
+  isLoading: watcherSelectors.isLoadingSettings(state),
 });
 
 const mapDispatchToProps = {
-  onTry: accountActionCreators.tryPressed,
-  onNavigate: appActionCreators.navigate,
+  onTry: watcherActionCreators.tryPressed,
+  onNavigate: sharedActionCreators.navigate,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Payment);

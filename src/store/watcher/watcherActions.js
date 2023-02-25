@@ -11,6 +11,15 @@ export const watcherActionTypes = {
   SET_DETAILS: 'watcher/SET_DETAILS',
   SET_HISTORY: 'watcher/SET_HISTORY',
   SET_FETCH_ERROR: 'watcher/SET_FETCH_ERROR',
+  IS_LOADING_SETTINGS: 'watcher/IS_LOADING_SETTINGS',
+  SET_SETTINGS: 'account/SET_SETTINGS',
+  SET_PAY_ERROR: 'account/SET_PAY_ERROR',
+
+  FETCH_SETTINGS_REQUESTED: 'watcher/FETCH_SETTINGS_REQUESTED',
+  UPDATE_SETTINGS_REQUESTED: 'account/UPDATE_SETTINGS_REQUESTED',
+  TRY_PRESSED: 'account/TRY_PRESSED',
+  PAY_PRESSED: 'account/PAY_PRESSED',
+  ADD_TELEGRAM_ID_PRESSED: 'account/ADD_TELEGRAM_ID_PRESSED',
 
   FETCH_WATCHERS_REQUESTED: 'watcher/FETCH_WATCHERS_REQUESTED',
   CREATE_PRESSED: 'watcher/CREATE_PRESSED',
@@ -64,6 +73,44 @@ export const watcherActionCreators = {
   },
   setFetchError(error) {
     return { type: watcherActionTypes.SET_FETCH_ERROR, payload: { error } };
+  },
+  isLoadingSettings(value) {
+    return { type: watcherActionTypes.IS_LOADING_SETTINGS, payload: { value } };
+  },
+  setSettings({ lastOpenTime, expiresAt, tried, telegramId }) {
+    return {
+      type: watcherActionTypes.SET_SETTINGS,
+      payload: { lastOpenTime, expiresAt, tried, telegramId },
+    };
+  },
+  setPayError(message) {
+    return { type: watcherActionTypes.SET_PAY_ERROR, payload: { message } };
+  },
+  fetchSettingsRequested() {
+    return { type: watcherActionTypes.FETCH_SETTINGS_REQUESTED };
+  },
+  updateSettingsRequested(lastOpenTime) {
+    return {
+      type: watcherActionTypes.UPDATE_SETTINGS_REQUESTED,
+      payload: { lastOpenTime },
+    };
+  },
+  tryPressed() {
+    return {
+      type: watcherActionTypes.TRY_PRESSED,
+    };
+  },
+  payPressed(code) {
+    return {
+      type: watcherActionTypes.PAY_PRESSED,
+      payload: { code },
+    };
+  },
+  addTelegramIdPressed(telegramId) {
+    return {
+      type: watcherActionTypes.ADD_TELEGRAM_ID_PRESSED,
+      payload: { telegramId },
+    };
   },
   fetchWatchersRequested(isHardRefresh) {
     return { type: watcherActionTypes.FETCH_WATCHERS_REQUESTED, payload: { isHardRefresh } };

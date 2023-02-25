@@ -1,12 +1,13 @@
 import { connect } from 'react-redux';
 
-import { accountSelectors } from '../../store/account/accountSelectors';
+import sharedSelectors from '../../shared/react/store/sharedSelectors';
+import { watcherSelectors } from '../../store/watcher/watcherSelectors';
 import Account from './Account';
 
 const mapStateToProps = state => ({
-  account: accountSelectors.getAccount(state),
-  expiresAt: accountSelectors.getExpiresAt(state),
-  isLoadingAccount: accountSelectors.isLoading(state),
+  account: sharedSelectors.getAccount(state),
+  expiresAt: watcherSelectors.getExpiresAt(state),
+  isLoadingAccount: sharedSelectors.isLoadingAccount(state),
 });
 
 const mapDispatchToProps = {};

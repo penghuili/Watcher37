@@ -4,6 +4,68 @@ import { decryptMessage, encryptMessage } from '../../shared/js/encryption';
 import { LocalStorage, sharedLocalStorageKeys } from '../../shared/js/LocalStorage';
 import HTTP from '../../shared/react/HTTP';
 
+export async function fetchSettings() {
+  try {
+    const { lastOpenTime, expiresAt, tried, telegramId } = await HTTP.get(
+      apps.watcher37.name,
+      `/v1/settings`
+    );
+
+    return { data: { lastOpenTime, expiresAt, tried, telegramId }, error: null };
+  } catch (error) {
+    return { data: null, error };
+  }
+}
+
+export async function updateSettings({ lastOpenTime, telegramId }) {
+  try {
+    const {
+      lastOpenTime: updatedLastOpenTime,
+      expiresAt,
+      tried,
+      telegramId: updatedTelegramId,
+    } = await HTTP.put(apps.watcher37.name, `/v1/settings`, {
+      lastOpenTime,
+      telegramId,
+    });
+
+    return {
+      data: { lastOpenTime: updatedLastOpenTime, expiresAt, tried, telegramId: updatedTelegramId },
+      error: null,
+    };
+  } catch (error) {
+    return { data: null, error };
+  }
+}
+
+export async function tryApp() {
+  try {
+    const {
+      lastOpenTime: updated,
+      expiresAt,
+      tried,
+    } = await HTTP.post(apps.watcher37.name, `/v1/try`, {});
+
+    return { data: { lastOpenTime: updated, expiresAt, tried }, error: null };
+  } catch (error) {
+    return { data: null, error };
+  }
+}
+
+export async function pay(code) {
+  try {
+    const {
+      lastOpenTime: updated,
+      expiresAt,
+      tried,
+    } = await HTTP.post(apps.watcher37.name, `/v1/pay`, { code });
+
+    return { data: { lastOpenTime: updated, expiresAt, tried }, error: null };
+  } catch (error) {
+    return { data: null, error };
+  }
+}
+
 async function encryptWatcherContent(watcher, needToEncrypt, botPublicKey) {
   if (!needToEncrypt) {
     return watcher;

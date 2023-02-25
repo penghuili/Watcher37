@@ -1,16 +1,17 @@
 import { connect } from 'react-redux';
 
-import { accountActionCreators } from '../../store/account/accountActions';
-import { accountSelectors } from '../../store/account/accountSelectors';
+import sharedSelectors from '../../shared/react/store/sharedSelectors';
+import { watcherActionCreators } from '../../store/watcher/watcherActions';
+import { watcherSelectors } from '../../store/watcher/watcherSelectors';
 import IntegrateTelegram from './IntegrateTelegram';
 
 const mapStateToProps = state => ({
-  telegramId: accountSelectors.getAccount(state).telegramId,
-  isLoading: accountSelectors.isLoading(state),
+  telegramId: watcherSelectors.getTelegramId(state),
+  isLoading: watcherSelectors.isLoadingSettings(state) || sharedSelectors.isLoadingAccount(state),
 });
 
 const mapDispatchToProps = {
-  onAddTelegramId: accountActionCreators.addTelegramIdPressed,
+  onAddTelegramId: watcherActionCreators.addTelegramIdPressed,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(IntegrateTelegram);

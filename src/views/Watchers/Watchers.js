@@ -2,17 +2,17 @@ import { Box, Button, Heading, Spinner, Text } from 'grommet';
 import { Refresh } from 'grommet-icons';
 import React, { useState } from 'react';
 
-import AppBar from '../../components/AppBar';
-import Divider from '../../components/Divider';
 import ExampleWatchers from '../../components/ExampleWatchers';
 import ExpiredBanner from '../../components/ExpiredBanner';
-import RouteLink from '../../components/RouteLink';
 import WatcherAccess from '../../components/WatcherAccess';
 import { WatcherContentsInner } from '../../components/WatcherContents';
-import { useEffectOnce } from '../../hooks/useEffectOnce';
 import { formatDateTime } from '../../shared/js/date';
+import AppBar from '../../shared/react/AppBar';
 import ContentWrapper from '../../shared/react/ContentWrapper';
+import Divider from '../../shared/react/Divider';
+import { useEffectOnce } from '../../shared/react/hooks/useEffectOnce';
 import HorizontalCenter from '../../shared/react/HorizontalCenter';
+import RouteLink from '../../shared/react/RouteLink';
 
 function Watchers({
   watchers,

@@ -1,16 +1,16 @@
 import { connect } from 'react-redux';
 
-import { accountActionCreators } from '../../store/account/accountActions';
-import { accountSelectors } from '../../store/account/accountSelectors';
+import { watcherActionCreators } from '../../store/watcher/watcherActions';
+import { watcherSelectors } from '../../store/watcher/watcherSelectors';
 import Tickets from './Tickets';
 
 const mapStateToProps = state => ({
-  payError: accountSelectors.getPayError(state),
-  isLoading: accountSelectors.isLoadingSettings(state),
+  payError: watcherSelectors.getPayError(state),
+  isLoading: watcherSelectors.isLoadingSettings(state),
 });
 
 const mapDispatchToProps = {
-  onPay: accountActionCreators.payPressed,
+  onPay: watcherActionCreators.payPressed,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Tickets);

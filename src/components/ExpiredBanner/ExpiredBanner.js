@@ -1,7 +1,7 @@
 import { Box, Text } from 'grommet';
 import React from 'react';
 
-import RouteLink from '../RouteLink';
+import RouteLink from '../../shared/react/RouteLink';
 
 function ExpiredBanner({ isExpired }) {
   if (!isExpired) {

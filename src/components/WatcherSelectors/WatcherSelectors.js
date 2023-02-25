@@ -4,8 +4,8 @@ import React, { useState } from 'react';
 
 import AreaField from '../../shared/react/AreaField';
 import HorizontalCenter from '../../shared/react/HorizontalCenter';
-import InputField from '../InputField';
-import Spacer from '../Spacer';
+import InputField from '../../shared/react/InputField';
+import Spacer from '../../shared/react/Spacer';
 import { WatcherContents } from '../WatcherContents';
 
 function WatcherSelectors({

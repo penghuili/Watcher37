@@ -1,15 +1,15 @@
 import { connect } from 'react-redux';
 
-import { accountSelectors } from '../../store/account/accountSelectors';
-import { appActionCreators } from '../../store/app/appActions';
+import { sharedActionCreators } from '../../shared/react/store/sharedActions';
+import { watcherSelectors } from '../../store/watcher/watcherSelectors';
 import ExpiredBanner from './ExpiredBanner';
 
 const mapStateToProps = state => ({
-  isExpired: !accountSelectors.isAccountValid(state) && !!accountSelectors.getExpiresAt(state),
+  isExpired: !watcherSelectors.isAccountValid(state) && !!watcherSelectors.getExpiresAt(state),
 });
 
 const mapDispatchToProps = {
-  onNav: appActionCreators.navigate,
+  onNav: sharedActionCreators.navigate,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(ExpiredBanner);

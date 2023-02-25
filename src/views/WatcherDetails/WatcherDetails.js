@@ -2,11 +2,11 @@ import { Anchor, Heading, Menu, Text } from 'grommet';
 import { MoreVertical } from 'grommet-icons';
 import React, { useEffect, useState } from 'react';
 
-import AppBar from '../../components/AppBar';
 import ExpiredBanner from '../../components/ExpiredBanner';
 import WatcherAccess from '../../components/WatcherAccess';
 import { WatcherContents } from '../../components/WatcherContents';
 import { formatDateTime } from '../../shared/js/date';
+import AppBar from '../../shared/react/AppBar';
 import Confirm from '../../shared/react/Confirm';
 import ContentWrapper from '../../shared/react/ContentWrapper';
 import HorizontalCenter from '../../shared/react/HorizontalCenter';
