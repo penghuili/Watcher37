@@ -2,7 +2,7 @@ import { Anchor, Heading, Menu, Text } from 'grommet';
 import { MoreVertical } from 'grommet-icons';
 import React, { useEffect, useState } from 'react';
 
-import AppBar from '../../components/AppBar';
+import AppBar from '../../shared/react/AppBar';
 import ExpiredBanner from '../../components/ExpiredBanner';
 import WatcherAccess from '../../components/WatcherAccess';
 import { WatcherContents } from '../../components/WatcherContents';

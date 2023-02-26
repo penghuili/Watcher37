@@ -1,7 +1,7 @@
 import { Box, Button, Heading, Spinner, Text, TextInput } from 'grommet';
 import React, { useState } from 'react';
 
-import AppBar from '../../components/AppBar';
+import AppBar from '../../shared/react/AppBar';
 import Bot from '../../components/Bot';
 import ContentWrapper from '../../shared/react/ContentWrapper';
 import { useListener } from '../../shared/react/hooks/useListener';

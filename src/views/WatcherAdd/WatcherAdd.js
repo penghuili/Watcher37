@@ -1,7 +1,7 @@
 import { Button, Heading } from 'grommet';
 import React, { useState } from 'react';
 
-import AppBar from '../../components/AppBar';
+import AppBar from '../../shared/react/AppBar';
 import WatcherSelectors from '../../components/WatcherSelectors';
 import ContentWrapper from '../../shared/react/ContentWrapper';
 import Divider from '../../shared/react/Divider';

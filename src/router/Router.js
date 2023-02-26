@@ -3,6 +3,7 @@ import React from 'react';
 import { Redirect, Route, Switch } from 'wouter';
 
 import HorizontalCenter from '../shared/react/HorizontalCenter';
+import Security from '../shared/react/Security';
 import Account from '../views/Account';
 import ChangePassword from '../views/ChangePassword';
 import Contact from '../views/Contact';
@@ -15,7 +16,6 @@ import Limitations from '../views/Limitations';
 import Motivation from '../views/Motivation';
 import Pricing from '../views/Pricing';
 import Privacy from '../views/Privacy';
-import Security from '../views/Security';
 import SignIn from '../views/SignIn';
 import SignUp from '../views/SignUp';
 import Terms from '../views/Terms';

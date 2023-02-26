@@ -2,7 +2,7 @@ import { Box, Button, Heading, Spinner, Text } from 'grommet';
 import { Refresh } from 'grommet-icons';
 import React, { useState } from 'react';
 
-import AppBar from '../../components/AppBar';
+import AppBar from '../../shared/react/AppBar';
 import ExampleWatchers from '../../components/ExampleWatchers';
 import ExpiredBanner from '../../components/ExpiredBanner';
 import WatcherAccess from '../../components/WatcherAccess';
