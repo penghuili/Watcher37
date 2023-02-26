@@ -324,6 +324,10 @@ function* handleFetchWatcherRequested({ payload: { id } }) {
 
   if (error) {
     if (error.status === 401) {
+      yield put(watcherActionCreators.setFetchError('You need to login to view this watcher.'));
+    }
+
+    if (error.status === 403) {
       yield put(watcherActionCreators.setFetchError('You do not have access to this watcher.'));
     }
 
