@@ -2,23 +2,25 @@ import { Box, Button, Heading, Spinner, Text } from 'grommet';
 import { Refresh } from 'grommet-icons';
 import React, { useState } from 'react';
 
-import AppBar from '../../shared/react/AppBar';
 import ExampleWatchers from '../../components/ExampleWatchers';
 import ExpiredBanner from '../../components/ExpiredBanner';
 import WatcherAccess from '../../components/WatcherAccess';
 import { WatcherContentsInner } from '../../components/WatcherContents';
 import { formatDateTime } from '../../shared/js/date';
+import AppBar from '../../shared/react/AppBar';
 import ContentWrapper from '../../shared/react/ContentWrapper';
 import Divider from '../../shared/react/Divider';
 import { useEffectOnce } from '../../shared/react/hooks/useEffectOnce';
 import HorizontalCenter from '../../shared/react/HorizontalCenter';
 import RouteLink from '../../shared/react/RouteLink';
+import Spacer from '../../shared/react/Spacer';
 
 function Watchers({
   watchers,
   isAccountValid,
   tried,
   isLoadingSettings,
+  isTrying,
   isLoading,
   isChecking,
   onFetch,
@@ -84,19 +86,20 @@ function Watchers({
           </Box>
         ))}
 
-        {!watchers?.length && !isLoading && (
+        {!watchers?.length && !isLoading && !isLoadingSettings && (
           <>
-            <Text margin="1rem 0 0">No watchers yet.</Text>
+            {tried && <Text margin="1rem 0 0">No watchers yet.</Text>}
 
+            <Spacer />
             <ExampleWatchers />
 
             {!tried && (
               <>
                 <Heading level="4" margin="2rem 0 0.5rem">
                   Start 14 days of <Text color="status-ok">free</Text> trial to create your own
-                  watchers
+                  watchers.
                 </Heading>
-                <Button label="Start" onClick={onTry} disabled={isLoadingSettings} />
+                <Button label="Start" onClick={onTry} disabled={isTrying} />
                 <Text margin="1rem 0 0">
                   Check pricing <RouteLink label="here" to="/pricing" />
                 </Text>

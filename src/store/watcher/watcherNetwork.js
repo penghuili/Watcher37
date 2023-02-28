@@ -38,34 +38,6 @@ export async function updateSettings({ lastOpenTime, telegramId }) {
   }
 }
 
-export async function tryApp() {
-  try {
-    const {
-      lastOpenTime: updated,
-      expiresAt,
-      tried,
-    } = await HTTP.post(apps.watcher37.name, `/v1/try`, {});
-
-    return { data: { lastOpenTime: updated, expiresAt, tried }, error: null };
-  } catch (error) {
-    return { data: null, error };
-  }
-}
-
-export async function pay(code) {
-  try {
-    const {
-      lastOpenTime: updated,
-      expiresAt,
-      tried,
-    } = await HTTP.post(apps.watcher37.name, `/v1/pay`, { code });
-
-    return { data: { lastOpenTime: updated, expiresAt, tried }, error: null };
-  } catch (error) {
-    return { data: null, error };
-  }
-}
-
 async function encryptWatcherContent(watcher, needToEncrypt, botPublicKey) {
   if (!needToEncrypt) {
     return watcher;
@@ -489,6 +461,16 @@ export async function deleteTrigger(id) {
 export async function deleteItem(id, sortKey) {
   try {
     await HTTP.delete(apps.watcher37.name, `/v1/watchers/${id}/items/${sortKey}`);
+
+    return { data: { success: true }, error: null };
+  } catch (error) {
+    return { data: null, error };
+  }
+}
+
+export async function deleteAccount() {
+  try {
+    await HTTP.delete(apps.watcher37.name, `/v1/me`);
 
     return { data: { success: true }, error: null };
   } catch (error) {

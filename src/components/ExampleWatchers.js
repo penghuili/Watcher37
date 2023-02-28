@@ -4,7 +4,7 @@ import React from 'react';
 function ExampleWatchers() {
   return (
     <>
-      <Heading level="4" margin="2rem 0 0.5rem">
+      <Heading level="4" margin="0 0 0.5rem">
         Check some public watchers:
       </Heading>
       <Box direction="row" wrap>

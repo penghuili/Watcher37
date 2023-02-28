@@ -1,27 +1,30 @@
-import { Anchor, Button, Text } from 'grommet';
-import React, { useState } from 'react';
+import { Anchor, Spinner, Text } from 'grommet';
+import React, { useEffect } from 'react';
 
+import apps from '../../shared/js/apps';
 import AppBar from '../../shared/react/AppBar';
 import ContentWrapper from '../../shared/react/ContentWrapper';
 import Divider from '../../shared/react/Divider';
-import InputField from '../../shared/react/InputField';
-import Spacer from '../../shared/react/Spacer';
-import Payment from '../Account/components/Payment';
+import PaymentStatus from '../../shared/react/PaymentStatus';
+import { getQueryParams } from '../../shared/react/routeHelpers';
 
-function Tickets({ payError, isLoading, onPay }) {
-  const [code, setCode] = useState('');
+function Tickets({ payError, isLoading, isPaying, onPay }) {
+  const { code } = getQueryParams();
+
+  useEffect(() => {
+    if (code) {
+      onPay(apps.watcher37.name, code);
+    }
+  }, [code, onPay]);
 
   return (
     <>
-      <AppBar title="Buy tickets" hasBack />
+      <AppBar title="Buy tickets" isLoading={isLoading} hasBack />
       <ContentWrapper>
         <Text>You can try Watcher37 for free for 14 days.</Text>
         <Text margin="0 0 1rem">After that, it's only $29 / year.</Text>
 
-        <Divider />
-
-        <Spacer />
-        <Payment showBuyButton={false} />
+        <PaymentStatus app={apps.watcher37.name} showBuyButton={false} />
         <Divider />
 
         <Text margin="1rem 0 0">
@@ -33,17 +36,10 @@ function Tickets({ payError, isLoading, onPay }) {
           <Anchor label="let me know" href="mailto:peng@duck.com" target="_blank" /> if sold out)
         </Text>
 
-        <Text margin="1rem 0 0">You will get a code in a txt file after payment.</Text>
-        <Text margin="0 0 1rem">Apply the code below.</Text>
+        <Text margin="1rem 0">You will be redirected back to this page after payment.</Text>
 
-        <InputField label="1 year ticket code:" value={code} onChange={setCode} />
+        {isPaying && <Spinner />}
         {!!payError && <Text color="status-error">{payError}</Text>}
-        <Button
-          label="Apply"
-          onClick={() => onPay(code)}
-          disabled={!code || isLoading}
-          margin="1rem 0 0"
-        />
       </ContentWrapper>
     </>
   );

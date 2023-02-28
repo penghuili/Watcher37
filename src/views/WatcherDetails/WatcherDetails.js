@@ -1,14 +1,15 @@
 import { Anchor, Heading, Menu, Text } from 'grommet';
 import { MoreVertical } from 'grommet-icons';
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 
-import AppBar from '../../shared/react/AppBar';
 import ExpiredBanner from '../../components/ExpiredBanner';
 import WatcherAccess from '../../components/WatcherAccess';
 import { WatcherContents } from '../../components/WatcherContents';
 import { formatDateTime } from '../../shared/js/date';
+import AppBar from '../../shared/react/AppBar';
 import Confirm from '../../shared/react/Confirm';
 import ContentWrapper from '../../shared/react/ContentWrapper';
+import { useEffectOnce } from '../../shared/react/hooks/useEffectOnce';
 import HorizontalCenter from '../../shared/react/HorizontalCenter';
 import WatcherHistory from './components/WatcherHistory';
 import WatcherSchedule from './components/WatcherSchedule';
@@ -21,6 +22,7 @@ function WatcherDetails({
   fetchError,
   isLoading,
   onFetchWatcher,
+  onClearFetchError,
   onDelete,
   onNav,
   onEncrypt,
@@ -31,10 +33,10 @@ function WatcherDetails({
   const [showMakePublicConfirm, setShowMakePublicConfirm] = useState(false);
   const [showEncryptConfirm, setShowEncryptConfirm] = useState(false);
 
-  useEffect(() => {
+  useEffectOnce(() => {
     onFetchWatcher(id);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+    return onClearFetchError;
+  });
 
   return (
     <>

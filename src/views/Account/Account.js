@@ -1,14 +1,15 @@
 import { Spinner, Text } from 'grommet';
 import React from 'react';
+import apps from '../../shared/js/apps';
 
-import AppBar from '../../shared/react/AppBar';
 import { formatDateTime } from '../../shared/js/date';
+import AppBar from '../../shared/react/AppBar';
 import ChangeTheme from '../../shared/react/ChangeTheme';
 import ContentWrapper from '../../shared/react/ContentWrapper';
 import Divider from '../../shared/react/Divider';
+import PaymentStatus from '../../shared/react/PaymentStatus';
 import RouteLink from '../../shared/react/RouteLink';
 import Spacer from '../../shared/react/Spacer';
-import Payment from './components/Payment';
 
 function Home({ account, isLoadingAccount }) {
   return (
@@ -21,7 +22,7 @@ function Home({ account, isLoadingAccount }) {
             <Text margin="0 0 1rem">Username: {account.username}</Text>
             <Text margin="0 0 1rem">User ID: {account.userId}</Text>
             <Text margin="0 0 1rem">Created at: {formatDateTime(account.createdAt)}</Text>
-            <Payment showBuyButton />
+            <PaymentStatus app={apps.watcher37.name} showBuyButton />
             <Divider />
             <Spacer />
             {!!account.telegramId && (

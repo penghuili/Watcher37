@@ -2,13 +2,12 @@ import { connect } from 'react-redux';
 
 import { sharedActionCreators } from '../../shared/react/store/sharedActions';
 import sharedSelectors from '../../shared/react/store/sharedSelectors';
-import { watcherSelectors } from '../../store/watcher/watcherSelectors';
 import ExpiredTag from './ExpiredTag';
 
 const mapStateToProps = state => ({
   isLoggedIn: sharedSelectors.isLoggedIn(state),
-  isAccountValid: watcherSelectors.isAccountValid(state),
-  expiresAt: watcherSelectors.getExpiresAt(state),
+  isAccountValid: sharedSelectors.isAccountValid(state),
+  expiresAt: sharedSelectors.getExpiresAt(state),
 });
 
 const mapDispatchToProps = {

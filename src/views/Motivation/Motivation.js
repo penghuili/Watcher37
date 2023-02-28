@@ -66,6 +66,7 @@ function Motivation() {
         <Spacer />
         <Divider />
 
+        <Spacer size="2rem" />
         <ExampleWatchers />
       </ContentWrapper>
     </>

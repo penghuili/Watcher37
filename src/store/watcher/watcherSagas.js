@@ -1,7 +1,7 @@
 import { all, call, fork, put, select, takeLatest, takeLeading } from 'redux-saga/effects';
 
 import { LocalStorageKeys } from '../../lib/constants';
-import httpErrorCodes from '../../shared/js/httpErrorCodes';
+import apps from '../../shared/js/apps';
 import { LocalStorage } from '../../shared/js/LocalStorage';
 import { routeHelpers } from '../../shared/react/routeHelpers';
 import { sharedActionCreators, sharedActionTypes } from '../../shared/react/store/sharedActions';
@@ -17,13 +17,10 @@ import {
   deleteWatcher,
   encryptWatcher,
   fetchPageContent,
-  fetchSettings,
   fetchWatcher,
   fetchWatcherHistory,
   fetchWatchers,
-  pay,
   scheduleTrigger,
-  tryApp,
   updateSettings,
   updateWatcher,
 } from './watcherNetwork';
@@ -44,7 +41,7 @@ function* handleIsLoggedIn({ payload: { loggedIn } }) {
     if (lastOpenTime) {
       yield put(watcherActionCreators.updateSettingsRequested(lastOpenTime));
     } else {
-      yield put(watcherActionCreators.fetchSettingsRequested());
+      yield put(sharedActionCreators.fetchSettingsRequested(apps.watcher37.name));
     }
   }
 }
@@ -70,69 +67,24 @@ function* handleFetchContentPressed({ payload: { link, selector } }) {
 }
 
 function* handleUpdateSettingsRequested({ payload: { lastOpenTime } }) {
-  yield put(watcherActionCreators.isLoadingSettings(true));
+  yield put(sharedActionCreators.isLoadingSettings(true));
 
   const { data } = yield call(updateSettings, { lastOpenTime });
 
   if (data) {
-    yield put(watcherActionCreators.setSettings(data));
+    yield put(sharedActionCreators.setSettings(data));
   }
 
-  yield put(watcherActionCreators.isLoadingSettings(false));
-}
-
-function* handleTryPressed() {
-  yield put(watcherActionCreators.isLoadingSettings(true));
-
-  const { data, error } = yield call(tryApp);
-
-  if (data) {
-    yield put(watcherActionCreators.setSettings(data));
-    yield put(
-      sharedActionCreators.setToast(
-        `Free start trial start! Your account is valid until ${data.expiresAt}.`
-      )
-    );
-  } else {
-    if (error?.errorCode === httpErrorCodes.WATCHER37_TRIED) {
-      yield put(sharedActionCreators.setToast('You have already tried :)', toastTypes.critical));
-    }
-  }
-
-  yield put(watcherActionCreators.isLoadingSettings(false));
-}
-
-function* handlePayPressed({ payload: { code } }) {
-  yield put(watcherActionCreators.isLoadingSettings(true));
-  yield put(watcherActionCreators.setPayError(null));
-
-  const { data, error } = yield call(pay, code);
-
-  if (data) {
-    yield put(watcherActionCreators.setSettings(data));
-    yield put(
-      sharedActionCreators.setToast(`Nice! Your account is valid until ${data.expiresAt}.`)
-    );
-  } else {
-    if (httpErrorCodes.NOT_FOUND === error?.errorCode) {
-      yield put(watcherActionCreators.setPayError('Invalid code.'));
-    } else if (error?.errorCode === httpErrorCodes.WATCHER37_INVALID_TICKET) {
-      yield put(watcherActionCreators.setPayError('This code is already used.'));
-    } else {
-      yield put(watcherActionCreators.setPayError('Something went wrong, please try again.'));
-    }
-  }
-
-  yield put(watcherActionCreators.isLoadingSettings(false));
+  yield put(sharedActionCreators.isLoadingSettings(false));
 }
 
 function* handleAddTelegramIdPressed({ payload: { telegramId } }) {
-  yield put(watcherActionCreators.isLoadingSettings(true));
+  yield put(sharedActionCreators.isLoadingSettings(true));
 
   const { data } = yield call(updateSettings, { telegramId });
 
   if (data) {
-    yield put(watcherActionCreators.setSettings(data));
+    yield put(sharedActionCreators.setSettings(data));
     yield put(
       sharedActionCreators.setToast(
         telegramId
@@ -146,24 +98,12 @@ function* handleAddTelegramIdPressed({ payload: { telegramId } }) {
     );
   }
 
-  yield put(watcherActionCreators.isLoadingSettings(false));
+  yield put(sharedActionCreators.isLoadingSettings(false));
 }
 
 function* setWatchers(watchers) {
   const lastOpenTime = yield select(watcherSelectors.getLastOpenTime);
   yield put(watcherActionCreators.setWatchers(watchers, lastOpenTime));
-}
-
-function* handleFetchSettingsRequested() {
-  yield put(watcherActionCreators.isLoadingSettings(true));
-
-  const { data } = yield call(fetchSettings);
-
-  if (data) {
-    yield put(watcherActionCreators.setSettings(data));
-  }
-
-  yield put(watcherActionCreators.isLoadingSettings(false));
 }
 
 function* handleFetchWatchersRequested({ payload: { isHardRefresh } }) {
@@ -540,12 +480,9 @@ export function* watcherSagas() {
 
   yield all([
     takeLatest(sharedActionTypes.IS_LOGGED_IN, handleIsLoggedIn),
-    takeLatest(watcherActionTypes.FETCH_SETTINGS_REQUESTED, handleFetchSettingsRequested),
     takeLatest(watcherActionTypes.FETCH_CONTENT_PRESSED, handleFetchContentPressed),
     takeLeading(watcherActionTypes.FETCH_WATCHERS_REQUESTED, handleFetchWatchersRequested),
     takeLatest(watcherActionTypes.UPDATE_SETTINGS_REQUESTED, handleUpdateSettingsRequested),
-    takeLatest(watcherActionTypes.TRY_PRESSED, handleTryPressed),
-    takeLatest(watcherActionTypes.PAY_PRESSED, handlePayPressed),
     takeLatest(watcherActionTypes.ADD_TELEGRAM_ID_PRESSED, handleAddTelegramIdPressed),
     takeLatest(watcherActionTypes.CREATE_PRESSED, handleCreatePressed),
     takeLatest(watcherActionTypes.EDIT_PRESSED, handleEditPressed),

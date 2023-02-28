@@ -44,6 +44,7 @@ function HowItWorks() {
           in that channel will get notified.
         </Text>
 
+        <Spacer size="2rem" />
         <ExampleWatchers />
 
         <Spacer />

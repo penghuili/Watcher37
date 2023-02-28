@@ -7,6 +7,7 @@ import AppBar from '../../shared/react/AppBar';
 import ExampleWatchers from '../../components/ExampleWatchers';
 import Pitch from '../../components/Pitch';
 import ContentWrapper from '../../shared/react/ContentWrapper';
+import Spacer from '../../shared/react/Spacer';
 
 function Encryption() {
   return (
@@ -129,6 +130,7 @@ function Encryption() {
           4. If you integrate a Telegram channel, they can also join the channel, and get notified;
         </Text>
 
+        <Spacer size="2rem" />
         <ExampleWatchers />
       </ContentWrapper>
     </>

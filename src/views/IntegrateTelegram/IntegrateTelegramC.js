@@ -7,7 +7,7 @@ import IntegrateTelegram from './IntegrateTelegram';
 
 const mapStateToProps = state => ({
   telegramId: watcherSelectors.getTelegramId(state),
-  isLoading: watcherSelectors.isLoadingSettings(state) || sharedSelectors.isLoadingAccount(state),
+  isLoading: sharedSelectors.isLoadingSettings(state) || sharedSelectors.isLoadingAccount(state),
 });
 
 const mapDispatchToProps = {

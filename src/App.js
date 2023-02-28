@@ -10,8 +10,9 @@ import createTheme from './shared/react/AppContainer/createTheme';
 import { HooksOutsieWrapper, setHook } from './shared/react/hooksOutside';
 import initShared from './shared/react/initShared';
 import store from './store';
+import { deleteAccount } from './store/watcher/watcherNetwork';
 
-initShared({ logo, app: apps.watcher37.name });
+initShared({ logo, app: apps.watcher37.name, onDeleteAccount: deleteAccount });
 
 setHook('location', useLocation);
 setHook('dispatch', useDispatch);
