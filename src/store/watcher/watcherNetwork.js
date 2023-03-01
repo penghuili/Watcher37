@@ -4,19 +4,6 @@ import { decryptMessage, encryptMessage } from '../../shared/js/encryption';
 import { LocalStorage, sharedLocalStorageKeys } from '../../shared/js/LocalStorage';
 import HTTP from '../../shared/react/HTTP';
 
-export async function fetchSettings() {
-  try {
-    const { lastOpenTime, expiresAt, tried, telegramId } = await HTTP.get(
-      apps.watcher37.name,
-      `/v1/settings`
-    );
-
-    return { data: { lastOpenTime, expiresAt, tried, telegramId }, error: null };
-  } catch (error) {
-    return { data: null, error };
-  }
-}
-
 export async function updateSettings({ lastOpenTime, telegramId }) {
   try {
     const {
