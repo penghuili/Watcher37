@@ -6,8 +6,10 @@ import ChangePassword from '../shared/react/ChangePassword';
 import Contact from '../shared/react/Contact';
 import HorizontalCenter from '../shared/react/HorizontalCenter';
 import Security from '../shared/react/Security';
+import Setup2FA from '../shared/react/Setup2FA';
 import SignIn from '../shared/react/SignIn';
 import SignUp from '../shared/react/SignUp';
+import Verify2FA from '../shared/react/Verify2FA';
 import Account from '../views/Account';
 import Encryption from '../views/Encryption';
 import HowItWorks from '../views/HowItWorks';
@@ -41,6 +43,7 @@ function Router({ isCheckingRefreshToken, isLoggedIn }) {
         <Route path="/account" component={Account} />
         <Route path="/account/telegram" component={IntegrateTelegram} />
         <Route path="/security" component={Security} />
+        <Route path="/security/2fa" component={Setup2FA} />
         <Route path="/security/password" component={ChangePassword} />
         <Route path="/w/add" component={WatcherAdd} />
         <Route path="/w/:id" component={WatcherDetails} />
@@ -68,6 +71,7 @@ function Router({ isCheckingRefreshToken, isLoggedIn }) {
     <Switch>
       <Route path="/sign-up" component={SignUp} />
       <Route path="/sign-in" component={SignIn} />
+      <Route path="/sign-in/2fa" component={Verify2FA} />
       <Route path="/w/:id" component={WatcherDetails} />
 
       <Route path="/selector" component={HowToFindSelector} />
