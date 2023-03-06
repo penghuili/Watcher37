@@ -1,9 +1,10 @@
 import { Spinner, Text } from 'grommet';
 import React from 'react';
-import apps from '../../shared/js/apps';
 
+import apps from '../../shared/js/apps';
 import { formatDateTime } from '../../shared/js/date';
 import AppBar from '../../shared/react/AppBar';
+import AppVersion from '../../shared/react/AppVersion';
 import ChangeTheme from '../../shared/react/ChangeTheme';
 import ContentWrapper from '../../shared/react/ContentWrapper';
 import Divider from '../../shared/react/Divider';
@@ -54,6 +55,10 @@ function Home({ account, isLoadingAccount }) {
             <RouteLink label="Terms" to="/terms" />
             <Spacer />
             <RouteLink label="Contact" to="/contact" />
+            <Spacer />
+            <Divider />
+            <Spacer />
+            <AppVersion />
           </>
         )}
       </ContentWrapper>
