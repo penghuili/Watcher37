@@ -46,6 +46,10 @@ function* handleIsLoggedIn({ payload: { loggedIn } }) {
   }
 }
 
+function handleReset() {
+  LocalStorage.remove(LocalStorageKeys.watchers);
+}
+
 function* handleFetchContentPressed({ payload: { link, selector } }) {
   yield put(watcherActionCreators.isLoading(true));
   yield put(watcherActionCreators.setContent(null, null));
@@ -112,12 +116,18 @@ function* handleFetchWatchersRequested({ payload: { isHardRefresh } }) {
     return;
   }
 
+  const watchersInStorage = yield call(LocalStorage.get, LocalStorageKeys.watchers);
+  if (watchersInStorage?.length && !watchers?.length) {
+    yield call(setWatchers, watchersInStorage);
+  }
+
   yield put(watcherActionCreators.isLoading(true));
 
   const { data } = yield call(fetchWatchers);
 
   if (data) {
     yield call(setWatchers, data);
+    yield call(LocalStorage.set, LocalStorageKeys.watchers, data);
   }
 
   yield put(watcherActionCreators.isLoading(false));
@@ -480,6 +490,7 @@ export function* watcherSagas() {
 
   yield all([
     takeLatest(sharedActionTypes.IS_LOGGED_IN, handleIsLoggedIn),
+    takeLatest(sharedActionTypes.RESET, handleReset),
     takeLatest(watcherActionTypes.FETCH_CONTENT_PRESSED, handleFetchContentPressed),
     takeLeading(watcherActionTypes.FETCH_WATCHERS_REQUESTED, handleFetchWatchersRequested),
     takeLatest(watcherActionTypes.UPDATE_SETTINGS_REQUESTED, handleUpdateSettingsRequested),
