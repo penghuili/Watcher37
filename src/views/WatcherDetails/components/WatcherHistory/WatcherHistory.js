@@ -1,5 +1,5 @@
 import { Box, Button, Heading, Spinner, Text } from 'grommet';
-import { LinkUp, Refresh, Trash } from 'grommet-icons';
+import { Refresh, Trash } from 'grommet-icons';
 import React, { useState } from 'react';
 
 import { WatcherContentsInner } from '../../../../components/WatcherContents';
@@ -34,9 +34,8 @@ function WatcherHistory({
         {!!watcher.checkedAt && <Text size="xsmall">{formatDateTime(watcher.checkedAt)}</Text>}
       </HorizontalCenter>
 
-      {(history || []).map((item, index) => (
-        <Box key={item.sortKey}>
-          {index !== 0 && <LinkUp />}
+      {(history || []).map(item => (
+        <Box key={item.sortKey} border="bottom" pad="1rem 0">
           <HorizontalCenter>
             <Text size="xsmall" margin="0 1rem 0 0">
               {formatDateTime(item.createdAt)}
