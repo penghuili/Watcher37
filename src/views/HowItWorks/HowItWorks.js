@@ -1,9 +1,8 @@
 import { Anchor, Text } from 'grommet';
 import React from 'react';
 
-import AppBar from '../../shared/react/AppBar';
 import ExampleWatchers from '../../components/ExampleWatchers';
-import Pitch from '../../components/Pitch';
+import AppBar from '../../shared/react/AppBar';
 import ContentWrapper from '../../shared/react/ContentWrapper';
 import Divider from '../../shared/react/Divider';
 import Spacer from '../../shared/react/Spacer';
@@ -13,8 +12,6 @@ function HowItWorks() {
     <>
       <AppBar title="How it works?" hasBack />
       <ContentWrapper>
-        <Pitch />
-
         <Text margin="3rem 0 0">
           1. Watcher37 makes a request to the link you define, and gets the HTML response.
         </Text>

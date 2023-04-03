@@ -3,9 +3,8 @@ import React from 'react';
 
 import encryption1 from '../../assets/images/encryption1.png';
 import encryption2 from '../../assets/images/encryption2.png';
-import AppBar from '../../shared/react/AppBar';
 import ExampleWatchers from '../../components/ExampleWatchers';
-import Pitch from '../../components/Pitch';
+import AppBar from '../../shared/react/AppBar';
 import ContentWrapper from '../../shared/react/ContentWrapper';
 import Spacer from '../../shared/react/Spacer';
 
@@ -14,8 +13,6 @@ function Encryption() {
     <>
       <AppBar title="How encryption works in Watcher37?" hasBack />
       <ContentWrapper>
-        <Pitch />
-
         <Text margin="3rem 0 0">
           Watcher37 uses the famous{' '}
           <Anchor label="openpgpjs" href="https://github.com/openpgpjs/openpgpjs" target="_blank" />{' '}
