@@ -38,13 +38,11 @@ function WatcherSelectors({
               label={`Selector ${index + 1}`}
               placeholder="CSS selector"
               value={item.selector}
-              onChange={value =>
-                onChange(
-                  selectors.map(s =>
-                    s.id === item.id ? { ...s, selector: value, selectorForBot: value } : s
-                  )
-                )
-              }
+              onChange={value => {
+                const newSelectors = [...selectors];
+                newSelectors[index].selector = value;
+                onChange(newSelectors);
+              }}
               resize="vertical"
               disabled={isLoading}
             />
@@ -58,9 +56,11 @@ function WatcherSelectors({
               label="Give it a name (optional)"
               placeholder="Selector name"
               value={item.title}
-              onChange={value =>
-                onChange(selectors.map(s => (s.id === item.id ? { ...s, title: value } : s)))
-              }
+              onChange={value => {
+                const newSelectors = [...selectors];
+                newSelectors[index].title = value;
+                onChange(newSelectors);
+              }}
               disabled={isLoading}
             />
 
