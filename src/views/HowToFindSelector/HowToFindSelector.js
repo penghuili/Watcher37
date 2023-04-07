@@ -5,6 +5,7 @@ import selector1 from '../../assets/images/selector1.png';
 import selector2 from '../../assets/images/selector2.png';
 import selector3 from '../../assets/images/selector3.png';
 import selector4 from '../../assets/images/selector4.png';
+import { contactEmail } from '../../shared/js/constants';
 import AppBar from '../../shared/react/AppBar';
 import ContentWrapper from '../../shared/react/ContentWrapper';
 
@@ -24,8 +25,8 @@ function HowToFindSelector() {
         </Text>
         <Text margin="0 0 3rem">
           If you still have troubles, contact me at{' '}
-          <Anchor label="peng@duck.com" href="mailto:peng@duck.com" target="_blank" />, I will find
-          the selector for you.
+          <Anchor label={contactEmail} href={`mailto:${contactEmail}`} target="_blank" />, I will
+          find the selector for you.
         </Text>
 
         <Heading level="3" margin="0 0 1rem">
