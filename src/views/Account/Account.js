@@ -50,6 +50,8 @@ function Home({ account, isLoadingAccount }) {
             <Spacer />
             <RouteLink label="Pricing" to="/pricing" />
             <Spacer />
+            <RouteLink label="Buy tickets" to="/tickets" />
+            <Spacer />
             <RouteLink label="Privacy" to="/privacy" />
             <Spacer />
             <RouteLink label="Terms" to="/terms" />
