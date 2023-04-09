@@ -7,13 +7,13 @@ import ExpiredBanner from '../../components/ExpiredBanner';
 import WatcherAccess from '../../components/WatcherAccess';
 import { WatcherContentsInner } from '../../components/WatcherContents';
 import { formatDateTime } from '../../shared/js/date';
+import ContentWrapper from '../../shared/react-pure/ContentWrapper';
+import Divider from '../../shared/react-pure/Divider';
+import HorizontalCenter from '../../shared/react-pure/HorizontalCenter';
+import Spacer from '../../shared/react-pure/Spacer';
 import AppBar from '../../shared/react/AppBar';
-import ContentWrapper from '../../shared/react/ContentWrapper';
-import Divider from '../../shared/react/Divider';
 import { useEffectOnce } from '../../shared/react/hooks/useEffectOnce';
-import HorizontalCenter from '../../shared/react/HorizontalCenter';
 import RouteLink from '../../shared/react/RouteLink';
-import Spacer from '../../shared/react/Spacer';
 
 function Watchers({
   watchers,

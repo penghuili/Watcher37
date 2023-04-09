@@ -1,7 +1,7 @@
 import { Box, Button, Select, Text } from 'grommet';
 import React, { useMemo, useState } from 'react';
 
-import HorizontalCenter from '../../../../shared/react/HorizontalCenter';
+import HorizontalCenter from '../../../../shared/react-pure/HorizontalCenter';
 
 const optionTypes = {
   minute: 'minute',

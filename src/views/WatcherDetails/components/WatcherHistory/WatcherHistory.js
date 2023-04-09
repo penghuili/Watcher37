@@ -4,7 +4,7 @@ import React, { useState } from 'react';
 
 import { WatcherContentsInner } from '../../../../components/WatcherContents';
 import { formatDateTime } from '../../../../shared/js/date';
-import HorizontalCenter from '../../../../shared/react/HorizontalCenter';
+import HorizontalCenter from '../../../../shared/react-pure/HorizontalCenter';
 
 function WatcherHistory({
   canEdit,

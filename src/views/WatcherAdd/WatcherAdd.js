@@ -1,13 +1,13 @@
 import { Button, Heading } from 'grommet';
 import React, { useState } from 'react';
 
-import AppBar from '../../shared/react/AppBar';
 import WatcherSelectors from '../../components/WatcherSelectors';
-import ContentWrapper from '../../shared/react/ContentWrapper';
-import Divider from '../../shared/react/Divider';
+import ContentWrapper from '../../shared/react-pure/ContentWrapper';
+import Divider from '../../shared/react-pure/Divider';
+import InputField from '../../shared/react-pure/InputField';
+import Spacer from '../../shared/react-pure/Spacer';
+import AppBar from '../../shared/react/AppBar';
 import { useEffectOnce } from '../../shared/react/hooks/useEffectOnce';
-import InputField from '../../shared/react/InputField';
-import Spacer from '../../shared/react/Spacer';
 
 function WatcherAdd({ content, isLoading, onClearContent, onCreate }) {
   const [title, setTitle] = useState('');

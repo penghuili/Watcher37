@@ -2,10 +2,10 @@ import { Anchor, Text } from 'grommet';
 import React from 'react';
 
 import ExampleWatchers from '../../components/ExampleWatchers';
+import ContentWrapper from '../../shared/react-pure/ContentWrapper';
+import Divider from '../../shared/react-pure/Divider';
+import Spacer from '../../shared/react-pure/Spacer';
 import AppBar from '../../shared/react/AppBar';
-import ContentWrapper from '../../shared/react/ContentWrapper';
-import Divider from '../../shared/react/Divider';
-import Spacer from '../../shared/react/Spacer';
 
 function HowItWorks() {
   return (

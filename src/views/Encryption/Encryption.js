@@ -4,9 +4,9 @@ import React from 'react';
 import encryption1 from '../../assets/images/encryption1.png';
 import encryption2 from '../../assets/images/encryption2.png';
 import ExampleWatchers from '../../components/ExampleWatchers';
+import ContentWrapper from '../../shared/react-pure/ContentWrapper';
+import Spacer from '../../shared/react-pure/Spacer';
 import AppBar from '../../shared/react/AppBar';
-import ContentWrapper from '../../shared/react/ContentWrapper';
-import Spacer from '../../shared/react/Spacer';
 
 function Encryption() {
   return (

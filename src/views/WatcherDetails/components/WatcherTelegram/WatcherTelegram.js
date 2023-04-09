@@ -3,7 +3,7 @@ import { Checkmark, Group, Halt, MoreVertical } from 'grommet-icons';
 import React from 'react';
 
 import Bot from '../../../../components/Bot';
-import HorizontalCenter from '../../../../shared/react/HorizontalCenter';
+import HorizontalCenter from '../../../../shared/react-pure/HorizontalCenter';
 import RouteLink from '../../../../shared/react/RouteLink';
 
 function OwnTelegram({ canEdit, watcherId, telegramId, skipped, onNavigate, onEdit }) {

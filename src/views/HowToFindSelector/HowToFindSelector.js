@@ -6,8 +6,8 @@ import selector2 from '../../assets/images/selector2.png';
 import selector3 from '../../assets/images/selector3.png';
 import selector4 from '../../assets/images/selector4.png';
 import { contactEmail } from '../../shared/js/constants';
+import ContentWrapper from '../../shared/react-pure/ContentWrapper';
 import AppBar from '../../shared/react/AppBar';
-import ContentWrapper from '../../shared/react/ContentWrapper';
 
 function HowToFindSelector() {
   return (

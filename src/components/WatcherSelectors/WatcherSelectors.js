@@ -2,10 +2,10 @@ import { Anchor, Box, Button, Heading } from 'grommet';
 import { Add, Close } from 'grommet-icons';
 import React, { useState } from 'react';
 
-import AreaField from '../../shared/react/AreaField';
-import HorizontalCenter from '../../shared/react/HorizontalCenter';
-import InputField from '../../shared/react/InputField';
-import Spacer from '../../shared/react/Spacer';
+import AreaField from '../../shared/react-pure/AreaField';
+import HorizontalCenter from '../../shared/react-pure/HorizontalCenter';
+import InputField from '../../shared/react-pure/InputField';
+import Spacer from '../../shared/react-pure/Spacer';
 import { WatcherContents } from '../WatcherContents';
 
 function WatcherSelectors({
