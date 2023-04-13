@@ -9,10 +9,10 @@ function Pitch({ showHome }) {
 
   return (
     <>
-      <Text>
-        Get notified when web pages change, <RouteLink label="encrytped" to="/encryption" />.
+      <Text margin="0 0 1rem">
+        Get notified when web pages change, <RouteLink label="encrypted" to="/encryption" />.
       </Text>
-      {showHome && location !== '/' && <RouteLink label="Home" to="/" />}
+      {showHome && location !== '/' && <RouteLink label="← Bck to home" to="/" />}
     </>
   );
 }

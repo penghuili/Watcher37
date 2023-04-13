@@ -13,6 +13,7 @@ import Spacer from './shared/react-pure/Spacer';
 import AppContainer from './shared/react/AppContainer';
 import { HooksOutsieWrapper, setHook } from './shared/react/hooksOutside';
 import initShared from './shared/react/initShared';
+import Toast from './shared/react/Toast';
 import store from './store';
 import { deleteAccount } from './store/watcher/watcherNetwork';
 
@@ -35,6 +36,8 @@ function App() {
           <Spacer />
           <Pitch showHome />
         </ContentWrapper>
+
+        <Toast />
       </AppContainer>
       <HooksOutsieWrapper />
     </StoreProvider>
