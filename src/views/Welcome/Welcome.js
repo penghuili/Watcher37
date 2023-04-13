@@ -1,4 +1,4 @@
-import { Avatar, Heading } from 'grommet';
+import { Anchor, Avatar, Heading } from 'grommet';
 import React from 'react';
 
 import logo from '../../assets/logo.png';
@@ -7,6 +7,7 @@ import ContentWrapper from '../../shared/react-pure/ContentWrapper';
 import Divider from '../../shared/react-pure/Divider';
 import HorizontalCenter from '../../shared/react-pure/HorizontalCenter';
 import Spacer from '../../shared/react-pure/Spacer';
+import ChangeTheme from '../../shared/react/ChangeTheme';
 import RouteLink from '../../shared/react/RouteLink';
 
 function Welcome() {
@@ -25,9 +26,11 @@ function Welcome() {
         <RouteLink to="/sign-up" label="Sign up" />
         <Spacer />
         <RouteLink to="/sign-in" label="Sign in" />
+
         <Spacer />
         <Divider />
         <Spacer />
+
         <RouteLink label="Motivation" to="/motivation" />
         <Spacer />
         <RouteLink label="How it works?" to="/how" />
@@ -44,7 +47,13 @@ function Welcome() {
         <Spacer />
         <RouteLink label="Terms" to="/terms" />
         <Spacer />
-        <RouteLink label="Contact" to="/contact" />
+        <Anchor label="Contact" href="https://www.peng.kiwi/contact" target="_blank" />
+
+        <Spacer />
+        <Divider />
+        <Spacer />
+
+        <ChangeTheme />
       </ContentWrapper>
     </>
   );

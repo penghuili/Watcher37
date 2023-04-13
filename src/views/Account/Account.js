@@ -1,4 +1,4 @@
-import { Spinner, Text } from 'grommet';
+import { Anchor, Spinner, Text } from 'grommet';
 import React from 'react';
 
 import apps from '../../shared/js/apps';
@@ -56,7 +56,7 @@ function Home({ account, isLoadingAccount }) {
             <Spacer />
             <RouteLink label="Terms" to="/terms" />
             <Spacer />
-            <RouteLink label="Contact" to="/contact" />
+            <Anchor label="Contact" href="https://www.peng.kiwi/contact" target="_blank" />
             <Spacer />
             <Divider />
             <Spacer />
