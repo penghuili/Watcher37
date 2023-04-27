@@ -12,7 +12,7 @@ import { useEffectOnce } from '../../shared/react/hooks/useEffectOnce';
 import { useListener } from '../../shared/react/hooks/useListener';
 
 function getEmptySelector() {
-  return { id: Date.now(), title: '', selector: '' };
+  return { id: Date.now(), title: '', selector: '', ignoreNotify: false };
 }
 
 function WatcherEdit({ id, watcher, isLoading, onFetch, onEdit, onClearContent }) {

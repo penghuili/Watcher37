@@ -47,6 +47,7 @@ async function encryptWatcherContent(watcher, needToEncrypt, botPublicKey) {
       title: encryptedSelectorTitle,
       selector: encryptedSelectorSelector,
       selectorForBot: encryptedSelectorForBot,
+      ignoreNotify: !!selector.ignoreNotify,
     });
   });
 

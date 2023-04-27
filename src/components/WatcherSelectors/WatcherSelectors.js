@@ -1,4 +1,4 @@
-import { Anchor, Box, Button, Heading } from 'grommet';
+import { Anchor, Box, Button, Heading, RadioButton, Text } from 'grommet';
 import { Add, Close } from 'grommet-icons';
 import React, { useState } from 'react';
 
@@ -31,7 +31,7 @@ function WatcherSelectors({
           direction="row"
           align="start"
           width="100%"
-          margin="0 0 0.5rem"
+          margin="0 0 1rem"
         >
           <Box flex="grow">
             <AreaField
@@ -64,7 +64,35 @@ function WatcherSelectors({
               disabled={isLoading}
             />
 
-            <HorizontalCenter margin="0.5rem 0">
+            <Spacer size="0.25rem" />
+            <Text>Get notified when this selector has new content?</Text>
+            <HorizontalCenter>
+              <RadioButton
+                name="dark"
+                checked={!item.ignoreNotify}
+                label="Yes"
+                onChange={() => {
+                  const newSelectors = [...selectors];
+                  newSelectors[index].ignoreNotify = false;
+                  onChange(newSelectors);
+                }}
+                disabled={isLoading}
+              />
+              <Box width="1rem" />
+              <RadioButton
+                name="light"
+                checked={!!item.ignoreNotify}
+                label="No"
+                onChange={() => {
+                  const newSelectors = [...selectors];
+                  newSelectors[index].ignoreNotify = true;
+                  onChange(newSelectors);
+                }}
+                disabled={isLoading}
+              />
+            </HorizontalCenter>
+
+            <HorizontalCenter margin="0.75rem 0">
               <Button
                 label="Get content"
                 onClick={() => {
