@@ -41,6 +41,7 @@ function WatcherSelectors({
               onChange={value => {
                 const newSelectors = [...selectors];
                 newSelectors[index].selector = value;
+                newSelectors[index].selectorForBot = value;
                 onChange(newSelectors);
               }}
               resize="vertical"
