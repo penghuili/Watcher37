@@ -96,7 +96,7 @@ function HowToFindSelector() {
           I wrote a blog post on this:{' '}
           <Anchor
             label="Debug with browser developer tools on Android"
-            href="https://blog.peng.kiwi/2023/02/debug-with-browser-developer-tools-on.html"
+            href="https://peng37.com/blog/debug-with-browser-developer-tools-on-android/"
             target="
           "
           />
