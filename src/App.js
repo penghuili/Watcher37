@@ -15,9 +15,8 @@ import { HooksOutsieWrapper, setHook } from './shared/react/hooksOutside';
 import initShared from './shared/react/initShared';
 import Toast from './shared/react/Toast';
 import store from './store';
-import { deleteAccount } from './store/watcher/watcherNetwork';
 
-initShared({ logo, app: apps.watcher37.name, onDeleteAccount: deleteAccount });
+initShared({ logo, app: apps.watcher37.name, showTerms: true });
 
 setHook('location', useLocation);
 setHook('dispatch', useDispatch);
