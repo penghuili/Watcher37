@@ -1,7 +1,6 @@
 import { all, call, fork, put, select, takeLatest, takeLeading } from 'redux-saga/effects';
 
 import { LocalStorageKeys } from '../../lib/constants';
-import apps from '../../shared/js/apps';
 import { LocalStorage } from '../../shared/js/LocalStorage';
 import { routeHelpers } from '../../shared/react/routeHelpers';
 import { sharedActionCreators, sharedActionTypes } from '../../shared/react/store/sharedActions';
@@ -40,8 +39,6 @@ function* handleIsLoggedIn({ payload: { loggedIn } }) {
     const lastOpenTime = yield call(LocalStorage.get, LocalStorageKeys.lastOpenTime);
     if (lastOpenTime) {
       yield put(watcherActionCreators.updateSettingsRequested(lastOpenTime));
-    } else {
-      yield put(sharedActionCreators.fetchSettingsRequested(apps.watcher37.name));
     }
   }
 }

@@ -2,7 +2,6 @@ import React from 'react';
 import { Provider as StoreProvider, useDispatch } from 'react-redux';
 import { useLocation } from 'wouter';
 
-import logo from './assets/logo.png';
 import Pitch from './components/Pitch';
 import Router from './router';
 import apps from './shared/js/apps';
@@ -16,7 +15,7 @@ import initShared from './shared/react/initShared';
 import Toast from './shared/react/Toast';
 import store from './store';
 
-initShared({ logo, app: apps.watcher37.name, showTerms: true });
+initShared({ logo: `${process.env.REACT_APP_ASSETS_FOR_CODE}/logo.png`, app: apps.watcher37.name, showTerms: true });
 
 setHook('location', useLocation);
 setHook('dispatch', useDispatch);

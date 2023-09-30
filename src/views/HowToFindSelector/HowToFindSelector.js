@@ -1,10 +1,6 @@
 import { Anchor, Heading, Image, Text } from 'grommet';
 import React from 'react';
 
-import selector1 from '../../assets/images/selector1.png';
-import selector2 from '../../assets/images/selector2.png';
-import selector3 from '../../assets/images/selector3.png';
-import selector4 from '../../assets/images/selector4.png';
 import { contactEmail } from '../../shared/js/constants';
 import ContentWrapper from '../../shared/react-pure/ContentWrapper';
 import AppBar from '../../shared/react/AppBar';
@@ -54,7 +50,7 @@ function HowToFindSelector() {
           (4). Then click <Text weight="bold">"Copy CSS Selector"</Text>, now you copied the
           selector!
         </Text>
-        <Image src={selector4} fill="horizontal" />
+        <Image src={`${process.env.REACT_APP_ASSETS_FOR_CODE}/selector4.png`} fill="horizontal" />
 
         <Text margin="1rem 0 0">
           (5). Go back to the watcher creation form, and paste this selector.
@@ -70,20 +66,20 @@ function HowToFindSelector() {
         <Text margin="1rem 0 0">
           (2). Find the content you want to watch, right click it. You will see something like:
         </Text>
-        <Image src={selector1} fill="horizontal" />
+        <Image src={`${process.env.REACT_APP_ASSETS_FOR_CODE}/selector1.png`} fill="horizontal" />
 
         <Text margin="1rem 0 0">
           (3). Click <Text weight="bold">"Inspect"</Text>, you will open the develper's tool, and
           the element you selected will be highlighted.
         </Text>
-        <Image src={selector2} fill="horizontal" />
+        <Image src={`${process.env.REACT_APP_ASSETS_FOR_CODE}/selector2.png`} fill="horizontal" />
 
         <Text margin="1rem 0 0">
           (3). Right click the hightlighted element (You can also choose a different element) -&gt;
           Hover on <Text weight="bold">"Copy"</Text> -&gt; Click{' '}
           <Text weight="bold">"Copy selector"</Text>. Now you copied the selector!
         </Text>
-        <Image src={selector3} fill="horizontal" />
+        <Image src={`${process.env.REACT_APP_ASSETS_FOR_CODE}/selector3.png`} fill="horizontal" />
 
         <Text margin="1rem 0 0">
           (4). Go back to the watcher creation form, and paste this selector.
@@ -96,7 +92,7 @@ function HowToFindSelector() {
           I wrote a blog post on this:{' '}
           <Anchor
             label="Debug with browser developer tools on Android"
-            href="https://peng37.com/blog/debug-with-browser-developer-tools-on-android/"
+            href="https://encrypt37.com/blog/20230226-debug-with-browser-developer-tools-on-android/"
             target="
           "
           />

@@ -1,8 +1,6 @@
 import { Anchor, Heading, Image, Text } from 'grommet';
 import React from 'react';
 
-import encryption1 from '../../assets/images/encryption1.png';
-import encryption2 from '../../assets/images/encryption2.png';
 import ExampleWatchers from '../../components/ExampleWatchers';
 import ContentWrapper from '../../shared/react-pure/ContentWrapper';
 import Spacer from '../../shared/react-pure/Spacer';
@@ -94,7 +92,7 @@ function Encryption() {
         <Text margin="1rem 0 0">
           2. If you integrate Telegram, it will send a message like this to you:
         </Text>
-        <Image src={encryption1} fill="vertical" />
+        <Image src={`${process.env.REACT_APP_ASSETS_FOR_CODE}/encryption1.png`} fill="vertical" />
         <Text margin="1rem 0 0">
           Everything is encrypted, so it can't reveal anything in the message.
         </Text>
@@ -110,7 +108,7 @@ function Encryption() {
         <Text margin="1rem 0 0">
           2. Now server knows more about the watcher, it can send messages like this to you:
         </Text>
-        <Image src={encryption2} fill="vertical" />
+        <Image src={`${process.env.REACT_APP_ASSETS_FOR_CODE}/encryption2.png`} fill="vertical" />
 
         <Heading level="3" margin="3rem 0 0">
           When you make a watcher public:
