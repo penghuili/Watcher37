@@ -40,6 +40,8 @@ function Welcome() {
         <Spacer />
         <RouteLink label="How to find selector?" to="/selector" />
         <Spacer />
+        <Anchor label="Source code" href="https://github.com/penghuili/Watcher37" target="_blank" />
+        <Spacer />
         <RouteLink label="Pricing" to="/pricing" />
         <Spacer />
         <Anchor label="Privacy" href={privacyUrl} target="_blank" />

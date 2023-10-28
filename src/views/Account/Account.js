@@ -1,6 +1,5 @@
 import { Anchor, Spinner, Text } from 'grommet';
 import React from 'react';
-
 import apps from '../../shared/js/apps';
 import { formatDateTime } from '../../shared/js/date';
 import ContentWrapper from '../../shared/react-pure/ContentWrapper';
@@ -9,9 +8,9 @@ import Spacer from '../../shared/react-pure/Spacer';
 import AppBar from '../../shared/react/AppBar';
 import AppVersion from '../../shared/react/AppVersion';
 import ChangeTheme from '../../shared/react/ChangeTheme';
-import { privacyUrl, termsUrl } from '../../shared/react/initShared';
 import PaymentStatus from '../../shared/react/PaymentStatus';
 import RouteLink from '../../shared/react/RouteLink';
+import { privacyUrl, termsUrl } from '../../shared/react/initShared';
 
 function Home({ account, isLoadingAccount }) {
   return (
@@ -48,6 +47,12 @@ function Home({ account, isLoadingAccount }) {
             <RouteLink label="How encryption works?" to="/encryption" />
             <Spacer />
             <RouteLink label="How to find selector?" to="/selector" />
+            <Spacer />
+            <Anchor
+              label="Source code"
+              href="https://github.com/penghuili/Watcher37"
+              target="_blank"
+            />
             <Spacer />
             <RouteLink label="Pricing" to="/pricing" />
             <Spacer />
