@@ -1,6 +1,5 @@
 import { Box, Button, RadioButton, Text } from 'grommet';
 import React, { useState } from 'react';
-
 import WatcherSelectors from '../../components/WatcherSelectors';
 import ContentWrapper from '../../shared/react-pure/ContentWrapper';
 import Divider from '../../shared/react-pure/Divider';
@@ -88,8 +87,9 @@ function WatcherEdit({ id, watcher, isLoading, onFetch, onEdit, onClearContent }
               noDuplication: !allowDuplication,
             })
           }
-          disabled={!title || !selectors.filter(s => s.selector).length || isLoading}
           primary
+          color="brand"
+          disabled={!title || !selectors.filter(s => s.selector).length || isLoading}
         />
       </ContentWrapper>
     </>

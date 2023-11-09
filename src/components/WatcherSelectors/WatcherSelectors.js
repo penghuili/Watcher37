@@ -1,7 +1,6 @@
 import { Anchor, Box, Button, Heading, RadioButton, Text } from 'grommet';
 import { Add, Close } from 'grommet-icons';
 import React, { useState } from 'react';
-
 import AreaField from '../../shared/react-pure/AreaField';
 import HorizontalCenter from '../../shared/react-pure/HorizontalCenter';
 import InputField from '../../shared/react-pure/InputField';
@@ -100,6 +99,7 @@ function WatcherSelectors({
                   onFetchContent(link, item.selector);
                   setActiveSelector(item.selector);
                 }}
+                color="brand"
                 disabled={!link || !item.selector || isLoading}
                 margin="0 1rem 0 0"
               />
@@ -114,6 +114,7 @@ function WatcherSelectors({
                       { id: Date.now(), title: '', selector: '', selectorForBot: '' },
                     ])
                   }
+                  color="brand"
                   disabled={!link || !item.selector || isLoading}
                 />
               )}

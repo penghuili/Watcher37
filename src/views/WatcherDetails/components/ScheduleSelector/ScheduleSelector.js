@@ -1,6 +1,5 @@
 import { Box, Button, Select, Text } from 'grommet';
 import React, { useMemo, useState } from 'react';
-
 import HorizontalCenter from '../../../../shared/react-pure/HorizontalCenter';
 
 const optionTypes = {
@@ -77,8 +76,10 @@ function ScheduleSelector({ isLoading, id, showCancel, onSchedule, onCancel }) {
         <Button
           label="Setup"
           onClick={() =>
-            onSchedule(id, `${num} ${num > 1 ? `${optionType.value}s` : optionType.value}`)
+            onSchedule(id, `rate(${num} ${num > 1 ? `${optionType.value}s` : optionType.value})`)
           }
+          primary
+          color="brand"
           disabled={!num || !optionType || isLoading}
           margin="0 1rem 0 0"
         />
