@@ -3,7 +3,7 @@ import { Provider as StoreProvider, useDispatch } from 'react-redux';
 import { useLocation } from 'wouter';
 import Pitch from './components/Pitch';
 import Router from './router';
-import apps from './shared/js/apps';
+import { apps } from './shared/js/apps';
 import ContentWrapper from './shared/react-pure/ContentWrapper';
 import Divider from './shared/react-pure/Divider';
 import Spacer from './shared/react-pure/Spacer';

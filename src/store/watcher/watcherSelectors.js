@@ -23,4 +23,5 @@ export const watcherSelectors = {
   },
   getLastOpenTime: state => state.shared?.settings?.lastOpenTime,
   getTelegramId: state => state.shared?.settings?.telegramId,
+  getTelegramChannels: state => state.watcher.telegramChannels,
 };

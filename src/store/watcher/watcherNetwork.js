@@ -1,8 +1,9 @@
-import apps from '../../shared/js/apps';
-import asyncForEach from '../../shared/js/asyncForEach';
-import { decryptMessage, encryptMessage } from '../../shared/js/encryption';
 import { LocalStorage, sharedLocalStorageKeys } from '../../shared/js/LocalStorage';
+import { apps } from '../../shared/js/apps';
+import { asyncForEach } from '../../shared/js/asyncForEach';
+import { decryptMessage, encryptMessage } from '../../shared/js/encryption';
 import HTTP from '../../shared/react/HTTP';
+import { idbStorage } from '../../shared/react/indexDB';
 
 export async function updateSettings({ lastOpenTime, telegramId }) {
   try {
@@ -121,7 +122,11 @@ function addSelectorTitleToContents(contents, selectors) {
 }
 
 function mapWatcher(watcher) {
-  return { ...watcher, contents: addSelectorTitleToContents(watcher.contents, watcher.selectors) };
+  return {
+    ...watcher,
+    selectors: (watcher.selectors || []).map(s => ({ ...s, id: s.selector })),
+    contents: addSelectorTitleToContents(watcher.contents, watcher.selectors),
+  };
 }
 
 async function decryptWatcherContent(watcher) {
@@ -422,10 +427,11 @@ export async function checkWatcher(id) {
   }
 }
 
-export async function scheduleTrigger(id, rate) {
+export async function scheduleTrigger(id, rate, cron) {
   try {
     const watcher = await HTTP.post(apps.watcher37.name, `/v1/watchers/${id}/trigger`, {
       rate,
+      cron,
     });
     const decrypted = await decryptWatcherContent(watcher);
 
@@ -456,11 +462,15 @@ export async function deleteItem(id, sortKey) {
   }
 }
 
-export async function deleteAccount() {
+export async function fetchTelegramChannels() {
   try {
-    await HTTP.delete(apps.watcher37.name, `/v1/me`);
+    const infos = await HTTP.get(apps.watcher37.name, `/v1/telegram/user-info`);
 
-    return { data: { success: true }, error: null };
+    if (infos?.length) {
+      await idbStorage.setItem('watcher37-telegramChannels', infos);
+    }
+
+    return { data: infos, error: null };
   } catch (error) {
     return { data: null, error };
   }

@@ -9,30 +9,42 @@ function ExampleWatchers() {
       </Heading>
       <Box direction="row" wrap>
         <Anchor
+          label="Ski in Braunlage"
+          href="/w/z6fb0huCWg2"
+          target="_blank"
+          margin="0 1.5rem 0.25rem 0"
+        />
+        <Anchor
+          label="Hacker News Top1"
+          href="/w/osSaqppygsf"
+          target="_blank"
+          margin="0 1.5rem 0.25rem 0"
+        />
+        <Anchor
+          label="indiehackers Hacker"
+          href="/w/ZdBLNoxHX8J"
+          target="_blank"
+          margin="0 1.5rem 0.25rem 0"
+        />
+        <Anchor
           label="ETH Price"
           href="/w/l10wKJvjs89"
           target="_blank"
           margin="0 1.5rem 0.25rem 0"
         />
         <Anchor
-          label="Ski in Braunlage"
-          href="/w/z6fb0huCWg2"
+          label="imdb popular top 5"
+          href="/w/dCh1xGXCcZ4"
+          target="_blank"
+          margin="0 1.5rem 0.25rem 0"
+        />
+        <Anchor
+          label="n-tv news"
+          href="/w/LKpZKriJUem"
           target="_blank"
           margin="0 1.5rem 0.25rem 0"
         />
         <Anchor label="My Blog" href="/w/LrzSD8oJfAl" target="_blank" margin="0 1.5rem 0.25rem 0" />
-        <Anchor
-          label="Hacker News"
-          href="/w/osSaqppygsf"
-          target="_blank"
-          margin="0 1.5rem 0.25rem 0"
-        />
-        <Anchor
-          label="Berlin Weather"
-          href="/w/8U3nmNJWxBl"
-          target="_blank"
-          margin="0 1.5rem 0.25rem 0"
-        />
       </Box>
     </>
   );

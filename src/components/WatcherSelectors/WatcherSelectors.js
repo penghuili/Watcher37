@@ -1,6 +1,6 @@
 import { Anchor, Box, Button, Heading, RadioButton, Text } from 'grommet';
 import { Add, Close } from 'grommet-icons';
-import React, { useState } from 'react';
+import React, { useCallback, useState } from 'react';
 import AreaField from '../../shared/react-pure/AreaField';
 import HorizontalCenter from '../../shared/react-pure/HorizontalCenter';
 import InputField from '../../shared/react-pure/InputField';
@@ -19,29 +19,41 @@ function WatcherSelectors({
 }) {
   const [activeSelector, setActiveSelector] = useState('');
 
+  const handleSelectorChange = useCallback(
+    (index, value) => {
+      const newSelectors = [...selectors];
+      newSelectors[index].selector = value;
+      newSelectors[index].selectorForBot = value;
+      onChange(newSelectors);
+    },
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [selectors]
+  );
+
+  const handleTitleChange = useCallback(
+    (index, value) => {
+      const newSelectors = [...selectors];
+      newSelectors[index].title = value;
+      onChange(newSelectors);
+    },
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [selectors]
+  );
+
   return (
     <>
       <Heading level="3" margin="0">
         Selectors
       </Heading>
       {selectors.map((item, index) => (
-        <Box
-          key={item.id || item.selector}
-          direction="row"
-          align="start"
-          width="100%"
-          margin="0 0 1rem"
-        >
+        <Box key={item.id} direction="row" align="start" width="100%" margin="0 0 1rem">
           <Box flex="grow">
             <AreaField
               label={`Selector ${index + 1}`}
               placeholder="CSS selector"
               value={item.selector}
               onChange={value => {
-                const newSelectors = [...selectors];
-                newSelectors[index].selector = value;
-                newSelectors[index].selectorForBot = value;
-                onChange(newSelectors);
+                handleSelectorChange(index, value);
               }}
               resize="vertical"
               disabled={isLoading}
@@ -57,9 +69,7 @@ function WatcherSelectors({
               placeholder="Selector name"
               value={item.title}
               onChange={value => {
-                const newSelectors = [...selectors];
-                newSelectors[index].title = value;
-                onChange(newSelectors);
+                handleTitleChange(index, value);
               }}
               disabled={isLoading}
             />
@@ -96,8 +106,11 @@ function WatcherSelectors({
               <Button
                 label="Get content"
                 onClick={() => {
-                  onFetchContent(link, item.selector);
-                  setActiveSelector(item.selector);
+                  const selector = item.selector;
+                  if (selector) {
+                    onFetchContent(link, selector);
+                    setActiveSelector(selector);
+                  }
                 }}
                 color="brand"
                 disabled={!link || !item.selector || isLoading}

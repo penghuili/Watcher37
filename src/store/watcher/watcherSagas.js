@@ -1,7 +1,7 @@
 import { all, call, fork, put, select, takeLatest, takeLeading } from 'redux-saga/effects';
-
 import { LocalStorageKeys } from '../../lib/constants';
 import { LocalStorage } from '../../shared/js/LocalStorage';
+import { idbStorage } from '../../shared/react/indexDB';
 import { routeHelpers } from '../../shared/react/routeHelpers';
 import { sharedActionCreators, sharedActionTypes } from '../../shared/react/store/sharedActions';
 import { toastTypes } from '../../shared/react/store/sharedReducer';
@@ -16,6 +16,7 @@ import {
   deleteWatcher,
   encryptWatcher,
   fetchPageContent,
+  fetchTelegramChannels,
   fetchWatcher,
   fetchWatcherHistory,
   fetchWatchers,
@@ -36,6 +37,8 @@ function* init() {
 
 function* handleIsLoggedIn({ payload: { loggedIn } }) {
   if (loggedIn) {
+    yield put(watcherActionCreators.fetchWatchersRequested());
+
     const lastOpenTime = yield call(LocalStorage.get, LocalStorageKeys.lastOpenTime);
     if (lastOpenTime) {
       yield put(watcherActionCreators.updateSettingsRequested(lastOpenTime));
@@ -236,6 +239,7 @@ function* handleEditPressed({
     let message;
     if (telegramId) {
       message = 'Telegram channel is integrated!';
+      yield put(watcherActionCreators.fetchTelegramChannelsRequested(true));
     } else if (telegramId === null) {
       message = 'Telegram channel is removed.';
     } else if (skipPersonalTelegram === true) {
@@ -331,10 +335,10 @@ function* handleCheckWatcherRequested({ payload: { id } }) {
   yield put(watcherActionCreators.isChecking(false));
 }
 
-function* handleScheduleTriggerPressed({ payload: { id, rate } }) {
+function* handleScheduleTriggerPressed({ payload: { id, rate, cron } }) {
   yield put(watcherActionCreators.isLoading(true));
 
-  const { data } = yield call(scheduleTrigger, id, rate);
+  const { data } = yield call(scheduleTrigger, id, rate, cron);
 
   if (data) {
     yield call(afterUpdateWatcher, data);
@@ -482,6 +486,23 @@ function* handleDeleteItemPressed({ payload: { id, sortKey } }) {
   yield put(watcherActionCreators.isDeleting(false));
 }
 
+function* handleFetchTelegramChannelsRequested({ payload: { force } }) {
+  const channels = yield select(watcherSelectors.getTelegramChannels);
+  if (channels?.length && !force) {
+    return;
+  }
+
+  const cached = yield call(idbStorage.getItem, 'watcher37-telegramChannels');
+  if (cached?.length) {
+    yield put(watcherActionCreators.setTelegramChannels(cached));
+  }
+
+  const { data } = yield call(fetchTelegramChannels);
+  if (data) {
+    yield put(watcherActionCreators.setTelegramChannels(data));
+  }
+}
+
 export function* watcherSagas() {
   yield fork(init);
 
@@ -505,5 +526,9 @@ export function* watcherSagas() {
     takeLatest(watcherActionTypes.PRIVATE_PRESSED, handlePrivatePressed),
     takeLatest(watcherActionTypes.DELETE_TRIGGER_PRESSED, handleDeleteTriggerPressed),
     takeLatest(watcherActionTypes.DELETE_ITEM_PRESSED, handleDeleteItemPressed),
+    takeLatest(
+      watcherActionTypes.FETCH_TELEGRAM_CHANNELS_REQUESTED,
+      handleFetchTelegramChannelsRequested
+    ),
   ]);
 }

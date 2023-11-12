@@ -16,6 +16,7 @@ const initialState = {
   history: [],
   startKey: null,
   hasMore: true,
+  telegramChannels: [],
 };
 
 function handleSetContent(state, { content, contentLink }) {
@@ -52,6 +53,10 @@ function handleSetHistory(state, { history, startKey, hasMore }) {
 
 function handleSetFetchError(state, { error }) {
   return { ...state, fetchError: error };
+}
+
+function handleSetTelegramChannels(state, { telegramChannels }) {
+  return { ...state, telegramChannels };
 }
 
 function handleIsLoading(state, { value }) {
@@ -97,6 +102,9 @@ export function watcherReducer(state = initialState, action) {
 
     case watcherActionTypes.SET_FETCH_ERROR:
       return handleSetFetchError(state, action.payload);
+
+    case watcherActionTypes.SET_TELEGRAM_CHANNELS:
+      return handleSetTelegramChannels(state, action.payload);
 
     case watcherActionTypes.IS_LOADING:
       return handleIsLoading(state, action.payload);

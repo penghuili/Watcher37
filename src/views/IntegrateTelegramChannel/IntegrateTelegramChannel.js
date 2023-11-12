@@ -1,45 +1,119 @@
-import { Anchor, Box, Button, Heading, Spinner, Text, TextInput } from 'grommet';
-import React, { useState } from 'react';
+import { Anchor, Box, Button, Heading, Text, TextInput } from 'grommet';
+import { Trash } from 'grommet-icons';
+import React, { useMemo, useState } from 'react';
 import Bot from '../../components/Bot';
 import ContentWrapper from '../../shared/react-pure/ContentWrapper';
+import Divider from '../../shared/react-pure/Divider';
+import Spacer from '../../shared/react-pure/Spacer';
 import AppBar from '../../shared/react/AppBar';
 import { useEffectOnce } from '../../shared/react/hooks/useEffectOnce';
-import { useListener } from '../../shared/react/hooks/useListener';
 
-function IntegrateTelegramChannel({ id, watcher, isLoading, onFetch, onEdit }) {
+function IntegrateTelegramChannel({
+  id,
+  watcher,
+  telegramChannels,
+  isLoading,
+  onFetch,
+  onFetchTelegramChannels,
+  onEdit,
+}) {
   const [telegramId, setTelegramId] = useState('');
-  useListener(watcher?.telegramId, value => setTelegramId(value || ''));
 
-  useEffectOnce(() => onFetch(id));
+  const telegramChannelsObj = useMemo(() => {
+    return (telegramChannels || []).reduce((acc, c) => {
+      acc[c.id] = c;
+      return acc;
+    }, {});
+  }, [telegramChannels]);
+  const selectedChannel = useMemo(
+    () => telegramChannelsObj[watcher?.telegramId],
+    [telegramChannelsObj, watcher?.telegramId]
+  );
 
-  const hasTelegram = !!watcher?.telegram;
+  useEffectOnce(() => {
+    onFetch(id);
+    onFetchTelegramChannels();
+  });
+
+  function renderChannels() {
+    if (!telegramChannels?.length) {
+      return null;
+    }
+
+    return (
+      <>
+        <Heading level="4" margin="0 0 0.5rem">
+          Send messages to an existing channel:
+        </Heading>
+        <Box direction="row" wrap>
+          {telegramChannels.map(c => {
+            const isSelected = c.id.toString() === watcher?.telegramId;
+            return (
+              <Box key={c.id} direction="row">
+                <Button
+                  label={c.title}
+                  plain
+                  color={isSelected ? 'status-ok' : undefined}
+                  margin={'0 1rem 0.5rem 0'}
+                  onClick={() => {
+                    if (isSelected) {
+                      onEdit(id, { telegramId: null });
+                    } else {
+                      onEdit(id, { telegramId: c.id.toString() });
+                    }
+                  }}
+                />
+              </Box>
+            );
+          })}
+        </Box>
+        <Spacer />
+        <Divider />
+        <Spacer />
+      </>
+    );
+  }
 
   return (
     <>
-      <AppBar title="Integrate Telegram channel" hasBack />
+      <AppBar title="Integrate Telegram channel" hasBack isLoading={isLoading} />
       <ContentWrapper>
-        {isLoading && <Spinner />}
-
         {!!watcher && (
           <Heading level="3" margin="0 0 1rem">
             Watcher: {watcher.title}
           </Heading>
         )}
 
-        <Text margin="0 0 1rem">
-          <Bot /> will send a message to the{' '}
-          {hasTelegram ? (
-            <>
-              <Text weight="bold">{watcher.telegram.title}</Text> channel
-            </>
-          ) : (
-            <Text weight="bold">Telegram channel</Text>
-          )}{' '}
-          when this watcher gets new content.
+        <Text>
+          <Bot /> can send a message to a Telegram channel when this watcher gets new content.
         </Text>
+        {!!selectedChannel && (
+          <>
+            <Spacer />
+            <Box direction="row" align="center">
+              <Text>
+                It sends to the <Text weight="bold">{selectedChannel?.title}</Text> channel
+                currently.
+              </Text>
+              <Button
+                icon={<Trash size="small" />}
+                size="small"
+                onClick={() => {
+                  onEdit(id, { telegramId: null });
+                }}
+              />
+            </Box>
+          </>
+        )}
 
-        <Heading level="4" margin="0">
-          How to {hasTelegram ? 'update' : 'integrate'} Telegram channel:
+        <Spacer />
+        <Divider />
+        <Spacer />
+
+        {renderChannels()}
+
+        <Heading level="4" margin="0 0 0.5rem">
+          Send messages to a new channel:
         </Heading>
         <Text margin="0 0 0.5rem">
           1. Create a Telegram channel: Follow the{' '}
@@ -51,7 +125,7 @@ function IntegrateTelegramChannel({ id, watcher, isLoading, onFetch, onEdit }) {
           ;
         </Text>
         <Text margin="0 0 0.5rem">
-          2. Find the <Bot />: Search <Text weight="bold">p_watcher_bot</Text> in your Telegram, or
+          2. Find the <Bot />: Search <Text weight="bold">Watcher37Bot</Text> in your Telegram, or
           open this link: <Bot />;
         </Text>
         <Text margin="0 0 0.5rem">
@@ -72,8 +146,7 @@ function IntegrateTelegramChannel({ id, watcher, isLoading, onFetch, onEdit }) {
         </Text>
         <Text margin="0 0 0.5rem">
           6. Add your channel&lsquo;s Telegram ID below (It may have a leading{' '}
-          <Text weight="bold">-</Text>, also include it), and click{' '}
-          <Text weight="bold">{hasTelegram ? 'Update' : 'Add'}</Text>.
+          <Text weight="bold">-</Text>, also include it), and click <Text weight="bold">Add</Text>.
         </Text>
 
         <TextInput
@@ -83,21 +156,11 @@ function IntegrateTelegramChannel({ id, watcher, isLoading, onFetch, onEdit }) {
         />
         <Box direction="row" margin="1rem 0">
           <Button
-            label={hasTelegram ? 'Update' : 'Add'}
+            label="Add"
             onClick={() => onEdit(id, { telegramId })}
             color="brand"
             disabled={!telegramId || isLoading}
           />
-
-          {hasTelegram && (
-            <Button
-              label="Remove Telegram"
-              onClick={() => onEdit(id, { telegramId: null })}
-              disabled={isLoading}
-              color="status-critical"
-              margin="0 0 0 1rem"
-            />
-          )}
         </Box>
       </ContentWrapper>
     </>

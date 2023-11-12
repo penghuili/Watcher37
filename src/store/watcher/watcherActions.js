@@ -29,6 +29,9 @@ export const watcherActionTypes = {
   PRIVATE_PRESSED: 'watcher/PRIVATE_PRESSED',
   DELETE_TRIGGER_PRESSED: 'watcher/DELETE_TRIGGER_PRESSED',
   DELETE_ITEM_PRESSED: 'watcher/DELETE_ITEM_PRESSED',
+
+  FETCH_TELEGRAM_CHANNELS_REQUESTED: 'watcher/FETCH_TELEGRAM_CHANNELS_REQUESTED',
+  SET_TELEGRAM_CHANNELS: 'watcher/SET_TELEGRAM_CHANNELS',
 };
 
 export const watcherActionCreators = {
@@ -116,8 +119,8 @@ export const watcherActionCreators = {
   checkWatchersRequested(id) {
     return { type: watcherActionTypes.CHECK_WATCHER_REQUESTED, payload: { id } };
   },
-  scheduleTriggerPressed(id, rate) {
-    return { type: watcherActionTypes.SCHEDULE_TRIGGER_PRESSED, payload: { id, rate } };
+  scheduleTriggerPressed(id, rate, cron) {
+    return { type: watcherActionTypes.SCHEDULE_TRIGGER_PRESSED, payload: { id, rate, cron } };
   },
   encryptPressed(id) {
     return { type: watcherActionTypes.ENCRYPT_PRESSED, payload: { id } };
@@ -136,5 +139,11 @@ export const watcherActionCreators = {
   },
   deleteItemPressed(id, sortKey) {
     return { type: watcherActionTypes.DELETE_ITEM_PRESSED, payload: { id, sortKey } };
+  },
+  fetchTelegramChannelsRequested(force) {
+    return { type: watcherActionTypes.FETCH_TELEGRAM_CHANNELS_REQUESTED, payload: { force } };
+  },
+  setTelegramChannels(telegramChannels) {
+    return { type: watcherActionTypes.SET_TELEGRAM_CHANNELS, payload: { telegramChannels } };
   },
 };
