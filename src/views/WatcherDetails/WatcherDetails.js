@@ -1,7 +1,6 @@
 import { Anchor, Heading, Menu, Text } from 'grommet';
 import { MoreVertical } from 'grommet-icons';
-import React, { useState } from 'react';
-
+import React, { useEffect, useState } from 'react';
 import ExpiredBanner from '../../components/ExpiredBanner';
 import WatcherAccess from '../../components/WatcherAccess';
 import { WatcherContents } from '../../components/WatcherContents';
@@ -10,7 +9,6 @@ import Confirm from '../../shared/react-pure/Confirm';
 import ContentWrapper from '../../shared/react-pure/ContentWrapper';
 import HorizontalCenter from '../../shared/react-pure/HorizontalCenter';
 import AppBar from '../../shared/react/AppBar';
-import { useEffectOnce } from '../../shared/react/hooks/useEffectOnce';
 import WatcherHistory from './components/WatcherHistory';
 import WatcherSchedule from './components/WatcherSchedule';
 import WatcherTelegram from './components/WatcherTelegram';
@@ -29,14 +27,16 @@ function WatcherDetails({
   onDecrypt,
   onPublic,
   onPrivate,
+  onCreate,
 }) {
   const [showMakePublicConfirm, setShowMakePublicConfirm] = useState(false);
   const [showEncryptConfirm, setShowEncryptConfirm] = useState(false);
 
-  useEffectOnce(() => {
+  useEffect(() => {
     onFetchWatcher(id);
     return onClearFetchError;
-  });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [id]);
 
   return (
     <>
@@ -94,6 +94,16 @@ function WatcherDetails({
                           },
                           margin: '0.25rem 0',
                         },
+                    {
+                      label: 'Duplicate',
+                      onClick: () =>
+                        onCreate({
+                          title: `Copy - ${watcher.title}`,
+                          link: watcher.link,
+                          selectors: watcher.selectors,
+                        }),
+                      margin: '0.25rem 0',
+                    },
                     {
                       label: 'Delete',
                       color: 'status-critical',

@@ -38,12 +38,6 @@ function ExampleWatchers() {
           target="_blank"
           margin="0 1.5rem 0.25rem 0"
         />
-        <Anchor
-          label="n-tv news"
-          href="/w/LKpZKriJUem"
-          target="_blank"
-          margin="0 1.5rem 0.25rem 0"
-        />
         <Anchor label="My Blog" href="/w/LrzSD8oJfAl" target="_blank" margin="0 1.5rem 0.25rem 0" />
       </Box>
     </>

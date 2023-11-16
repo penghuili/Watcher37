@@ -67,7 +67,10 @@ function Watchers({
 
     return (
       <>
-        <Heading level="3" margin="0 0 0.5rem">Telegram channels</Heading>
+        <Spacer />
+        <Heading level="3" margin="0 0 0.5rem">
+          Telegram channels
+        </Heading>
         <Box direction="row" wrap>
           {telegramChannels.map(channel => (
             <Button
@@ -80,6 +83,9 @@ function Watchers({
             />
           ))}
         </Box>
+        <Spacer />
+        <Divider />
+        <Spacer />
       </>
     );
   }
@@ -98,7 +104,6 @@ function Watchers({
         </Box>
 
         <Divider />
-        <Spacer />
 
         {renderTelegramChannels()}
 

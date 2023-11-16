@@ -151,6 +151,7 @@ async function decryptWatcherContent(watcher) {
       title: decryptedSelectorTitle,
       selector: decryptedSelectorSelector,
       selectorForBot: decryptedSelectorSelector,
+      ignoreNotify: !!selector.ignoreNotify,
     });
   });
 
