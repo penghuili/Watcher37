@@ -1,7 +1,6 @@
 import { Anchor, Spinner, Text } from 'grommet';
 import React from 'react';
-
-import apps from '../../shared/js/apps';
+import { apps } from '../../shared/js/apps';
 import { formatDateTime } from '../../shared/js/date';
 import ContentWrapper from '../../shared/react-pure/ContentWrapper';
 import Divider from '../../shared/react-pure/Divider';
@@ -11,6 +10,7 @@ import AppVersion from '../../shared/react/AppVersion';
 import ChangeTheme from '../../shared/react/ChangeTheme';
 import PaymentStatus from '../../shared/react/PaymentStatus';
 import RouteLink from '../../shared/react/RouteLink';
+import { privacyUrl, termsUrl } from '../../shared/react/initShared';
 
 function Home({ account, isLoadingAccount }) {
   return (
@@ -48,15 +48,21 @@ function Home({ account, isLoadingAccount }) {
             <Spacer />
             <RouteLink label="How to find selector?" to="/selector" />
             <Spacer />
+            <Anchor
+              label="Source code"
+              href="https://github.com/penghuili/Watcher37"
+              target="_blank"
+            />
+            <Spacer />
             <RouteLink label="Pricing" to="/pricing" />
             <Spacer />
             <RouteLink label="Buy tickets" to="/tickets" />
             <Spacer />
-            <RouteLink label="Privacy" to="/privacy" />
+            <Anchor label="Privacy" href={privacyUrl} target="_blank" />
             <Spacer />
-            <RouteLink label="Terms" to="/terms" />
+            <Anchor label="Terms" href={termsUrl} target="_blank" />
             <Spacer />
-            <Anchor label="Contact" href="https://www.peng.kiwi/contact" target="_blank" />
+            <Anchor label="Contact" href="https://encrypt37.com/contact" target="_blank" />
             <Spacer />
             <Divider />
             <Spacer />

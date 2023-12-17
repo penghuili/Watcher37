@@ -1,5 +1,4 @@
 import { connect } from 'react-redux';
-
 import { sharedActionCreators } from '../../shared/react/store/sharedActions';
 import sharedSelectors from '../../shared/react/store/sharedSelectors';
 import { watcherActionCreators } from '../../store/watcher/watcherActions';
@@ -22,6 +21,7 @@ const mapDispatchToProps = {
   onDecrypt: watcherActionCreators.decryptPressed,
   onPublic: watcherActionCreators.publicPressed,
   onPrivate: watcherActionCreators.privatePressed,
+  onCreate: watcherActionCreators.createPressed,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(WatcherDetails);

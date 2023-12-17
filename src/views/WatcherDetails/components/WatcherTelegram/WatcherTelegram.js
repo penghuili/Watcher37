@@ -1,7 +1,6 @@
 import { Anchor, Heading, Menu, Text } from 'grommet';
-import { Checkmark, Group, Halt, MoreVertical } from 'grommet-icons';
+import { Checkmark, Halt, MoreVertical } from 'grommet-icons';
 import React from 'react';
-
 import Bot from '../../../../components/Bot';
 import HorizontalCenter from '../../../../shared/react-pure/HorizontalCenter';
 import RouteLink from '../../../../shared/react/RouteLink';
@@ -99,19 +98,15 @@ function TelegramChannel({ canEdit, telegram, watcherId, onNavigate }) {
         <>
           <Text>
             <Bot /> notifies the <Text weight="bold">{telegram.title}</Text> channel.
-          </Text>
-          {telegram.username ? (
-            <Text>
-              This is a public channel.{' '}
+            {telegram.username && (
               <Anchor
                 label={canEdit ? 'Open' : 'Join'}
                 href={`https://t.me/${telegram.username}`}
                 target="_blank"
+                margin="0 0 0 0.5rem"
               />
-            </Text>
-          ) : (
-            <Text>This is a private channel.</Text>
-          )}
+            )}
+          </Text>
         </>
       )}
       {!integrated && canEdit && (
@@ -121,15 +116,6 @@ function TelegramChannel({ canEdit, telegram, watcherId, onNavigate }) {
         </Text>
       )}
       {!integrated && !canEdit && <Text>This watcher does not notify any Telegram channel.</Text>}
-      {integrated && canEdit && (
-        <HorizontalCenter>
-          <Group color="status-ok" />
-          <Text weight="bold" margin="0 0 0 0.5rem">
-            Invite friends to the channel!
-          </Text>
-        </HorizontalCenter>
-      )}
-      {(integrated || canEdit) && <Text>Anyone in the channel will get notified.</Text>}
     </>
   );
 }

@@ -1,6 +1,5 @@
 import { Button, Heading } from 'grommet';
 import React, { useState } from 'react';
-
 import WatcherSelectors from '../../components/WatcherSelectors';
 import ContentWrapper from '../../shared/react-pure/ContentWrapper';
 import Divider from '../../shared/react-pure/Divider';
@@ -55,6 +54,8 @@ function WatcherAdd({ content, isLoading, onClearContent, onCreate }) {
             <Button
               label="Create"
               onClick={() => onCreate({ title, link, selectors })}
+              primary
+              color="brand"
               disabled={!title || !link || !selectors.filter(s => s.selector).length || isLoading}
             />
           </>

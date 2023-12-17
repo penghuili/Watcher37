@@ -1,7 +1,6 @@
 import { Box, Button, Heading, Spinner, Text } from 'grommet';
 import { Refresh, Trash } from 'grommet-icons';
 import React, { useState } from 'react';
-
 import { WatcherContentsInner } from '../../../../components/WatcherContents';
 import { formatDateTime } from '../../../../shared/js/date';
 import HorizontalCenter from '../../../../shared/react-pure/HorizontalCenter';
@@ -61,7 +60,13 @@ function WatcherHistory({
       {!history?.length && !isLoadingHistory && <Text>No history yet.</Text>}
 
       {!!hasMore && !isLoadingHistory && (
-        <Button label="Load more" onClick={() => onFetchHistory(watcher.sid)} margin="1rem 0 0" />
+        <Button
+          label="Load more"
+          onClick={() => onFetchHistory(watcher.sid)}
+          primary
+          color="brand"
+          margin="1rem 0 0"
+        />
       )}
       {isLoadingHistory && <Spinner size="small" margin="1rem 0 0" />}
     </>

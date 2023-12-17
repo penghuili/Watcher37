@@ -3,15 +3,17 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
-    "axios": "0.27.2",
+    "axios": "1.6.0",
     "copy-to-clipboard": "3.3.3",
     "date-fns": "2.29.3",
     "eventemitter3": "5.0.0",
     "grommet": "2.31.0",
     "grommet-icons": "4.10.0",
+    "idb-keyval": "6.2.1",
     "jwt-decode": "3.1.2",
     "openpgp": "5.5.0",
     "qrcode.react": "3.1.0",
+    "ramda": "0.29.1",
     "react": "18.2.0",
     "react-dom": "18.2.0",
     "react-redux": "8.0.5",
@@ -25,11 +27,11 @@
     "@testing-library/jest-dom": "5.16.5",
     "@testing-library/react": "13.4.0",
     "@testing-library/user-event": "13.5.0",
-    "eslint": "8.18.0",
-    "eslint-plugin-import": "2.26.0",
-    "eslint-plugin-react": "7.30.1",
+    "eslint": "8.46.0",
+    "eslint-plugin-import": "2.28.0",
+    "eslint-plugin-react": "7.33.1",
     "eslint-plugin-react-hooks": "4.6.0",
-    "prettier": "2.7.1",
+    "prettier": "2.8.8",
     "preval.macro": "5.0.0",
     "react-scripts": "5.0.1"
   },
@@ -53,15 +55,9 @@
   },
   "scripts": {
     "cc": "node scripts/commit.js",
-    "copyshared": "rm -rf src/shared && mkdir src/shared && cp -a ../sharedjs/lib/js src/shared/js && cp -a ../sharedjs/lib/react src/shared/react && cp -a ../sharedjs/lib/react-pure src/shared/react-pure",
+    "copyshared": "rm -rf src/shared && mkdir src/shared && cp -a ../sharedjs/lib/js src/shared/js && cp -a ../sharedjs/lib/react src/shared/react && cp -a ../sharedjs/lib/react-pure src/shared/react-pure && rm -f scripts/upload.js && cp -a ../sharedjs/lib/scripts/upload.js scripts/upload.js",
     "start": "npm run copyshared && ESLINT_NO_DEV_ERRORS=true BROWSER=none react-scripts start",
-    "test": "react-scripts test",
-    "play": ". ./.env",
-    "build": "npm run copyshared && GENERATE_SOURCEMAP=false react-scripts build",
-    "postbuild": "find ./build -name '*.map' -delete && find ./build -name '.DS_Store' -delete",
-    "upload": ". ./.env && echo $S3_URL && aws s3 sync build $S3_URL --delete --cache-control max-age=31536000,public",
-    "postupload": ". ./.env && aws s3 cp $S3_URL/index.html $S3_URL/index.html --metadata-directive REPLACE --cache-control max-age=0,no-cache,no-store,must-revalidate --content-type text/html --acl public-read",
-    "invalidate": ". ./.env && aws cloudfront create-invalidation --distribution-id $CLOUDFRONT_ID --paths \"/index.html\"",
-    "deploy": "npm run build && npm run upload && npm run invalidate"
+    "build": "GENERATE_SOURCEMAP=false react-scripts build && find ./build -name '.DS_Store' -delete",
+    "deploy": "rm -rf node_modules/.cache && npm run copyshared && node ./scripts/upload.js"
   }
 }

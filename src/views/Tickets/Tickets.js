@@ -1,7 +1,7 @@
 import { Anchor, Heading, Text } from 'grommet';
 import { Copy } from 'grommet-icons';
 import React from 'react';
-import apps from '../../shared/js/apps';
+import { apps } from '../../shared/js/apps';
 import ContentWrapper from '../../shared/react-pure/ContentWrapper';
 import Divider from '../../shared/react-pure/Divider';
 import AppBar from '../../shared/react/AppBar';
@@ -28,13 +28,13 @@ function Tickets({ account, isLoading, onToast }) {
             <Text margin="1rem 0 0">You can buy ticket at my stripe page.</Text>
 
             <Text margin="1rem 0 0">
-              1. Please add your user id to the "Your Link37 user id" field when checkout.
+              1. Please add your username to the "Your Watcher37 username" field when checkout.
             </Text>
             <Text margin="1rem 0 0">
-              Your user ID: {account.userId}{' '}
+              Your username: {account.username}{' '}
               <Copy
                 onClick={() => {
-                  copyToClipboard(account.userId);
+                  copyToClipboard(account.username);
                   onToast('Copied!');
                 }}
               />

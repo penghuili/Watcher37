@@ -1,6 +1,5 @@
 import { Box, Button, Heading, Spinner, Text, TextInput } from 'grommet';
 import React, { useState } from 'react';
-
 import Bot from '../../components/Bot';
 import ContentWrapper from '../../shared/react-pure/ContentWrapper';
 import AppBar from '../../shared/react/AppBar';
@@ -46,6 +45,7 @@ function IntegrateTelegram({ isLoading, telegramId, onAddTelegramId }) {
           <Button
             label={telegramId ? 'Update' : 'Add'}
             onClick={() => onAddTelegramId(newTelegramId)}
+            color="brand"
             disabled={!newTelegramId || isLoading}
           />
 
