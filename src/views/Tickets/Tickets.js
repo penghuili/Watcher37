@@ -1,13 +1,12 @@
 import { Anchor, Heading, Text } from 'grommet';
 import { Copy } from 'grommet-icons';
 import React from 'react';
-
 import apps from '../../shared/js/apps';
 import ContentWrapper from '../../shared/react-pure/ContentWrapper';
 import Divider from '../../shared/react-pure/Divider';
 import AppBar from '../../shared/react/AppBar';
-import copyToClipboard from '../../shared/react/copyToClipboard';
 import PaymentStatus from '../../shared/react/PaymentStatus';
+import copyToClipboard from '../../shared/react/copyToClipboard';
 
 function Tickets({ account, isLoading, onToast }) {
   return (
@@ -45,7 +44,7 @@ function Tickets({ account, isLoading, onToast }) {
               2.{' '}
               <Anchor
                 label="Buy 1 year ticket for $29"
-                href={process.env.REACT_APP_STRIPE_URL}
+                href={process.env.REACT_APP_WATCHER37_STRIPE_URL}
                 target="_blank"
               />
             </Text>
