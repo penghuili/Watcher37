@@ -8,14 +8,14 @@ import HorizontalCenter from '../../shared/react-pure/HorizontalCenter';
 import Spacer from '../../shared/react-pure/Spacer';
 import ChangeTheme from '../../shared/react/ChangeTheme';
 import RouteLink from '../../shared/react/RouteLink';
-import { privacyUrl, termsUrl } from '../../shared/react/initShared';
+import { encryptionUrl, logo, privacyUrl, termsUrl } from '../../shared/react/initShared';
 
 function Welcome() {
   return (
     <>
       <ContentWrapper>
         <HorizontalCenter margin="2rem 0 1rem">
-          <Avatar src={`${process.env.REACT_APP_ASSETS_FOR_CODE}/watcher37-logo-231017.png`} />{' '}
+          <Avatar src={logo} />{' '}
           <Heading level="2" margin="0 0 0 1rem">
             Watcher37
           </Heading>
@@ -40,15 +40,27 @@ function Welcome() {
         <Divider />
         <Spacer />
 
-        <RouteLink label="Motivation" to="/motivation" />
+        <Anchor
+          label="Motivation"
+          href="https://encrypt37.com/watcher37/motivation/"
+          target="_blank"
+        />
         <Spacer />
-        <RouteLink label="How it works?" to="/how" />
+        <Anchor label="How it works?" href="https://encrypt37.com/watcher37/how" target="_blank" />
         <Spacer />
-        <RouteLink label="Limitations" to="/limitations" />
+        <Anchor
+          label="Limitations"
+          href="https://encrypt37.com/watcher37/limitations/"
+          target="_blank"
+        />
         <Spacer />
-        <RouteLink label="How encryption works?" to="/encryption" />
+        <Anchor label="Encryption" href={encryptionUrl} target="_blank" />
         <Spacer />
-        <RouteLink label="How to find selector?" to="/selector" />
+        <Anchor
+          label="How to find selector?"
+          href="https://encrypt37.com/watcher37/selectors/"
+          target="_blank"
+        />
         <Spacer />
         <Anchor label="Source code" href="https://github.com/penghuili/Watcher37" target="_blank" />
         <Spacer />
@@ -58,8 +70,7 @@ function Welcome() {
         <Spacer />
         <Anchor label="Terms" href={termsUrl} target="_blank" />
         <Spacer />
-        <Anchor label="Contact" href="https://encrypt37.com/contact" target="_blank" />
-
+        <Anchor label="Contact" href="https://peng37.com/contact" target="_blank" />
         <Spacer />
         <Divider />
         <Spacer />

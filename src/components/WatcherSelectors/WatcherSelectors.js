@@ -60,7 +60,11 @@ function WatcherSelectors({
             />
             {index === selectors.length - 1 && (
               <Box direction="row">
-                <Anchor label="How to find selector?" href="/selector" target="_blank" />
+                <Anchor
+                  label="How to find selector?"
+                  href="https://encrypt37.com/watcher37/selectors/"
+                  target="_blank"
+                />
               </Box>
             )}
             <Spacer size="0.25rem" />

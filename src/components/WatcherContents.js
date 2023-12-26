@@ -4,7 +4,10 @@ import React from 'react';
 export function WatcherContentsInner({ contents }) {
   if (contents?.length) {
     return contents.map((item, index) => (
-      <Box key={item.selector || item.content} margin={index !== contents.length - 1 ? '0 0 0.25rem' : '0'}>
+      <Box
+        key={item.selector || item.content}
+        margin={index !== contents.length - 1 ? '0 0 0.25rem' : '0'}
+      >
         {!!item.selectorTitle && (
           <Text size="xsmall" wordBreak="break-word">
             {item.selectorTitle}
@@ -38,7 +41,12 @@ export function WatcherContents({ contents, contentError }) {
       <>
         <Text color="status-warning">{contentError}</Text>
         <Text>
-          Please also check the <Anchor label="limitations" href="/limitations" target="_blank" />{' '}
+          Please also check the{' '}
+          <Anchor
+            label="limitations"
+            href="https://encrypt37.com/watcher37/limitations/"
+            target="_blank"
+          />{' '}
           of Watcher37.
         </Text>
       </>

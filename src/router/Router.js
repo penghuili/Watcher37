@@ -1,7 +1,6 @@
 import { Spinner } from 'grommet';
 import React from 'react';
 import { Redirect, Route, Switch } from 'wouter';
-
 import HorizontalCenter from '../shared/react-pure/HorizontalCenter';
 import ChangePassword from '../shared/react/ChangePassword';
 import Security from '../shared/react/Security';
@@ -10,16 +9,9 @@ import SignIn from '../shared/react/SignIn';
 import SignUp from '../shared/react/SignUp';
 import Verify2FA from '../shared/react/Verify2FA';
 import Account from '../views/Account';
-import Encryption from '../views/Encryption';
-import HowItWorks from '../views/HowItWorks';
-import HowToFindSelector from '../views/HowToFindSelector';
 import IntegrateTelegram from '../views/IntegrateTelegram';
 import IntegrateTelegramChannel from '../views/IntegrateTelegramChannel';
-import Limitations from '../views/Limitations';
-import Motivation from '../views/Motivation';
 import Pricing from '../views/Pricing';
-import Privacy from '../views/Privacy';
-import Terms from '../views/Terms';
 import Tickets from '../views/Tickets';
 import WatcherAdd from '../views/WatcherAdd';
 import WatcherDetails from '../views/WatcherDetails';
@@ -49,15 +41,8 @@ function Router({ isCheckingRefreshToken, isLoggedIn }) {
         <Route path="/w/:id/edit" component={WatcherEdit} />
         <Route path="/w/:id/telegram" component={IntegrateTelegramChannel} />
 
-        <Route path="/selector" component={HowToFindSelector} />
-        <Route path="/limitations" component={Limitations} />
-        <Route path="/how" component={HowItWorks} />
-        <Route path="/encryption" component={Encryption} />
         <Route path="/tickets" component={Tickets} />
         <Route path="/pricing" component={Pricing} />
-        <Route path="/motivation" component={Motivation} />
-        <Route path="/privacy" component={Privacy} />
-        <Route path="/terms" component={Terms} />
 
         <Route path="/" component={Watchers} />
         <Route>{() => <Redirect to="/" />}</Route>
@@ -72,14 +57,7 @@ function Router({ isCheckingRefreshToken, isLoggedIn }) {
       <Route path="/sign-in/2fa" component={Verify2FA} />
       <Route path="/w/:id" component={WatcherDetails} />
 
-      <Route path="/selector" component={HowToFindSelector} />
-      <Route path="/limitations" component={Limitations} />
-      <Route path="/how" component={HowItWorks} />
-      <Route path="/encryption" component={Encryption} />
       <Route path="/pricing" component={Pricing} />
-      <Route path="/motivation" component={Motivation} />
-      <Route path="/privacy" component={Privacy} />
-      <Route path="/terms" component={Terms} />
 
       <Route path="/" component={Welcome} />
       <Route>{() => <Redirect to="/" />}</Route>
