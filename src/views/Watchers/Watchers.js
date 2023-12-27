@@ -5,6 +5,7 @@ import ExampleWatchers from '../../components/ExampleWatchers';
 import ExpiredBanner from '../../components/ExpiredBanner';
 import WatcherAccess from '../../components/WatcherAccess';
 import { WatcherContentsInner } from '../../components/WatcherContents';
+import { apps } from '../../shared/js/apps';
 import { formatDateTime } from '../../shared/js/date';
 import ContentWrapper from '../../shared/react-pure/ContentWrapper';
 import Divider from '../../shared/react-pure/Divider';
@@ -158,7 +159,13 @@ function Watchers({
                   Start 14 days of <Text color="status-ok">free</Text> trial to create your own
                   watchers.
                 </Heading>
-                <Button label="Start" onClick={onTry} primary color="brand" Í disabled={isTrying} />
+                <Button
+                  label="Start"
+                  onClick={() => onTry(apps.watcher37.name)}
+                  primary
+                  color="brand"
+                  disabled={isTrying}
+                />
                 <Text margin="1rem 0 0">
                   Check pricing <RouteLink label="here" to="/pricing" />
                 </Text>
