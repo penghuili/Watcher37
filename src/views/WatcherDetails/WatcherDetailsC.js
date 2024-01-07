@@ -1,6 +1,5 @@
 import { connect } from 'react-redux';
 import { sharedActionCreators } from '../../shared/react/store/sharedActions';
-import sharedSelectors from '../../shared/react/store/sharedSelectors';
 import { watcherActionCreators } from '../../store/watcher/watcherActions';
 import { watcherSelectors } from '../../store/watcher/watcherSelectors';
 import WatcherDetails from './WatcherDetails';
@@ -8,7 +7,7 @@ import WatcherDetails from './WatcherDetails';
 const mapStateToProps = state => ({
   watcher: watcherSelectors.getDetails(state),
   fetchError: watcherSelectors.getFetchError(state),
-  canEdit: watcherSelectors.isOwner(state) && sharedSelectors.isAccountValid(state),
+  canEdit: watcherSelectors.isOwner(state),
   isLoading: watcherSelectors.isLoading(state),
 });
 

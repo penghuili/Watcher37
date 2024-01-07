@@ -1,11 +1,10 @@
 import { connect } from 'react-redux';
-
 import { sharedActionCreators } from '../../shared/react/store/sharedActions';
 import sharedSelectors from '../../shared/react/store/sharedSelectors';
 import ExpiredBanner from './ExpiredBanner';
 
 const mapStateToProps = state => ({
-  isExpired: !sharedSelectors.isAccountValid(state) && !!sharedSelectors.getExpiresAt(state),
+  isExpired: !sharedSelectors.isAccountValid(state),
 });
 
 const mapDispatchToProps = {

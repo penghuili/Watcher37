@@ -10,7 +10,6 @@ export async function updateSettings({ lastOpenTime, telegramId }) {
     const {
       lastOpenTime: updatedLastOpenTime,
       expiresAt,
-      tried,
       telegramId: updatedTelegramId,
     } = await HTTP.put(apps.watcher37.name, `/v1/settings`, {
       lastOpenTime,
@@ -18,7 +17,7 @@ export async function updateSettings({ lastOpenTime, telegramId }) {
     });
 
     return {
-      data: { lastOpenTime: updatedLastOpenTime, expiresAt, tried, telegramId: updatedTelegramId },
+      data: { lastOpenTime: updatedLastOpenTime, expiresAt, telegramId: updatedTelegramId },
       error: null,
     };
   } catch (error) {

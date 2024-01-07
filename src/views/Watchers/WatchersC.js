@@ -10,8 +10,6 @@ const mapStateToProps = state => ({
   telegramChannels: watcherSelectors.getTelegramChannels(state),
   isLoading: watcherSelectors.isLoading(state),
   isChecking: watcherSelectors.isChecking(state),
-  isAccountValid: sharedSelectors.isAccountValid(state),
-  tried: sharedSelectors.tried(state),
   isLoadingSettings: sharedSelectors.isLoadingSettings(state),
   isTrying: sharedSelectors.isTrying(state),
 });
@@ -20,7 +18,6 @@ const mapDispatchToProps = {
   onFetch: watcherActionCreators.fetchWatchersRequested,
   onFetchTelegramChannels: watcherActionCreators.fetchTelegramChannelsRequested,
   onCheckWatcher: watcherActionCreators.checkWatchersRequested,
-  onTry: sharedActionCreators.tryPressed,
   onNav: sharedActionCreators.navigate,
 };
 
