@@ -9,7 +9,7 @@ import AppBar from '../../shared/react/AppBar';
 import AppVersion from '../../shared/react/AppVersion';
 import ChangeTheme from '../../shared/react/ChangeTheme';
 import LogoutLink from '../../shared/react/LogoutLink';
-import OneAccountFor from '../../shared/react/OneAccountFor';
+import OneAccountForAll from '../../shared/react/OneAccountForAll';
 import PaymentStatus from '../../shared/react/PaymentStatus';
 import RouteLink from '../../shared/react/RouteLink';
 import { encryptionUrl, privacyUrl, termsUrl } from '../../shared/react/initShared';
@@ -88,7 +88,7 @@ function Home({ account, isLoadingAccount }) {
             <Spacer />
             <Divider />
             <Spacer />
-            <OneAccountFor app={apps.watcher37.name} />
+            <OneAccountForAll app={apps.watcher37.name} />
             <Spacer />
             <AppVersion />
           </>
