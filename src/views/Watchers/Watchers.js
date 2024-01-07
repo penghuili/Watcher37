@@ -2,7 +2,6 @@ import { Box, Button, Heading, Spinner, Text } from 'grommet';
 import { Refresh } from 'grommet-icons';
 import React, { useMemo, useState } from 'react';
 import ExampleWatchers from '../../components/ExampleWatchers';
-import ExpiredBanner from '../../components/ExpiredBanner';
 import WatcherAccess from '../../components/WatcherAccess';
 import { WatcherContentsInner } from '../../components/WatcherContents';
 import { formatDateTime } from '../../shared/js/date';
@@ -90,8 +89,6 @@ function Watchers({
     <>
       <AppBar title="Watchers" />
       <ContentWrapper>
-        <ExpiredBanner />
-
         <RouteLink to="/w/add" label="Create watcher" />
 
         <Box margin="1rem 0">

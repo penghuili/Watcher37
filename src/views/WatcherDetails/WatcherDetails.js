@@ -1,7 +1,6 @@
 import { Anchor, Heading, Menu, Text } from 'grommet';
 import { MoreVertical } from 'grommet-icons';
 import React, { useEffect, useState } from 'react';
-import ExpiredBanner from '../../components/ExpiredBanner';
 import WatcherAccess from '../../components/WatcherAccess';
 import { WatcherContents } from '../../components/WatcherContents';
 import { formatDateTime } from '../../shared/js/date';
@@ -42,8 +41,6 @@ function WatcherDetails({
     <>
       <AppBar title="Watcher details" isLoading={isLoading} hasBack />
       <ContentWrapper>
-        <ExpiredBanner />
-
         {!!fetchError && <Text size="large">{fetchError}</Text>}
         {!!watcher && (
           <>
