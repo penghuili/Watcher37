@@ -8,6 +8,7 @@ import Spacer from '../../shared/react-pure/Spacer';
 import AppBar from '../../shared/react/AppBar';
 import AppVersion from '../../shared/react/AppVersion';
 import ChangeTheme from '../../shared/react/ChangeTheme';
+import LogoutLink from '../../shared/react/LogoutLink';
 import OneAccountFor from '../../shared/react/OneAccountFor';
 import PaymentStatus from '../../shared/react/PaymentStatus';
 import RouteLink from '../../shared/react/RouteLink';
@@ -80,6 +81,10 @@ function Home({ account, isLoadingAccount }) {
             <Anchor label="Terms" href={termsUrl} target="_blank" />
             <Spacer />
             <Anchor label="Contact" href="https://peng37.com/contact" target="_blank" />
+            <Spacer />
+            <Divider />
+            <Spacer />
+            <LogoutLink />
             <Spacer />
             <Divider />
             <Spacer />
