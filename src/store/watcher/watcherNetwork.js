@@ -1,6 +1,6 @@
 import { LocalStorage, sharedLocalStorageKeys } from '../../shared/js/LocalStorage';
 import { apps } from '../../shared/js/apps';
-import { asyncForEach } from '../../shared/js/asyncForEach';
+import { asyncForAll } from '../../shared/js/asyncForAll';
 import { decryptMessage, encryptMessage } from '../../shared/js/encryption';
 import HTTP from '../../shared/react/HTTP';
 import { idbStorage } from '../../shared/react/indexDB';
@@ -38,18 +38,17 @@ async function encryptWatcherContent(watcher, needToEncrypt, botPublicKey) {
   const encryptedLink = link ? await encryptMessage(publicKey, link) : link;
   const encryptedLinkForBot = link ? await encryptMessage(botPublicKey, link) : link;
 
-  const encryptedSelectors = [];
-  await asyncForEach(selectors, async selector => {
+  const encryptedSelectors = await asyncForAll(selectors, async selector => {
     const encryptedSelectorTitle = await encryptMessage(publicKey, selector.title);
     const encryptedSelectorSelector = await encryptMessage(publicKey, selector.selector);
     const encryptedSelectorForBot = await encryptMessage(botPublicKey, selector.selector);
 
-    encryptedSelectors.push({
+    return {
       title: encryptedSelectorTitle,
       selector: encryptedSelectorSelector,
       selectorForBot: encryptedSelectorForBot,
       ignoreNotify: !!selector.ignoreNotify,
-    });
+    };
   });
 
   return {
@@ -62,29 +61,25 @@ async function encryptWatcherContent(watcher, needToEncrypt, botPublicKey) {
 }
 
 async function encryptContents(publicKey, contents) {
-  const encryptedContents = [];
-
-  await asyncForEach(contents, async item => {
+  const encryptedContents = await asyncForAll(contents, async item => {
     const encryptedSelector = await encryptMessage(publicKey, item.selector);
     const encryptedContent = item.content ? await encryptMessage(publicKey, item.content) : null;
     const encryptedContentLink = item.contentLink
       ? await encryptMessage(publicKey, item.contentLink)
       : null;
 
-    encryptedContents.push({
+    return {
       selector: encryptedSelector,
       content: encryptedContent,
       contentLink: encryptedContentLink,
-    });
+    };
   });
 
   return contents ? encryptedContents : contents;
 }
 
 async function decryptContents(privateKey, contents) {
-  const decryptedContents = [];
-
-  await asyncForEach(contents, async item => {
+  const decryptedContents = await asyncForAll(contents, async item => {
     const decryptedSelector = item.selector
       ? await decryptMessage(privateKey, item.selector)
       : null;
@@ -93,11 +88,11 @@ async function decryptContents(privateKey, contents) {
       ? await decryptMessage(privateKey, item.contentLink)
       : null;
 
-    decryptedContents.push({
+    return {
       selector: decryptedSelector,
       content: decryptedContent,
       contentLink: decryptedContentLink,
-    });
+    };
   });
 
   return decryptedContents;
@@ -140,19 +135,18 @@ async function decryptWatcherContent(watcher) {
   const decryptedTitle = await decryptMessage(privateKey, title);
   const decryptedLink = await decryptMessage(privateKey, link);
 
-  const decryptedSelectors = [];
-  await asyncForEach(selectors, async selector => {
+  const decryptedSelectors = await asyncForAll(selectors, async selector => {
     const decryptedSelectorTitle = selector.title
       ? await decryptMessage(privateKey, selector.title)
       : selector.title;
     const decryptedSelectorSelector = await decryptMessage(privateKey, selector.selector);
 
-    decryptedSelectors.push({
+    return {
       title: decryptedSelectorTitle,
       selector: decryptedSelectorSelector,
       selectorForBot: decryptedSelectorSelector,
       ignoreNotify: !!selector.ignoreNotify,
-    });
+    };
   });
 
   const decryptedContents = await decryptContents(privateKey, contents);
@@ -210,18 +204,18 @@ export async function fetchWatchers() {
   try {
     const watchers = await HTTP.get(apps.watcher37.name, `/v1/watchers`);
 
-    const decryptedWatchers = [];
-    await asyncForEach(watchers, async watcher => {
+    const decryptedWatchers = await asyncForAll(watchers, async watcher => {
       try {
         const decrypted = await decryptWatcherContent(watcher);
-        decryptedWatchers.push(decrypted);
+        return decrypted;
         // eslint-disable-next-line no-empty
       } catch (e) {
         console.log(e, watcher);
+        return null;
       }
     });
 
-    return { data: decryptedWatchers, error: null };
+    return { data: decryptedWatchers.filter(w => w), error: null };
   } catch (error) {
     console.log(error);
     return { data: null, error };
@@ -392,20 +386,19 @@ export async function fetchWatcherHistory(id, startKey, watcher) {
       ? await HTTP.get(apps.watcher37.name, `/v1/watchers/${id}/history${query}`)
       : await HTTP.publicGet(apps.watcher37.name, `/v1/watchers/${id}/history${query}`);
 
-    const decryptedItems = [];
-    if (items?.length) {
-      await asyncForEach(items, async item => {
-        try {
-          const decryptedItem = await decryptWatcherItemContent(item, watcher?.selectors);
-          decryptedItems.push(decryptedItem);
-          // eslint-disable-next-line no-empty
-        } catch (e) {}
-      });
-    }
+    const decryptedItems = await asyncForAll(items, async item => {
+      try {
+        const decryptedItem = await decryptWatcherItemContent(item, watcher?.selectors);
+        return decryptedItem;
+        // eslint-disable-next-line no-empty
+      } catch (e) {
+        return null;
+      }
+    });
 
     return {
       data: {
-        items: decryptedItems,
+        items: decryptedItems.filter(i => i),
         startKey: newStartKey,
         hasMore: decryptedItems.length === limit,
       },

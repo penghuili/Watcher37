@@ -19,8 +19,8 @@ import WatcherEdit from '../views/WatcherEdit';
 import Watchers from '../views/Watchers';
 import Welcome from '../views/Welcome';
 
-function Router({ isCheckingRefreshToken, isLoggedIn }) {
-  if (isCheckingRefreshToken) {
+function Router({ isCheckingRefreshToken, isLoggedIn, isLoadingSettings, isExpired }) {
+  if (isCheckingRefreshToken || isLoadingSettings) {
     return (
       <HorizontalCenter justify="center" margin="3rem 0 0">
         <Spinner size="large" />
@@ -29,6 +29,15 @@ function Router({ isCheckingRefreshToken, isLoggedIn }) {
   }
 
   if (isLoggedIn) {
+    if (!isExpired) {
+      return (
+        <Switch>
+          <Route path="/" component={Tickets} />
+          <Route>{() => <Redirect to="/" />}</Route>
+        </Switch>
+      );
+    }
+
     return (
       <Switch>
         <Route path="/account" component={Account} />
