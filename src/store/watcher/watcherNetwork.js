@@ -1,7 +1,7 @@
 import { LocalStorage, sharedLocalStorageKeys } from '../../shared/js/LocalStorage';
 import { apps } from '../../shared/js/apps';
 import { asyncForAll } from '../../shared/js/asyncForAll';
-import { decryptMessage, encryptMessageAsymmetric } from '../../shared/js/encryption';
+import { decryptMessageAsymmetric, encryptMessageAsymmetric } from '../../shared/js/encryption';
 import HTTP from '../../shared/react/HTTP';
 import { idbStorage } from '../../shared/react/indexDB';
 
@@ -82,11 +82,13 @@ async function encryptContents(publicKey, contents) {
 async function decryptContents(privateKey, contents) {
   const decryptedContents = await asyncForAll(contents, async item => {
     const decryptedSelector = item.selector
-      ? await decryptMessage(privateKey, item.selector)
+      ? await decryptMessageAsymmetric(privateKey, item.selector)
       : null;
-    const decryptedContent = item.content ? await decryptMessage(privateKey, item.content) : null;
+    const decryptedContent = item.content
+      ? await decryptMessageAsymmetric(privateKey, item.content)
+      : null;
     const decryptedContentLink = item.contentLink
-      ? await decryptMessage(privateKey, item.contentLink)
+      ? await decryptMessageAsymmetric(privateKey, item.contentLink)
       : null;
 
     return {
@@ -133,14 +135,14 @@ async function decryptWatcherContent(watcher) {
   const { title, link, selectors, contents } = watcher;
 
   const privateKey = LocalStorage.get(sharedLocalStorageKeys.privateKey);
-  const decryptedTitle = await decryptMessage(privateKey, title);
-  const decryptedLink = await decryptMessage(privateKey, link);
+  const decryptedTitle = await decryptMessageAsymmetric(privateKey, title);
+  const decryptedLink = await decryptMessageAsymmetric(privateKey, link);
 
   const decryptedSelectors = await asyncForAll(selectors, async selector => {
     const decryptedSelectorTitle = selector.title
-      ? await decryptMessage(privateKey, selector.title)
+      ? await decryptMessageAsymmetric(privateKey, selector.title)
       : selector.title;
-    const decryptedSelectorSelector = await decryptMessage(privateKey, selector.selector);
+    const decryptedSelectorSelector = await decryptMessageAsymmetric(privateKey, selector.selector);
 
     return {
       title: decryptedSelectorTitle,
