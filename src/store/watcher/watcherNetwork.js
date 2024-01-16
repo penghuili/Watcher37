@@ -1,7 +1,7 @@
 import { LocalStorage, sharedLocalStorageKeys } from '../../shared/js/LocalStorage';
 import { apps } from '../../shared/js/apps';
 import { asyncForAll } from '../../shared/js/asyncForAll';
-import { decryptMessage, encryptMessage } from '../../shared/js/encryption';
+import { decryptMessage, encryptMessageAsymmetric } from '../../shared/js/encryption';
 import HTTP from '../../shared/react/HTTP';
 import { idbStorage } from '../../shared/react/indexDB';
 
@@ -33,14 +33,14 @@ async function encryptWatcherContent(watcher, needToEncrypt, botPublicKey) {
   const { title, selectors, link } = watcher;
 
   const publicKey = LocalStorage.get(sharedLocalStorageKeys.publicKey);
-  const encryptedTitle = title ? await encryptMessage(publicKey, title) : title;
-  const encryptedLink = link ? await encryptMessage(publicKey, link) : link;
-  const encryptedLinkForBot = link ? await encryptMessage(botPublicKey, link) : link;
+  const encryptedTitle = title ? await encryptMessageAsymmetric(publicKey, title) : title;
+  const encryptedLink = link ? await encryptMessageAsymmetric(publicKey, link) : link;
+  const encryptedLinkForBot = link ? await encryptMessageAsymmetric(botPublicKey, link) : link;
 
   const encryptedSelectors = await asyncForAll(selectors, async selector => {
-    const encryptedSelectorTitle = await encryptMessage(publicKey, selector.title);
-    const encryptedSelectorSelector = await encryptMessage(publicKey, selector.selector);
-    const encryptedSelectorForBot = await encryptMessage(botPublicKey, selector.selector);
+    const encryptedSelectorTitle = await encryptMessageAsymmetric(publicKey, selector.title);
+    const encryptedSelectorSelector = await encryptMessageAsymmetric(publicKey, selector.selector);
+    const encryptedSelectorForBot = await encryptMessageAsymmetric(botPublicKey, selector.selector);
 
     return {
       title: encryptedSelectorTitle,
@@ -61,10 +61,12 @@ async function encryptWatcherContent(watcher, needToEncrypt, botPublicKey) {
 
 async function encryptContents(publicKey, contents) {
   const encryptedContents = await asyncForAll(contents, async item => {
-    const encryptedSelector = await encryptMessage(publicKey, item.selector);
-    const encryptedContent = item.content ? await encryptMessage(publicKey, item.content) : null;
+    const encryptedSelector = await encryptMessageAsymmetric(publicKey, item.selector);
+    const encryptedContent = item.content
+      ? await encryptMessageAsymmetric(publicKey, item.content)
+      : null;
     const encryptedContentLink = item.contentLink
-      ? await encryptMessage(publicKey, item.contentLink)
+      ? await encryptMessageAsymmetric(publicKey, item.contentLink)
       : null;
 
     return {
