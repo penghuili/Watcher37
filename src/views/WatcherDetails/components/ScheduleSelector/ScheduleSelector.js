@@ -140,7 +140,9 @@ function ScheduleSelector({ isLoading, id, showCancel, onSchedule, onCancel }) {
     <>
       <Text margin="0 0 0.5rem">How often do you want the watcher to check the page?</Text>
       <HorizontalCenter>
-        <Text size="small">Every</Text>
+        <Box width="36px">
+          <Text size="small">Every</Text>
+        </Box>
         <Select
           options={getOptionNumber(optionType.value)}
           value={num}
@@ -162,7 +164,9 @@ function ScheduleSelector({ isLoading, id, showCancel, onSchedule, onCancel }) {
       </HorizontalCenter>
       {optionType.value === optionTypes.day && (
         <HorizontalCenter margin="0.5rem 0 0">
-          <Text size="small">At</Text>
+          <Box width="36px">
+            <Text size="small">At</Text>
+          </Box>
           <Select
             options={timeHours}
             value={hour}
@@ -170,9 +174,6 @@ function ScheduleSelector({ isLoading, id, showCancel, onSchedule, onCancel }) {
             size="small"
             margin="0 0.5rem"
           />
-          <Text size="small" margin="0 0.5rem 0 0">
-            :
-          </Text>
           <Select
             options={timeMinutes}
             labelKey="label"
