@@ -12,7 +12,7 @@ import store from './store';
 
 initShared({
   logo: 'https://static.peng37.com/faviconapi/52190fe8-4549-4a16-b25b-3b42954128bc/a6513021c134ddaedcafbef5596381019f1756fed4a499d2f1f4d3553d073e62/icon-192.png',
-  app: apps.watcher37.name,
+  app: apps.Watcher37.name,
   encryptionUrl: 'https://encrypt37.com/watcher37/encryption/',
   privacyUrl: 'https://encrypt37.com/watcher37/privacy/',
   termsUrl: 'https://encrypt37.com/watcher37/terms/',
@@ -21,7 +21,7 @@ initShared({
 setHook('location', useLocation);
 setHook('dispatch', useDispatch);
 
-const theme = createTheme(apps.watcher37.color);
+const theme = createTheme(apps.Watcher37.color);
 
 function App() {
   return (

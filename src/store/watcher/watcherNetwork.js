@@ -11,7 +11,7 @@ export async function updateSettings({ lastOpenTime, telegramId }) {
       lastOpenTime: updatedLastOpenTime,
       expiresAt,
       telegramId: updatedTelegramId,
-    } = await HTTP.put(apps.watcher37.name, `/v1/settings`, {
+    } = await HTTP.put(apps.Watcher37.name, `/v1/settings`, {
       lastOpenTime,
       telegramId,
     });
@@ -192,7 +192,7 @@ async function decryptWatcherItemContent(item, selectors) {
 
 export async function fetchPageContent(link, selector) {
   try {
-    const { content, contentLink } = await HTTP.post(apps.watcher37.name, `/v1/content`, {
+    const { content, contentLink } = await HTTP.post(apps.Watcher37.name, `/v1/content`, {
       link,
       selector,
     });
@@ -205,7 +205,7 @@ export async function fetchPageContent(link, selector) {
 
 export async function fetchWatchers() {
   try {
-    const watchers = await HTTP.get(apps.watcher37.name, `/v1/watchers`);
+    const watchers = await HTTP.get(apps.Watcher37.name, `/v1/watchers`);
 
     const decryptedWatchers = await asyncForAll(watchers, async watcher => {
       try {
@@ -240,7 +240,7 @@ export async function createWatcher({ title, link, selectors }, botPublicKey) {
       selectors: encryptedSelectors,
     } = await encryptWatcherContent({ title, link, selectors }, true, botPublicKey);
 
-    const watcher = await HTTP.post(apps.watcher37.name, `/v1/watchers`, {
+    const watcher = await HTTP.post(apps.Watcher37.name, `/v1/watchers`, {
       title: encryptedTitle,
       link: encryptedLink,
       linkForBot: encryptedLinkForBot,
@@ -272,7 +272,7 @@ export async function updateWatcher(
       selectors: encryptedSelectors,
     } = await encryptWatcherContent({ title, link, selectors }, encrypted, botPublicKey);
 
-    const watcher = await HTTP.put(apps.watcher37.name, `/v1/watchers/${id}`, {
+    const watcher = await HTTP.put(apps.Watcher37.name, `/v1/watchers/${id}`, {
       title: encryptedTitle,
       link: encryptedLink,
       linkForBot: encryptedLinkForBot,
@@ -302,7 +302,7 @@ export async function encryptWatcher(id, { title, selectors, link, contents }, b
     const publicKey = LocalStorage.get(sharedLocalStorageKeys.publicKey);
     const encryptedContents = await encryptContents(publicKey, contents);
 
-    const watcher = await HTTP.put(apps.watcher37.name, `/v1/watchers/${id}`, {
+    const watcher = await HTTP.put(apps.Watcher37.name, `/v1/watchers/${id}`, {
       encrypted: true,
       isPublic: false,
       encryptedAt: Date.now(),
@@ -330,7 +330,7 @@ export async function decryptWatcher(id, { title, link, selectors, contents }) {
       contents: decryptedContents,
     } = await decryptWatcherContent({ title, link, selectors, contents });
 
-    const watcher = await HTTP.put(apps.watcher37.name, `/v1/watchers/${id}`, {
+    const watcher = await HTTP.put(apps.Watcher37.name, `/v1/watchers/${id}`, {
       encrypted: false,
       decryptedAt: Date.now(),
       title: decryptedTitle,
@@ -348,7 +348,7 @@ export async function decryptWatcher(id, { title, link, selectors, contents }) {
 
 export async function deleteWatcher(id) {
   try {
-    await HTTP.delete(apps.watcher37.name, `/v1/watchers/${id}`);
+    await HTTP.delete(apps.Watcher37.name, `/v1/watchers/${id}`);
 
     return { data: { id }, error: null };
   } catch (error) {
@@ -363,8 +363,8 @@ export async function fetchWatcher(id) {
       LocalStorage.get(sharedLocalStorageKeys.accessToken);
 
     const watcher = hasToken
-      ? await HTTP.get(apps.watcher37.name, `/v1/watchers/${id}`)
-      : await HTTP.publicGet(apps.watcher37.name, `/v1/watchers/${id}`);
+      ? await HTTP.get(apps.Watcher37.name, `/v1/watchers/${id}`)
+      : await HTTP.publicGet(apps.Watcher37.name, `/v1/watchers/${id}`);
 
     const decrypted = await decryptWatcherContent(watcher);
 
@@ -386,8 +386,8 @@ export async function fetchWatcherHistory(id, startKey, watcher) {
       startKey: newStartKey,
       limit,
     } = hasToken
-      ? await HTTP.get(apps.watcher37.name, `/v1/watchers/${id}/history${query}`)
-      : await HTTP.publicGet(apps.watcher37.name, `/v1/watchers/${id}/history${query}`);
+      ? await HTTP.get(apps.Watcher37.name, `/v1/watchers/${id}/history${query}`)
+      : await HTTP.publicGet(apps.Watcher37.name, `/v1/watchers/${id}/history${query}`);
 
     const decryptedItems = await asyncForAll(items, async item => {
       try {
@@ -414,7 +414,7 @@ export async function fetchWatcherHistory(id, startKey, watcher) {
 
 export async function checkWatcher(id) {
   try {
-    const { watcher, item } = await HTTP.get(apps.watcher37.name, `/v1/watchers/${id}/check`);
+    const { watcher, item } = await HTTP.get(apps.Watcher37.name, `/v1/watchers/${id}/check`);
     const decrypted = await decryptWatcherContent(watcher);
     const decryptedItem = item ? await decryptWatcherItemContent(item, watcher?.selectors) : null;
 
@@ -426,7 +426,7 @@ export async function checkWatcher(id) {
 
 export async function scheduleTrigger(id, rate, cron) {
   try {
-    const watcher = await HTTP.post(apps.watcher37.name, `/v1/watchers/${id}/trigger`, {
+    const watcher = await HTTP.post(apps.Watcher37.name, `/v1/watchers/${id}/trigger`, {
       rate,
       cron,
     });
@@ -440,7 +440,7 @@ export async function scheduleTrigger(id, rate, cron) {
 
 export async function deleteTrigger(id) {
   try {
-    const watcher = await HTTP.delete(apps.watcher37.name, `/v1/watchers/${id}/trigger`);
+    const watcher = await HTTP.delete(apps.Watcher37.name, `/v1/watchers/${id}/trigger`);
     const decrypted = await decryptWatcherContent(watcher);
 
     return { data: decrypted, error: null };
@@ -451,7 +451,7 @@ export async function deleteTrigger(id) {
 
 export async function deleteItem(id, sortKey) {
   try {
-    await HTTP.delete(apps.watcher37.name, `/v1/watchers/${id}/items/${sortKey}`);
+    await HTTP.delete(apps.Watcher37.name, `/v1/watchers/${id}/items/${sortKey}`);
 
     return { data: { success: true }, error: null };
   } catch (error) {
@@ -461,7 +461,7 @@ export async function deleteItem(id, sortKey) {
 
 export async function fetchTelegramChannels() {
   try {
-    const infos = await HTTP.get(apps.watcher37.name, `/v1/telegram/user-info`);
+    const infos = await HTTP.get(apps.Watcher37.name, `/v1/telegram/user-info`);
 
     if (infos?.length) {
       await idbStorage.setItem('watcher37-telegramChannels', infos);
